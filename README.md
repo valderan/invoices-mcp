@@ -4,7 +4,7 @@ MCP-сервер сервиса выставления счетов и акто�
 номенклатура, отчёты, публичные ссылки — для любого MCP-клиента (Claude Desktop, Claude Code,
 Cursor, VS Code, собственный агент).
 
-**Версия:** `0.1.1` · **Node.js:** 20+ · **Транспорт:** stdio (по умолчанию) или Streamable HTTP.
+**Версия:** `0.1.2` · **Node.js:** 20+ · **Транспорт:** stdio (по умолчанию) или Streamable HTTP.
 Пакет ставится прямо из этого репозитория, без сборки на вашей машине и без публикации в npm.
 
 ## Что умеет
@@ -27,13 +27,13 @@ Cursor, VS Code, собственный агент).
 ### Через `npx` из git (рекомендуется)
 
 ```bash
-npx -y github:valderan/invoices-mcp#v0.1.1
+npx -y github:valderan/invoices-mcp#v0.1.2
 ```
 
 Первый запуск занимает больше времени: npm скачивает пакет и четыре его зависимости
 (`@modelcontextprotocol/*`, `zod`). Дальше они берутся из кеша (`~/.npm/_npx`).
 
-> Указывайте **тег** (`#v0.1.1`), а не `#main`: npm кеширует по коммиту, и без тега легко
+> Указывайте **тег** (`#v0.1.2`), а не `#main`: npm кеширует по коммиту, и без тега легко
 > остаться на старой копии.
 
 ### Локально
@@ -48,8 +48,8 @@ INVOICES_API_URL=https://crm.example.ru INVOICES_API_TOKEN=ivs_… node dist/ind
 Проверить версию и справку можно без настройки:
 
 ```bash
-npx -y github:valderan/invoices-mcp#v0.1.1 --version   # invoices-mcp 0.1.1
-npx -y github:valderan/invoices-mcp#v0.1.1 --help
+npx -y github:valderan/invoices-mcp#v0.1.2 --version   # invoices-mcp 0.1.2
+npx -y github:valderan/invoices-mcp#v0.1.2 --help
 ```
 
 ## Настройка
@@ -79,7 +79,7 @@ npx -y github:valderan/invoices-mcp#v0.1.1 --help
   "mcpServers": {
     "invoices": {
       "command": "npx",
-      "args": ["-y", "github:valderan/invoices-mcp#v0.1.1"],
+      "args": ["-y", "github:valderan/invoices-mcp#v0.1.2"],
       "env": {
         "INVOICES_API_URL": "https://crm.example.ru",
         "INVOICES_API_TOKEN": "ivs_AbCdEf12_…"
@@ -99,7 +99,7 @@ npx -y github:valderan/invoices-mcp#v0.1.1 --help
 claude mcp add invoices \
   --env INVOICES_API_URL=https://crm.example.ru \
   --env INVOICES_API_TOKEN=ivs_AbCdEf12_… \
-  -- npx -y github:valderan/invoices-mcp#v0.1.1
+  -- npx -y github:valderan/invoices-mcp#v0.1.2
 ```
 
 ### VS Code
@@ -111,7 +111,7 @@ claude mcp add invoices \
   "servers": {
     "invoices": {
       "command": "npx",
-      "args": ["-y", "github:valderan/invoices-mcp#v0.1.1"],
+      "args": ["-y", "github:valderan/invoices-mcp#v0.1.2"],
       "env": {
         "INVOICES_API_URL": "https://crm.example.ru",
         "INVOICES_API_TOKEN": "ivs_AbCdEf12_…"
@@ -128,7 +128,7 @@ claude mcp add invoices \
 ```bash
 INVOICES_MCP_TRANSPORT=http INVOICES_MCP_PORT=7331 \
 INVOICES_API_URL=https://crm.example.ru INVOICES_API_TOKEN=ivs_… \
-npx -y github:valderan/invoices-mcp#v0.1.1
+npx -y github:valderan/invoices-mcp#v0.1.2
 ```
 
 Клиент подключается к `http://127.0.0.1:7331/mcp`. Сервер слушает **только loopback** и проверяет
@@ -163,7 +163,7 @@ npx -y github:valderan/invoices-mcp#v0.1.1
 ## Версии
 
 Версионирование — [SemVer](https://semver.org/lang/ru/), каждая версия помечена тегом `vX.Y.Z`,
-история — в [CHANGELOG.md](CHANGELOG.md). Устанавливайте с тегом: `github:valderan/invoices-mcp#v0.1.1`.
+история — в [CHANGELOG.md](CHANGELOG.md). Устанавливайте с тегом: `github:valderan/invoices-mcp#v0.1.2`.
 
 Совместимость: новые инструменты и необязательные поля — minor; исправления поведения — patch;
 удаление или переименование инструмента, обязательного аргумента или поля ответа — major.

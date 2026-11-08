@@ -10,7 +10,7 @@ var ApiError = class extends Error {
   requestId;
   problem;
   constructor(status, problem, fallback) {
-    super(problem?.detail ?? problem?.title ?? fallback ?? `\u0417\u0430\u043F\u0440\u043E\u0441 \u0437\u0430\u0432\u0435\u0440\u0448\u0438\u043B\u0441\u044F \u0441 \u043E\u0448\u0438\u0431\u043A\u043E\u0439 ${status}`);
+    super(problem?.detail ?? problem?.title ?? fallback ?? `Запрос завершился с ошибкой ${status}`);
     this.name = "ApiError";
     this.status = status;
     this.code = problem?.code;
@@ -29,183 +29,183 @@ var ApiError = class extends Error {
 
 // packages/sdk/dist/generated/operations.js
 var OPERATIONS = {
-  acceptInvitation: { "operationId": "acceptInvitation", "method": "post", "path": "/api/v1/auth/invitations/{token}/accept", "tag": "auth", "summary": "\u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u044F \u043F\u0440\u0438\u0433\u043B\u0430\u0448\u0451\u043D\u043D\u043E\u0433\u043E \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F", "idempotent": false },
-  addNoteLinks: { "operationId": "addNoteLinks", "method": "post", "path": "/api/v1/notes/{id}/links", "tag": "notes", "summary": "\u041F\u0440\u0438\u0432\u044F\u0437\u0430\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443 \u043A \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u044F\u043C", "idempotent": false },
-  applyDataImport: { "operationId": "applyDataImport", "method": "post", "path": "/api/v1/data-imports/{id}/apply", "tag": "data-imports", "summary": "\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C \u0438\u043C\u043F\u043E\u0440\u0442: \u043E\u0434\u043D\u0430 \u0442\u0440\u0430\u043D\u0437\u0430\u043A\u0446\u0438\u044F, \u043A\u043E\u043D\u0444\u043B\u0438\u043A\u0442\u044B \u043F\u0435\u0440\u0435\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u044E\u0442\u0441\u044F", "idempotent": false },
-  archiveContract: { "operationId": "archiveContract", "method": "delete", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "\u0410\u0440\u0445\u0438\u0432 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430", "idempotent": false },
-  archiveCounterparty: { "operationId": "archiveCounterparty", "method": "delete", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "\u0410\u0440\u0445\u0438\u0432 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430", "idempotent": false },
-  archiveOrganization: { "operationId": "archiveOrganization", "method": "delete", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "\u0410\u0440\u0445\u0438\u0432 (\u0431\u0435\u0437 \u0443\u0434\u0430\u043B\u0435\u043D\u0438\u044F \u0434\u0430\u043D\u043D\u044B\u0445)", "idempotent": false },
-  archiveProduct: { "operationId": "archiveProduct", "method": "delete", "path": "/api/v1/products/{id}", "tag": "products", "summary": "\u0410\u0440\u0445\u0438\u0432\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u044E", "idempotent": false },
-  archiveTemplate: { "operationId": "archiveTemplate", "method": "delete", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "\u0410\u0440\u0445\u0438\u0432 \u0448\u0430\u0431\u043B\u043E\u043D\u0430 (\u043D\u0435 \u0431\u0430\u0437\u043E\u0432\u044B\u0439)", "idempotent": false },
-  assignTemplate: { "operationId": "assignTemplate", "method": "post", "path": "/api/v1/templates/{id}/assign", "tag": "templates", "summary": "\u041D\u0430\u0437\u043D\u0430\u0447\u0438\u0442\u044C \u0448\u0430\u0431\u043B\u043E\u043D \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 \u0438\u043B\u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443", "idempotent": false },
-  blockUser: { "operationId": "blockUser", "method": "post", "path": "/api/v1/users/{id}/block", "tag": "users", "summary": "\u0417\u0430\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": false },
-  cancelDocument: { "operationId": "cancelDocument", "method": "post", "path": "/api/v1/documents/{id}/cancel", "tag": "documents", "summary": "\u0410\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442", "idempotent": false },
-  changePassword: { "operationId": "changePassword", "method": "post", "path": "/api/v1/auth/password/change", "tag": "auth", "summary": "\u0421\u043C\u0435\u043D\u0430 \u0441\u0432\u043E\u0435\u0433\u043E \u043F\u0430\u0440\u043E\u043B\u044F", "idempotent": false },
-  checkCounterpartyDuplicates: { "operationId": "checkCounterpartyDuplicates", "method": "post", "path": "/api/v1/counterparties/check-duplicates", "tag": "counterparties", "summary": "\u041A\u0430\u043D\u0434\u0438\u0434\u0430\u0442\u044B \u0432 \u0434\u0443\u0431\u043B\u0438 \u043F\u043E \u0418\u041D\u041D", "idempotent": false },
-  closeNote: { "operationId": "closeNote", "method": "post", "path": "/api/v1/notes/{id}/close", "tag": "notes", "summary": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443", "idempotent": false },
-  createActFromInvoice: { "operationId": "createActFromInvoice", "method": "post", "path": "/api/v1/documents/{id}/acts", "tag": "documents", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0430\u043A\u0442 \u043F\u043E \u0441\u0447\u0451\u0442\u0443", "idempotent": false },
-  createBankAccount: { "operationId": "createBankAccount", "method": "post", "path": "/api/v1/organizations/{id}/bank-accounts", "tag": "organizations", "summary": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0439 \u0441\u0447\u0451\u0442", "idempotent": false },
-  createContract: { "operationId": "createContract", "method": "post", "path": "/api/v1/contracts", "tag": "contracts", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0434\u043E\u0433\u043E\u0432\u043E\u0440", "idempotent": false },
-  createCounterparty: { "operationId": "createCounterparty", "method": "post", "path": "/api/v1/counterparties", "tag": "counterparties", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430", "idempotent": false },
-  createCounterpartyContact: { "operationId": "createCounterpartyContact", "method": "post", "path": "/api/v1/counterparties/{id}/contacts", "tag": "counterparties", "summary": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u043E\u043D\u0442\u0430\u043A\u0442", "idempotent": false },
-  createDataExport: { "operationId": "createDataExport", "method": "post", "path": "/api/v1/data-exports", "tag": "data-exports", "summary": "\u041F\u0430\u043A\u0435\u0442 \u043F\u0435\u0440\u0435\u043D\u043E\u0441\u0430: \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F/\u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0438/\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B (JSON/ZIP)", "idempotent": false },
-  createDocument: { "operationId": "createDocument", "method": "post", "path": "/api/v1/documents", "tag": "documents", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A", "idempotent": false },
-  createDocumentPdfLink: { "operationId": "createDocumentPdfLink", "method": "get", "path": "/api/v1/documents/{id}/pdf-link", "tag": "documents", "summary": "\u041A\u043E\u0440\u043E\u0442\u043A\u043E\u0436\u0438\u0432\u0443\u0449\u0430\u044F \u0441\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 PDF", "idempotent": true },
-  createDocumentRevision: { "operationId": "createDocumentRevision", "method": "post", "path": "/api/v1/documents/{id}/revisions", "tag": "documents", "summary": "\u041D\u043E\u0432\u0430\u044F \u0440\u0435\u0432\u0438\u0437\u0438\u044F \u0432\u044B\u0434\u0430\u043D\u043D\u043E\u0433\u043E", "idempotent": false },
-  createInvoiceFromActs: { "operationId": "createInvoiceFromActs", "method": "post", "path": "/api/v1/documents/{id}/invoice", "tag": "documents", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0441\u0447\u0451\u0442 \u0438\u0437 \u0430\u043A\u0442\u0430 (\u0430\u043A\u0442 \u0440\u0430\u043D\u044C\u0448\u0435 \u0441\u0447\u0451\u0442\u0430) \u0438 \u0432\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0432\u0441\u0435 \u0430\u043A\u0442\u044B \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430", "idempotent": false },
-  createNote: { "operationId": "createNote", "method": "post", "path": "/api/v1/notes", "tag": "notes", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443 (Markdown)", "idempotent": false },
-  createOrganization: { "operationId": "createOrganization", "method": "post", "path": "/api/v1/organizations", "tag": "organizations", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044E", "idempotent": false },
-  createPayment: { "operationId": "createPayment", "method": "post", "path": "/api/v1/payments", "tag": "payments", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043E\u043F\u043B\u0430\u0442\u0443: \u043F\u0435\u0440\u0435\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0435\u0442 \u0441\u0442\u0430\u0442\u0443\u0441 \u0438 \u043E\u0441\u0442\u0430\u0442\u043E\u043A \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430", "idempotent": false },
-  createPersonalToken: { "operationId": "createPersonalToken", "method": "post", "path": "/api/v1/tokens/personal", "tag": "tokens", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C personal-\u0442\u043E\u043A\u0435\u043D (\u043D\u0435 \u0448\u0438\u0440\u0435 \u043F\u0440\u0430\u0432 \u0440\u043E\u043B\u0438)", "idempotent": false },
-  createProduct: { "operationId": "createProduct", "method": "post", "path": "/api/v1/products", "tag": "products", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u044E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u044B", "idempotent": false },
-  createReportExport: { "operationId": "createReportExport", "method": "post", "path": "/api/v1/reports/export", "tag": "reports", "summary": "\u0410\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u043D\u044B\u0439 \u044D\u043A\u0441\u043F\u043E\u0440\u0442 \u043E\u0442\u0447\u0451\u0442\u0430 (XLSX/CSV/JSON) \u0447\u0435\u0440\u0435\u0437 pg-boss", "idempotent": false },
-  createShare: { "operationId": "createShare", "method": "post", "path": "/api/v1/shares", "tag": "shares", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443 \u043D\u0430 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B (URL \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u043E\u0434\u0438\u043D \u0440\u0430\u0437)", "idempotent": false },
-  createSignatory: { "operationId": "createSignatory", "method": "post", "path": "/api/v1/organizations/{id}/signatories", "tag": "organizations", "summary": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u0430", "idempotent": false },
-  createTemplate: { "operationId": "createTemplate", "method": "post", "path": "/api/v1/templates", "tag": "templates", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0448\u0430\u0431\u043B\u043E\u043D (\u043A\u043E\u043F\u0438\u044F \u0431\u0430\u0437\u043E\u0432\u043E\u0433\u043E)", "idempotent": false },
-  createTemplateVersion: { "operationId": "createTemplateVersion", "method": "post", "path": "/api/v1/templates/{id}/versions", "tag": "templates", "summary": "\u041D\u043E\u0432\u0430\u044F \u0447\u0435\u0440\u043D\u043E\u0432\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F", "idempotent": false },
-  createToken: { "operationId": "createToken", "method": "post", "path": "/api/v1/tokens", "tag": "tokens", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0442\u043E\u043A\u0435\u043D (admin), \u0441\u0435\u043A\u0440\u0435\u0442 \u2014 \u043E\u0434\u0438\u043D \u0440\u0430\u0437", "idempotent": false },
-  createUnit: { "operationId": "createUnit", "method": "post", "path": "/api/v1/units", "tag": "units", "summary": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0435\u0434\u0438\u043D\u0438\u0446\u0443 (admin)", "idempotent": false },
-  createUser: { "operationId": "createUser", "method": "post", "path": "/api/v1/users", "tag": "users", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": false },
-  createWebhook: { "operationId": "createWebhook", "method": "post", "path": "/api/v1/webhooks", "tag": "webhooks", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0430 (\u0441\u0435\u043A\u0440\u0435\u0442 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u043E\u0434\u0438\u043D \u0440\u0430\u0437)", "idempotent": false },
-  deleteBankAccount: { "operationId": "deleteBankAccount", "method": "delete", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}", "tag": "organizations", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0439 \u0441\u0447\u0451\u0442", "idempotent": false },
-  deleteContractFile: { "operationId": "deleteContractFile", "method": "delete", "path": "/api/v1/contracts/{id}/files/{assetId}", "tag": "contracts", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0441\u043A\u0430\u043D \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430", "idempotent": false },
-  deleteCounterpartyContact: { "operationId": "deleteCounterpartyContact", "method": "delete", "path": "/api/v1/counterparties/{id}/contacts/{contactId}", "tag": "counterparties", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u043A\u043E\u043D\u0442\u0430\u043A\u0442", "idempotent": false },
-  deleteDocument: { "operationId": "deleteDocument", "method": "delete", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A", "idempotent": false },
-  deleteNote: { "operationId": "deleteNote", "method": "delete", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443 (\u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u0438)", "idempotent": false },
-  deletePayment: { "operationId": "deletePayment", "method": "delete", "path": "/api/v1/payments/{id}", "tag": "payments", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u043E\u043F\u043B\u0430\u0442\u0443 \u0438 \u043E\u0442\u043A\u0430\u0442\u0438\u0442\u044C \u0441\u0442\u0430\u0442\u0443\u0441", "idempotent": false },
-  deleteSignatory: { "operationId": "deleteSignatory", "method": "delete", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}", "tag": "organizations", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u0430", "idempotent": false },
-  deleteUnit: { "operationId": "deleteUnit", "method": "delete", "path": "/api/v1/units/{code}", "tag": "units", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0435\u0434\u0438\u043D\u0438\u0446\u0443 (admin)", "idempotent": false },
-  deleteUser: { "operationId": "deleteUser", "method": "delete", "path": "/api/v1/users/{id}", "tag": "users", "summary": "Soft delete \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": false },
-  deleteWebhook: { "operationId": "deleteWebhook", "method": "delete", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0430 \u0432\u043C\u0435\u0441\u0442\u0435 \u0441 \u0436\u0443\u0440\u043D\u0430\u043B\u043E\u043C", "idempotent": false },
-  downloadDataExport: { "operationId": "downloadDataExport", "method": "get", "path": "/api/v1/data-exports/{id}/download", "tag": "data-exports", "summary": "\u0421\u043A\u0430\u0447\u0430\u0442\u044C \u0433\u043E\u0442\u043E\u0432\u044B\u0439 \u043F\u0430\u043A\u0435\u0442", "idempotent": true },
-  downloadDocumentPdf: { "operationId": "downloadDocumentPdf", "method": "get", "path": "/api/v1/documents/{id}/pdf", "tag": "documents", "summary": "PDF \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (\u043F\u0435\u0447\u0430\u0442\u044C, \u043F\u043E\u0434\u043F\u0438\u0441\u044C, \u0432\u043E\u0434\u044F\u043D\u043E\u0439 \u0437\u043D\u0430\u043A)", "idempotent": true },
-  downloadFile: { "operationId": "downloadFile", "method": "get", "path": "/api/v1/files/{versionId}", "tag": "files", "summary": "\u0421\u043A\u0430\u0447\u0430\u0442\u044C \u0444\u0430\u0439\u043B \u0432\u0435\u0440\u0441\u0438\u0438 \u0430\u0441\u0441\u0435\u0442\u0430", "idempotent": true },
-  downloadReportExport: { "operationId": "downloadReportExport", "method": "get", "path": "/api/v1/reports/exports/{id}/download", "tag": "reports", "summary": "\u0421\u043A\u0430\u0447\u0430\u0442\u044C \u0433\u043E\u0442\u043E\u0432\u044B\u0439 \u044D\u043A\u0441\u043F\u043E\u0440\u0442", "idempotent": true },
-  downloadSharedDocumentPdf: { "operationId": "downloadSharedDocumentPdf", "method": "get", "path": "/api/v1/documents/shared/{token}", "tag": "documents", "summary": "PDF \u043F\u043E \u043A\u043E\u0440\u043E\u0442\u043A\u043E\u0436\u0438\u0432\u0443\u0449\u0435\u0439 \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u043D\u043E\u0439 \u0441\u0441\u044B\u043B\u043A\u0435", "idempotent": true },
-  downloadShareDocumentPdf: { "operationId": "downloadShareDocumentPdf", "method": "get", "path": "/s/{token}/documents/{documentId}/pdf", "tag": "shares-public", "summary": "PDF \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 \u0441\u0441\u044B\u043B\u043A\u0438", "idempotent": true },
-  duplicateDocument: { "operationId": "duplicateDocument", "method": "post", "path": "/api/v1/documents/{id}/duplicate", "tag": "documents", "summary": "\u041A\u043E\u043F\u0438\u044F \u0432 \u043D\u043E\u0432\u044B\u0439 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A", "idempotent": false },
-  duplicateTemplate: { "operationId": "duplicateTemplate", "method": "post", "path": "/api/v1/templates/{id}/duplicate", "tag": "templates", "summary": "\u041A\u043E\u043F\u0438\u044F \u0448\u0430\u0431\u043B\u043E\u043D\u0430 \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435", "idempotent": false },
-  exportAudit: { "operationId": "exportAudit", "method": "get", "path": "/api/v1/audit/export", "tag": "audit", "summary": "\u042D\u043A\u0441\u043F\u043E\u0440\u0442 \u0430\u0443\u0434\u0438\u0442\u0430: CSV (`;`, BOM) \u0438\u043B\u0438 JSON (admin)", "idempotent": true },
-  forgotPassword: { "operationId": "forgotPassword", "method": "post", "path": "/api/v1/auth/password/forgot", "tag": "auth", "summary": "\u0417\u0430\u043F\u0440\u043E\u0441 \u0441\u0431\u0440\u043E\u0441\u0430 \u043F\u0430\u0440\u043E\u043B\u044F (\u0432\u0441\u0435\u0433\u0434\u0430 202, \u043F\u0438\u0441\u044C\u043C\u043E \u2014 \u0444\u0430\u0437\u0430 2)", "idempotent": false },
-  getAuditEntry: { "operationId": "getAuditEntry", "method": "get", "path": "/api/v1/audit/{id}", "tag": "audit", "summary": "\u0417\u0430\u043F\u0438\u0441\u044C \u0430\u0443\u0434\u0438\u0442\u0430 \u0441 diff (admin)", "idempotent": true },
-  getContract: { "operationId": "getContract", "method": "get", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430", "idempotent": true },
-  getCounterparty: { "operationId": "getCounterparty", "method": "get", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 \u0441 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430\u043C\u0438", "idempotent": true },
-  getCounterpartyBalance: { "operationId": "getCounterpartyBalance", "method": "get", "path": "/api/v1/counterparties/{id}/balance", "tag": "counterparties", "summary": "\u0421\u0430\u043B\u044C\u0434\u043E \u043D\u0430 \u0434\u0430\u0442\u0443", "idempotent": true },
-  getCounterpartySummary: { "operationId": "getCounterpartySummary", "method": "get", "path": "/api/v1/counterparties/{id}/summary", "tag": "counterparties", "summary": "\u0421\u0432\u043E\u0434\u043A\u0430 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443", "idempotent": true },
-  getDataExport: { "operationId": "getDataExport", "method": "get", "path": "/api/v1/data-exports/{id}", "tag": "data-exports", "summary": "\u0421\u0442\u0430\u0442\u0443\u0441 \u043F\u0430\u043A\u0435\u0442\u0430 \u043F\u0435\u0440\u0435\u043D\u043E\u0441\u0430", "idempotent": true },
-  getDataImport: { "operationId": "getDataImport", "method": "get", "path": "/api/v1/data-imports/{id}", "tag": "data-imports", "summary": "\u0421\u0442\u0430\u0442\u0443\u0441 \u0438\u043C\u043F\u043E\u0440\u0442\u0430 \u0438 \u043E\u0442\u0447\u0451\u0442 \u043F\u043E \u0441\u0442\u0440\u043E\u043A\u0430\u043C", "idempotent": true },
-  getDocument: { "operationId": "getDocument", "method": "get", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u0441 \u043F\u043E\u0437\u0438\u0446\u0438\u044F\u043C\u0438", "idempotent": true },
-  getDocumentHtml: { "operationId": "getDocumentHtml", "method": "get", "path": "/api/v1/documents/{id}/html", "tag": "documents", "summary": "HTML \u0434\u043B\u044F \u043F\u0440\u0435\u0434\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0430", "idempotent": true },
-  getDocumentVersion: { "operationId": "getDocumentVersion", "method": "get", "path": "/api/v1/documents/{id}/versions/{revision}", "tag": "documents", "summary": "\u0412\u0435\u0440\u0441\u0438\u044F \u0446\u0435\u043B\u0438\u043A\u043E\u043C", "idempotent": true },
-  getEffectiveSettings: { "operationId": "getEffectiveSettings", "method": "get", "path": "/api/v1/settings", "tag": "settings", "summary": "\u042D\u0444\u0444\u0435\u043A\u0442\u0438\u0432\u043D\u044B\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F \u0434\u043B\u044F \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430", "idempotent": true },
-  getMe: { "operationId": "getMe", "method": "get", "path": "/api/v1/auth/me", "tag": "auth", "summary": "\u0422\u0435\u043A\u0443\u0449\u0438\u0439 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C, \u0440\u043E\u043B\u044C \u0438 \u043F\u0440\u0430\u0432\u0430", "idempotent": true },
-  getNote: { "operationId": "getNote", "method": "get", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0437\u0430\u043C\u0435\u0442\u043A\u0438 \u0441 \u043F\u0440\u0438\u0432\u044F\u0437\u043A\u0430\u043C\u0438", "idempotent": true },
-  getNotesCalendar: { "operationId": "getNotesCalendar", "method": "get", "path": "/api/v1/notes/calendar", "tag": "notes", "summary": "\u0421\u043E\u0431\u044B\u0442\u0438\u044F \u043A\u0430\u043B\u0435\u043D\u0434\u0430\u0440\u044F \u043F\u043E \u0434\u0435\u0434\u043B\u0430\u0439\u043D\u0430\u043C \u0438 \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u044F\u043C", "idempotent": true },
-  getOrganization: { "operationId": "getOrganization", "method": "get", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438", "idempotent": true },
-  getOrganizationEffectiveSettings: { "operationId": "getOrganizationEffectiveSettings", "method": "get", "path": "/api/v1/organizations/{id}/effective-settings", "tag": "organizations", "summary": "\u042D\u0444\u0444\u0435\u043A\u0442\u0438\u0432\u043D\u044B\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438", "idempotent": true },
-  getPayment: { "operationId": "getPayment", "method": "get", "path": "/api/v1/payments/{id}", "tag": "payments", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043E\u043F\u043B\u0430\u0442\u044B", "idempotent": true },
-  getProduct: { "operationId": "getProduct", "method": "get", "path": "/api/v1/products/{id}", "tag": "products", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0438", "idempotent": true },
-  getPublicSettings: { "operationId": "getPublicSettings", "method": "get", "path": "/api/v1/settings/public", "tag": "settings", "summary": "\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u044B\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 (\u0431\u0435\u0437 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438)", "idempotent": true },
-  getReportExport: { "operationId": "getReportExport", "method": "get", "path": "/api/v1/reports/exports/{id}", "tag": "reports", "summary": "\u0421\u0442\u0430\u0442\u0443\u0441 \u044D\u043A\u0441\u043F\u043E\u0440\u0442\u0430 \u043E\u0442\u0447\u0451\u0442\u0430", "idempotent": true },
-  getShare: { "operationId": "getShare", "method": "get", "path": "/api/v1/shares/{id}", "tag": "shares", "summary": "\u0414\u0435\u0442\u0430\u043B\u0438, \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B", "idempotent": true },
-  getSystemStatus: { "operationId": "getSystemStatus", "method": "get", "path": "/api/v1/system/status", "tag": "system", "summary": "\u0412\u0435\u0440\u0441\u0438\u044F, \u0411\u0414, \u0434\u0438\u0441\u043A, \u0440\u0435\u043D\u0434\u0435\u0440 (admin)", "idempotent": true },
-  getTemplate: { "operationId": "getTemplate", "method": "get", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0448\u0430\u0431\u043B\u043E\u043D\u0430 \u0438 \u0432\u0435\u0440\u0441\u0438\u0438", "idempotent": true },
-  getTemplateVersion: { "operationId": "getTemplateVersion", "method": "get", "path": "/api/v1/templates/{id}/versions/{version}", "tag": "templates", "summary": "\u0412\u0435\u0440\u0441\u0438\u044F \u0448\u0430\u0431\u043B\u043E\u043D\u0430 \u0446\u0435\u043B\u0438\u043A\u043E\u043C", "idempotent": true },
-  getToken: { "operationId": "getToken", "method": "get", "path": "/api/v1/tokens/{id}", "tag": "tokens", "summary": "\u041C\u0435\u0442\u0430\u0434\u0430\u043D\u043D\u044B\u0435 \u0442\u043E\u043A\u0435\u043D\u0430 (admin)", "idempotent": true },
-  getUser: { "operationId": "getUser", "method": "get", "path": "/api/v1/users/{id}", "tag": "users", "summary": "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": true },
-  getWebhook: { "operationId": "getWebhook", "method": "get", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A", "idempotent": true },
-  healthCheck: { "operationId": "healthCheck", "method": "get", "path": "/health", "tag": "health", "summary": "\u0421\u0435\u0440\u0432\u0438\u0441 \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442", "idempotent": true },
-  healthLive: { "operationId": "healthLive", "method": "get", "path": "/health/live", "tag": "health", "summary": "\u041F\u0440\u043E\u0446\u0435\u0441\u0441 \u0436\u0438\u0432", "idempotent": true },
-  healthReady: { "operationId": "healthReady", "method": "get", "path": "/health/ready", "tag": "health", "summary": "\u0413\u043E\u0442\u043E\u0432 \u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0442\u044C \u0442\u0440\u0430\u0444\u0438\u043A (\u0411\u0414 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0430)", "idempotent": true },
-  importDocument: { "operationId": "importDocument", "method": "post", "path": "/api/v1/documents/import", "tag": "imports", "summary": "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0438\u0437 \u0442\u0435\u043A\u0441\u0442\u0430 \u0438\u043B\u0438 JSON", "idempotent": false },
-  inviteUser: { "operationId": "inviteUser", "method": "post", "path": "/api/v1/users/{id}/invite", "tag": "users", "summary": "\u041F\u0440\u0438\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u0435/\u043F\u0435\u0440\u0435\u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0430: \u0442\u043E\u043A\u0435\u043D \u0430\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u0438 \u0432 \u043E\u0442\u0432\u0435\u0442\u0435 (\u043F\u043E\u0447\u0442\u0430 \u2014 \u0444\u0430\u0437\u0430 2)", "idempotent": false },
-  issueDocument: { "operationId": "issueDocument", "method": "post", "path": "/api/v1/documents/{id}/issue", "tag": "documents", "summary": "\u0412\u044B\u0434\u0430\u0442\u044C \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u043D\u043E\u043C\u0435\u0440 \u0438 \u0432\u0435\u0440\u0441\u0438\u044F 1", "idempotent": false },
-  listAppErrors: { "operationId": "listAppErrors", "method": "get", "path": "/api/v1/system/errors", "tag": "system", "summary": "\u041E\u0448\u0438\u0431\u043A\u0438 5xx \u0438\u0437 ring buffer (admin)", "idempotent": true },
-  listAudit: { "operationId": "listAudit", "method": "get", "path": "/api/v1/audit", "tag": "audit", "summary": "\u0416\u0443\u0440\u043D\u0430\u043B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 (admin)", "idempotent": true },
-  listBankAccounts: { "operationId": "listBankAccounts", "method": "get", "path": "/api/v1/organizations/{id}/bank-accounts", "tag": "organizations", "summary": "\u0411\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0435 \u0441\u0447\u0435\u0442\u0430 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438", "idempotent": true },
-  listContractFiles: { "operationId": "listContractFiles", "method": "get", "path": "/api/v1/contracts/{id}/file-links", "tag": "contracts", "summary": "\u0421\u0441\u044B\u043B\u043A\u0438 \u043D\u0430 \u0441\u043A\u0430\u043D\u044B \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430", "idempotent": true },
-  listContracts: { "operationId": "listContracts", "method": "get", "path": "/api/v1/contracts", "tag": "contracts", "summary": "\u0420\u0435\u0435\u0441\u0442\u0440 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432", "idempotent": true },
-  listCounterparties: { "operationId": "listCounterparties", "method": "get", "path": "/api/v1/counterparties", "tag": "counterparties", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u0432 \u0441 \u043F\u043E\u0438\u0441\u043A\u043E\u043C", "idempotent": true },
-  listCounterpartyDocuments: { "operationId": "listCounterpartyDocuments", "method": "get", "path": "/api/v1/counterparties/{id}/documents", "tag": "counterparties", "summary": "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430", "idempotent": true },
-  listDevices: { "operationId": "listDevices", "method": "get", "path": "/api/v1/devices", "tag": "devices", "summary": "\u0423\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u0430 \u0442\u0435\u043A\u0443\u0449\u0435\u0433\u043E \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F", "idempotent": true },
-  listDocumentNotes: { "operationId": "listDocumentNotes", "method": "get", "path": "/api/v1/documents/{id}/notes", "tag": "notes", "summary": "\u0417\u0430\u043C\u0435\u0442\u043A\u0438, \u043F\u0440\u0438\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u0435 \u043A \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443", "idempotent": true },
-  listDocumentPayments: { "operationId": "listDocumentPayments", "method": "get", "path": "/api/v1/documents/{id}/payments", "tag": "payments", "summary": "\u041E\u043F\u043B\u0430\u0442\u044B \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 \u0438 \u043E\u0441\u0442\u0430\u0442\u043E\u043A", "idempotent": true },
-  listDocuments: { "operationId": "listDocuments", "method": "get", "path": "/api/v1/documents", "tag": "documents", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432", "idempotent": true },
-  listDocumentVersions: { "operationId": "listDocumentVersions", "method": "get", "path": "/api/v1/documents/{id}/versions", "tag": "documents", "summary": "\u0412\u0435\u0440\u0441\u0438\u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430", "idempotent": true },
-  listLoginAttempts: { "operationId": "listLoginAttempts", "method": "get", "path": "/api/v1/login-attempts", "tag": "audit", "summary": "\u0416\u0443\u0440\u043D\u0430\u043B \u043F\u043E\u043F\u044B\u0442\u043E\u043A \u0432\u0445\u043E\u0434\u0430 (admin)", "idempotent": true },
-  listNotes: { "operationId": "listNotes", "method": "get", "path": "/api/v1/notes", "tag": "notes", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u0438 \u043F\u043E\u0438\u0441\u043A \u0437\u0430\u043C\u0435\u0442\u043E\u043A", "idempotent": true },
-  listOrganizationAssets: { "operationId": "listOrganizationAssets", "method": "get", "path": "/api/v1/organizations/{id}/assets", "tag": "organizations", "summary": "\u0424\u0430\u0439\u043B\u044B \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 (\u0432\u0435\u0440\u0441\u0438\u0438)", "idempotent": true },
-  listOrganizations: { "operationId": "listOrganizations", "method": "get", "path": "/api/v1/organizations", "tag": "organizations", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B\u0445 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0439", "idempotent": true },
-  listPayments: { "operationId": "listPayments", "method": "get", "path": "/api/v1/payments", "tag": "payments", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u043E\u043F\u043B\u0430\u0442", "idempotent": true },
-  listPersonalTokens: { "operationId": "listPersonalTokens", "method": "get", "path": "/api/v1/tokens/personal", "tag": "tokens", "summary": "\u0421\u0432\u043E\u0438 personal-\u0442\u043E\u043A\u0435\u043D\u044B", "idempotent": true },
-  listProducts: { "operationId": "listProducts", "method": "get", "path": "/api/v1/products", "tag": "products", "summary": "\u041D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 \u0441 \u043F\u043E\u0438\u0441\u043A\u043E\u043C", "idempotent": true },
-  listSettingDefinitions: { "operationId": "listSettingDefinitions", "method": "get", "path": "/api/v1/settings/definitions", "tag": "settings", "summary": "\u0420\u0435\u0435\u0441\u0442\u0440 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043A (admin)", "idempotent": true },
-  listShareReplies: { "operationId": "listShareReplies", "method": "get", "path": "/api/v1/shares/{id}/replies", "tag": "shares", "summary": "\u041E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430", "idempotent": true },
-  listShares: { "operationId": "listShares", "method": "get", "path": "/api/v1/shares", "tag": "shares", "summary": "\u0421\u0441\u044B\u043B\u043A\u0438 \u0441\u043E \u0441\u0442\u0430\u0442\u0443\u0441\u0430\u043C\u0438", "idempotent": true },
-  listShareViews: { "operationId": "listShareViews", "method": "get", "path": "/api/v1/shares/{id}/views", "tag": "shares", "summary": "\u0416\u0443\u0440\u043D\u0430\u043B \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432", "idempotent": true },
-  listSignatories: { "operationId": "listSignatories", "method": "get", "path": "/api/v1/organizations/{id}/signatories", "tag": "organizations", "summary": "\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u044B \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438", "idempotent": true },
-  listTemplates: { "operationId": "listTemplates", "method": "get", "path": "/api/v1/templates", "tag": "templates", "summary": "\u0413\u0430\u043B\u0435\u0440\u0435\u044F \u0448\u0430\u0431\u043B\u043E\u043D\u043E\u0432", "idempotent": true },
-  listTokens: { "operationId": "listTokens", "method": "get", "path": "/api/v1/tokens", "tag": "tokens", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u0442\u043E\u043A\u0435\u043D\u043E\u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0430 (admin)", "idempotent": true },
-  listUnits: { "operationId": "listUnits", "method": "get", "path": "/api/v1/units", "tag": "units", "summary": "\u0415\u0434\u0438\u043D\u0438\u0446\u044B \u0438\u0437\u043C\u0435\u0440\u0435\u043D\u0438\u044F", "idempotent": true },
-  listUsers: { "operationId": "listUsers", "method": "get", "path": "/api/v1/users", "tag": "users", "summary": "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u0439 (admin)", "idempotent": true },
-  listWebhookDeliveries: { "operationId": "listWebhookDeliveries", "method": "get", "path": "/api/v1/webhooks/{id}/deliveries", "tag": "webhooks", "summary": "\u0416\u0443\u0440\u043D\u0430\u043B \u0434\u043E\u0441\u0442\u0430\u0432\u043E\u043A", "idempotent": true },
-  listWebhooks: { "operationId": "listWebhooks", "method": "get", "path": "/api/v1/webhooks", "tag": "webhooks", "summary": "\u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0438 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0430", "idempotent": true },
-  login: { "operationId": "login", "method": "post", "path": "/api/v1/auth/login", "tag": "auth", "summary": "\u0412\u0445\u043E\u0434 \u043F\u043E email \u0438 \u043F\u0430\u0440\u043E\u043B\u044E", "idempotent": false },
-  logout: { "operationId": "logout", "method": "post", "path": "/api/v1/auth/logout", "tag": "auth", "summary": "\u041E\u0442\u0437\u044B\u0432 \u0442\u0435\u043A\u0443\u0449\u0435\u0439 \u0441\u0435\u0441\u0441\u0438\u0438", "idempotent": false },
-  lookupCounterparty: { "operationId": "lookupCounterparty", "method": "post", "path": "/api/v1/counterparties/lookup", "tag": "counterparties", "summary": "\u0410\u0432\u0442\u043E\u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435 \u043F\u043E \u0418\u041D\u041D (\u0432\u0442\u043E\u0440\u0430\u044F \u0444\u0430\u0437\u0430 \u2014 \u043F\u043E\u043A\u0430 501)", "idempotent": false },
-  markDocumentReceived: { "operationId": "markDocumentReceived", "method": "post", "path": "/api/v1/documents/{id}/received", "tag": "documents", "summary": "\u041E\u0442\u043C\u0435\u0442\u0438\u0442\u044C \u0430\u043A\u0442 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u043D\u044B\u043C (\u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D \u043A\u043B\u0438\u0435\u043D\u0442\u043E\u043C), \u043E\u043F\u0446\u0438\u043E\u043D\u0430\u043B\u044C\u043D\u043E \u0441\u043E \u0441\u043A\u0430\u043D\u043E\u043C", "idempotent": false },
-  openSharePage: { "operationId": "openSharePage", "method": "get", "path": "/s/{token}", "tag": "shares-public", "summary": "HTML-\u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u0441\u0441\u044B\u043B\u043A\u0438", "idempotent": true },
-  previewDataImport: { "operationId": "previewDataImport", "method": "post", "path": "/api/v1/data-imports/preview", "tag": "data-imports", "summary": "\u041F\u0440\u0435\u0434\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440 \u0438\u043C\u043F\u043E\u0440\u0442\u0430 \u043F\u0430\u043A\u0435\u0442\u0430: \u043F\u043B\u0430\u043D, \u043A\u043E\u043D\u0444\u043B\u0438\u043A\u0442\u044B, \u043E\u0448\u0438\u0431\u043A\u0438 (dry-run)", "idempotent": false },
-  previewImport: { "operationId": "previewImport", "method": "post", "path": "/api/v1/imports/preview", "tag": "imports", "summary": "\u041F\u0440\u0435\u0434\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440 \u0438\u043C\u043F\u043E\u0440\u0442\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0439", "idempotent": false },
-  previewTemplate: { "operationId": "previewTemplate", "method": "post", "path": "/api/v1/templates/{id}/preview", "tag": "templates", "summary": "\u041F\u0440\u0435\u0434\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440 \u043D\u0430 \u0442\u0435\u0441\u0442\u043E\u0432\u043E\u043C \u0441\u043D\u0438\u043C\u043A\u0435 (html, pdf, png)", "idempotent": false },
-  publishTemplateVersion: { "operationId": "publishTemplateVersion", "method": "post", "path": "/api/v1/templates/{id}/versions/{version}/publish", "tag": "templates", "summary": "\u041F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F \u0432\u0435\u0440\u0441\u0438\u0438 \u043F\u043E\u0441\u043B\u0435 \u0448\u0435\u0441\u0442\u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u043E\u043A", "idempotent": false },
-  refreshTokens: { "operationId": "refreshTokens", "method": "post", "path": "/api/v1/auth/refresh", "tag": "auth", "summary": "\u0420\u043E\u0442\u0430\u0446\u0438\u044F refresh \u0438 \u043D\u043E\u0432\u044B\u0439 access", "idempotent": false },
-  registerDevice: { "operationId": "registerDevice", "method": "post", "path": "/api/v1/devices", "tag": "devices", "summary": "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F push-\u0442\u043E\u043A\u0435\u043D\u0430 (\u0438\u0434\u0435\u043C\u043F\u043E\u0442\u0435\u043D\u0442\u043D\u043E \u043F\u043E pushToken)", "idempotent": false },
-  removeNoteLink: { "operationId": "removeNoteLink", "method": "delete", "path": "/api/v1/notes/{id}/links", "tag": "notes", "summary": "\u041E\u0442\u0432\u044F\u0437\u0430\u0442\u044C \u0441\u0443\u0449\u043D\u043E\u0441\u0442\u044C \u043E\u0442 \u0437\u0430\u043C\u0435\u0442\u043A\u0438", "idempotent": false },
-  reopenNote: { "operationId": "reopenNote", "method": "post", "path": "/api/v1/notes/{id}/reopen", "tag": "notes", "summary": "\u041F\u0435\u0440\u0435\u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443", "idempotent": false },
-  replaceDocumentItems: { "operationId": "replaceDocumentItems", "method": "put", "path": "/api/v1/documents/{id}/items", "tag": "documents", "summary": "\u0417\u0430\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A\u0430", "idempotent": false },
-  replyToShare: { "operationId": "replyToShare", "method": "post", "path": "/s/{token}/replies", "tag": "shares-public", "summary": "\u041E\u0442\u0432\u0435\u0442 \u043A\u043B\u0438\u0435\u043D\u0442\u0430 \u043F\u043E \u0441\u0441\u044B\u043B\u043A\u0435", "idempotent": false },
-  reportsPayments: { "operationId": "reportsPayments", "method": "get", "path": "/api/v1/reports/payments", "tag": "reports", "summary": "\u0412\u0435\u0434\u043E\u043C\u043E\u0441\u0442\u044C \u043E\u043F\u043B\u0430\u0442 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434 \u0441 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u043C \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u043C", "idempotent": true },
-  reportsReconciliation: { "operationId": "reportsReconciliation", "method": "get", "path": "/api/v1/reports/reconciliation", "tag": "reports", "summary": "\u0410\u043A\u0442 \u0441\u0432\u0435\u0440\u043A\u0438: \u043D\u0430\u0447\u0430\u043B\u044C\u043D\u043E\u0435 \u0441\u0430\u043B\u044C\u0434\u043E, \u043E\u0431\u043E\u0440\u043E\u0442\u044B, \u043D\u0430\u0440\u0430\u0441\u0442\u0430\u044E\u0449\u0438\u0439 \u0438\u0442\u043E\u0433", "idempotent": true },
-  reportsRegistry: { "operationId": "reportsRegistry", "method": "get", "path": "/api/v1/reports/registry", "tag": "reports", "summary": "\u0420\u0435\u0435\u0441\u0442\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434: \u0441\u0443\u043C\u043C\u044B, \u041D\u0414\u0421, \u0441\u0442\u0430\u0442\u0443\u0441\u044B", "idempotent": true },
-  reportsSummary: { "operationId": "reportsSummary", "method": "get", "path": "/api/v1/reports/summary", "tag": "reports", "summary": "\u0421\u0432\u043E\u0434\u043A\u0430: \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u0434\u043E\u043B\u0433 \u0438 \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434", "idempotent": true },
-  reportsUnpaid: { "operationId": "reportsUnpaid", "method": "get", "path": "/api/v1/reports/unpaid", "tag": "reports", "summary": "\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u043E\u0441\u0442\u0430\u0442\u043E\u043A, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430, \u0441\u0442\u0430\u0440\u044B\u0435 \u0441\u0432\u0435\u0440\u0445\u0443", "idempotent": true },
-  resetPassword: { "operationId": "resetPassword", "method": "post", "path": "/api/v1/auth/password/reset", "tag": "auth", "summary": "\u0421\u0431\u0440\u043E\u0441 \u043F\u0430\u0440\u043E\u043B\u044F \u043F\u043E \u043E\u0434\u043D\u043E\u0440\u0430\u0437\u043E\u0432\u043E\u043C\u0443 \u0442\u043E\u043A\u0435\u043D\u0443", "idempotent": false },
-  resetSetting: { "operationId": "resetSetting", "method": "delete", "path": "/api/v1/settings/{code}", "tag": "settings", "summary": "\u0421\u0431\u0440\u043E\u0441 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438 \u043A \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u043C\u0443 \u0443\u0440\u043E\u0432\u043D\u044E (admin)", "idempotent": false },
-  resetUserPassword: { "operationId": "resetUserPassword", "method": "post", "path": "/api/v1/users/{id}/reset-password", "tag": "users", "summary": "\u0421\u0431\u0440\u043E\u0441 \u043F\u0430\u0440\u043E\u043B\u044F \u0430\u0434\u043C\u0438\u043D\u043E\u043C: \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0439 \u043F\u0430\u0440\u043E\u043B\u044C \u0432 \u043E\u0442\u0432\u0435\u0442\u0435 (\u043E\u0434\u0438\u043D \u0440\u0430\u0437)", "idempotent": false },
-  retryWebhookDelivery: { "operationId": "retryWebhookDelivery", "method": "post", "path": "/api/v1/webhooks/{id}/deliveries/{deliveryId}/retry", "tag": "webhooks", "summary": "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0443 \u0432\u0440\u0443\u0447\u043D\u0443\u044E", "idempotent": false },
-  revokeDevice: { "operationId": "revokeDevice", "method": "delete", "path": "/api/v1/devices/{id}", "tag": "devices", "summary": "\u0412\u044B\u0445\u043E\u0434: \u043E\u0442\u0437\u044B\u0432 \u0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u0430", "idempotent": false },
-  revokePersonalToken: { "operationId": "revokePersonalToken", "method": "delete", "path": "/api/v1/tokens/personal/{id}", "tag": "tokens", "summary": "\u041E\u0442\u043E\u0437\u0432\u0430\u0442\u044C \u0441\u0432\u043E\u0439 personal-\u0442\u043E\u043A\u0435\u043D (\u0432\u043B\u0430\u0434\u0435\u043B\u0435\u0446; \u0438\u0434\u0435\u043C\u043F\u043E\u0442\u0435\u043D\u0442\u043D\u043E)", "idempotent": false },
-  revokeShare: { "operationId": "revokeShare", "method": "delete", "path": "/api/v1/shares/{id}", "tag": "shares", "summary": "\u041E\u0442\u043E\u0437\u0432\u0430\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443", "idempotent": false },
-  revokeToken: { "operationId": "revokeToken", "method": "delete", "path": "/api/v1/tokens/{id}", "tag": "tokens", "summary": "\u041E\u0442\u043E\u0437\u0432\u0430\u0442\u044C \u0442\u043E\u043A\u0435\u043D (admin)", "idempotent": false },
-  rotateWebhookSecret: { "operationId": "rotateWebhookSecret", "method": "post", "path": "/api/v1/webhooks/{id}/rotate-secret", "tag": "webhooks", "summary": "\u041D\u043E\u0432\u044B\u0439 \u0441\u0435\u043A\u0440\u0435\u0442 \u043F\u043E\u0434\u043F\u0438\u0441\u0438", "idempotent": false },
-  searchBanks: { "operationId": "searchBanks", "method": "get", "path": "/api/v1/banks", "tag": "banks", "summary": "\u041F\u043E\u0438\u0441\u043A \u0431\u0430\u043D\u043A\u0430 \u0432 \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0435", "idempotent": true },
-  setDefaultAsset: { "operationId": "setDefaultAsset", "method": "post", "path": "/api/v1/assets/{id}/default", "tag": "files", "summary": "\u0421\u0434\u0435\u043B\u0430\u0442\u044C \u0444\u0430\u0439\u043B \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u043C \u0434\u043B\u044F \u0441\u0432\u043E\u0435\u0433\u043E \u0432\u0438\u0434\u0430 (\u043F\u0435\u0447\u0430\u0442\u044C, \u043F\u043E\u0434\u043F\u0438\u0441\u044C)", "idempotent": false },
-  setDefaultBankAccount: { "operationId": "setDefaultBankAccount", "method": "post", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}/default", "tag": "organizations", "summary": "\u0421\u0434\u0435\u043B\u0430\u0442\u044C \u0441\u0447\u0451\u0442\u043E\u043C \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E", "idempotent": false },
-  setDefaultSignatory: { "operationId": "setDefaultSignatory", "method": "post", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}/default", "tag": "organizations", "summary": "\u0421\u0434\u0435\u043B\u0430\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u043E\u043C \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E", "idempotent": false },
-  testWebhook: { "operationId": "testWebhook", "method": "post", "path": "/api/v1/webhooks/{id}/test", "tag": "webhooks", "summary": "\u0422\u0435\u0441\u0442\u043E\u0432\u0430\u044F \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430 (\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u043D\u043E)", "idempotent": false },
-  unblockUser: { "operationId": "unblockUser", "method": "post", "path": "/api/v1/users/{id}/unblock", "tag": "users", "summary": "\u0420\u0430\u0437\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": false },
-  unmarkDocumentReceived: { "operationId": "unmarkDocumentReceived", "method": "delete", "path": "/api/v1/documents/{id}/received", "tag": "documents", "summary": "\u0421\u043D\u044F\u0442\u044C \u043E\u0442\u043C\u0435\u0442\u043A\u0443 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F \u0430\u043A\u0442\u0430", "idempotent": false },
-  updateBankAccount: { "operationId": "updateBankAccount", "method": "patch", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}", "tag": "organizations", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0439 \u0441\u0447\u0451\u0442", "idempotent": false },
-  updateContract: { "operationId": "updateContract", "method": "patch", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0434\u043E\u0433\u043E\u0432\u043E\u0440", "idempotent": false },
-  updateCounterparty: { "operationId": "updateCounterparty", "method": "patch", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430", "idempotent": false },
-  updateCounterpartyContact: { "operationId": "updateCounterpartyContact", "method": "patch", "path": "/api/v1/counterparties/{id}/contacts/{contactId}", "tag": "counterparties", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043A\u043E\u043D\u0442\u0430\u043A\u0442", "idempotent": false },
-  updateDevice: { "operationId": "updateDevice", "method": "patch", "path": "/api/v1/devices/{id}", "tag": "devices", "summary": "\u0423\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u044F, \u0432\u0435\u0440\u0441\u0438\u044F \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u0438\u043C\u044F", "idempotent": false },
-  updateDocument: { "operationId": "updateDocument", "method": "patch", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A", "idempotent": false },
-  updateNote: { "operationId": "updateNote", "method": "patch", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0437\u0430\u043C\u0435\u0442\u043A\u0443", "idempotent": false },
-  updateOrganization: { "operationId": "updateOrganization", "method": "patch", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B \u0438 \u0440\u0435\u0436\u0438\u043C \u041D\u041E", "idempotent": false },
-  updateProduct: { "operationId": "updateProduct", "method": "patch", "path": "/api/v1/products/{id}", "tag": "products", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u044E", "idempotent": false },
-  updateSettings: { "operationId": "updateSettings", "method": "patch", "path": "/api/v1/settings", "tag": "settings", "summary": "\u041C\u0430\u0441\u0441\u043E\u0432\u043E\u0435 \u043E\u0431\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043A (admin)", "idempotent": false },
-  updateSignatory: { "operationId": "updateSignatory", "method": "patch", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}", "tag": "organizations", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u0430", "idempotent": false },
-  updateTemplate: { "operationId": "updateTemplate", "method": "patch", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435, \u043E\u0440\u0438\u0435\u043D\u0442\u0430\u0446\u0438\u044F, \u0444\u043B\u0430\u0433\u0438", "idempotent": false },
-  updateUnit: { "operationId": "updateUnit", "method": "patch", "path": "/api/v1/units/{code}", "tag": "units", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0435\u0434\u0438\u043D\u0438\u0446\u0443 (admin)", "idempotent": false },
-  updateUser: { "operationId": "updateUser", "method": "patch", "path": "/api/v1/users/{id}", "tag": "users", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F (admin)", "idempotent": false },
-  updateWebhook: { "operationId": "updateWebhook", "method": "patch", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0430\u0434\u0440\u0435\u0441, \u0441\u043E\u0431\u044B\u0442\u0438\u044F, \u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C", "idempotent": false },
-  uploadContractFile: { "operationId": "uploadContractFile", "method": "post", "path": "/api/v1/contracts/{id}/files", "tag": "contracts", "summary": "\u041F\u0440\u0438\u043A\u0440\u0435\u043F\u0438\u0442\u044C \u0441\u043A\u0430\u043D \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430", "idempotent": false },
-  uploadFile: { "operationId": "uploadFile", "method": "post", "path": "/api/v1/files", "tag": "files", "summary": "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0444\u0430\u0439\u043B (\u0441\u043A\u0430\u043D, \u043F\u0435\u0447\u0430\u0442\u044C, \u043F\u043E\u0434\u043F\u0438\u0441\u044C)", "idempotent": false },
-  uploadOrganizationAsset: { "operationId": "uploadOrganizationAsset", "method": "post", "path": "/api/v1/organizations/{id}/assets", "tag": "organizations", "summary": "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u043F\u0435\u0447\u0430\u0442\u044C/\u043F\u043E\u0434\u043F\u0438\u0441\u044C/\u043B\u043E\u0433\u043E\u0442\u0438\u043F", "idempotent": false },
-  uploadOrganizationAssetVersion: { "operationId": "uploadOrganizationAssetVersion", "method": "post", "path": "/api/v1/organizations/{id}/assets/{assetId}/versions", "tag": "organizations", "summary": "\u041D\u043E\u0432\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F \u0430\u0441\u0441\u0435\u0442\u0430", "idempotent": false },
-  verifySharePin: { "operationId": "verifySharePin", "method": "post", "path": "/s/{token}/verify", "tag": "shares-public", "summary": "\u041F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C PIN \u0438 \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0441\u0435\u0441\u0441\u0438\u044E \u0441\u0441\u044B\u043B\u043A\u0438", "idempotent": false }
+  acceptInvitation: { "operationId": "acceptInvitation", "method": "post", "path": "/api/v1/auth/invitations/{token}/accept", "tag": "auth", "summary": "Активация приглашённого пользователя", "idempotent": false },
+  addNoteLinks: { "operationId": "addNoteLinks", "method": "post", "path": "/api/v1/notes/{id}/links", "tag": "notes", "summary": "Привязать заметку к сущностям", "idempotent": false },
+  applyDataImport: { "operationId": "applyDataImport", "method": "post", "path": "/api/v1/data-imports/{id}/apply", "tag": "data-imports", "summary": "Применить импорт: одна транзакция, конфликты пересчитываются", "idempotent": false },
+  archiveContract: { "operationId": "archiveContract", "method": "delete", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "Архив договора", "idempotent": false },
+  archiveCounterparty: { "operationId": "archiveCounterparty", "method": "delete", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "Архив контрагента", "idempotent": false },
+  archiveOrganization: { "operationId": "archiveOrganization", "method": "delete", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "Архив (без удаления данных)", "idempotent": false },
+  archiveProduct: { "operationId": "archiveProduct", "method": "delete", "path": "/api/v1/products/{id}", "tag": "products", "summary": "Архивировать позицию", "idempotent": false },
+  archiveTemplate: { "operationId": "archiveTemplate", "method": "delete", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "Архив шаблона (не базовый)", "idempotent": false },
+  assignTemplate: { "operationId": "assignTemplate", "method": "post", "path": "/api/v1/templates/{id}/assign", "tag": "templates", "summary": "Назначить шаблон организации или контрагенту", "idempotent": false },
+  blockUser: { "operationId": "blockUser", "method": "post", "path": "/api/v1/users/{id}/block", "tag": "users", "summary": "Заблокировать пользователя (admin)", "idempotent": false },
+  cancelDocument: { "operationId": "cancelDocument", "method": "post", "path": "/api/v1/documents/{id}/cancel", "tag": "documents", "summary": "Аннулировать документ", "idempotent": false },
+  changePassword: { "operationId": "changePassword", "method": "post", "path": "/api/v1/auth/password/change", "tag": "auth", "summary": "Смена своего пароля", "idempotent": false },
+  checkCounterpartyDuplicates: { "operationId": "checkCounterpartyDuplicates", "method": "post", "path": "/api/v1/counterparties/check-duplicates", "tag": "counterparties", "summary": "Кандидаты в дубли по ИНН", "idempotent": false },
+  closeNote: { "operationId": "closeNote", "method": "post", "path": "/api/v1/notes/{id}/close", "tag": "notes", "summary": "Закрыть заметку", "idempotent": false },
+  createActFromInvoice: { "operationId": "createActFromInvoice", "method": "post", "path": "/api/v1/documents/{id}/acts", "tag": "documents", "summary": "Создать акт по счёту", "idempotent": false },
+  createBankAccount: { "operationId": "createBankAccount", "method": "post", "path": "/api/v1/organizations/{id}/bank-accounts", "tag": "organizations", "summary": "Добавить банковский счёт", "idempotent": false },
+  createContract: { "operationId": "createContract", "method": "post", "path": "/api/v1/contracts", "tag": "contracts", "summary": "Создать договор", "idempotent": false },
+  createCounterparty: { "operationId": "createCounterparty", "method": "post", "path": "/api/v1/counterparties", "tag": "counterparties", "summary": "Создать контрагента", "idempotent": false },
+  createCounterpartyContact: { "operationId": "createCounterpartyContact", "method": "post", "path": "/api/v1/counterparties/{id}/contacts", "tag": "counterparties", "summary": "Добавить контакт", "idempotent": false },
+  createDataExport: { "operationId": "createDataExport", "method": "post", "path": "/api/v1/data-exports", "tag": "data-exports", "summary": "Пакет переноса: организация/справочники/документы (JSON/ZIP)", "idempotent": false },
+  createDocument: { "operationId": "createDocument", "method": "post", "path": "/api/v1/documents", "tag": "documents", "summary": "Создать черновик", "idempotent": false },
+  createDocumentPdfLink: { "operationId": "createDocumentPdfLink", "method": "get", "path": "/api/v1/documents/{id}/pdf-link", "tag": "documents", "summary": "Короткоживущая ссылка на PDF", "idempotent": true },
+  createDocumentRevision: { "operationId": "createDocumentRevision", "method": "post", "path": "/api/v1/documents/{id}/revisions", "tag": "documents", "summary": "Новая ревизия выданного", "idempotent": false },
+  createInvoiceFromActs: { "operationId": "createInvoiceFromActs", "method": "post", "path": "/api/v1/documents/{id}/invoice", "tag": "documents", "summary": "Создать счёт из акта (акт раньше счёта) и включить все акты контрагента", "idempotent": false },
+  createNote: { "operationId": "createNote", "method": "post", "path": "/api/v1/notes", "tag": "notes", "summary": "Создать заметку (Markdown)", "idempotent": false },
+  createOrganization: { "operationId": "createOrganization", "method": "post", "path": "/api/v1/organizations", "tag": "organizations", "summary": "Создать организацию", "idempotent": false },
+  createPayment: { "operationId": "createPayment", "method": "post", "path": "/api/v1/payments", "tag": "payments", "summary": "Создать оплату: пересчитывает статус и остаток документа", "idempotent": false },
+  createPersonalToken: { "operationId": "createPersonalToken", "method": "post", "path": "/api/v1/tokens/personal", "tag": "tokens", "summary": "Создать personal-токен (не шире прав роли)", "idempotent": false },
+  createProduct: { "operationId": "createProduct", "method": "post", "path": "/api/v1/products", "tag": "products", "summary": "Создать позицию номенклатуры", "idempotent": false },
+  createReportExport: { "operationId": "createReportExport", "method": "post", "path": "/api/v1/reports/export", "tag": "reports", "summary": "Асинхронный экспорт отчёта (XLSX/CSV/JSON) через pg-boss", "idempotent": false },
+  createShare: { "operationId": "createShare", "method": "post", "path": "/api/v1/shares", "tag": "shares", "summary": "Создать ссылку на документы (URL показывается один раз)", "idempotent": false },
+  createSignatory: { "operationId": "createSignatory", "method": "post", "path": "/api/v1/organizations/{id}/signatories", "tag": "organizations", "summary": "Добавить подписанта", "idempotent": false },
+  createTemplate: { "operationId": "createTemplate", "method": "post", "path": "/api/v1/templates", "tag": "templates", "summary": "Создать шаблон (копия базового)", "idempotent": false },
+  createTemplateVersion: { "operationId": "createTemplateVersion", "method": "post", "path": "/api/v1/templates/{id}/versions", "tag": "templates", "summary": "Новая черновая версия", "idempotent": false },
+  createToken: { "operationId": "createToken", "method": "post", "path": "/api/v1/tokens", "tag": "tokens", "summary": "Создать токен (admin), секрет — один раз", "idempotent": false },
+  createUnit: { "operationId": "createUnit", "method": "post", "path": "/api/v1/units", "tag": "units", "summary": "Добавить единицу (admin)", "idempotent": false },
+  createUser: { "operationId": "createUser", "method": "post", "path": "/api/v1/users", "tag": "users", "summary": "Создать пользователя (admin)", "idempotent": false },
+  createWebhook: { "operationId": "createWebhook", "method": "post", "path": "/api/v1/webhooks", "tag": "webhooks", "summary": "Создать подписчика (секрет показывается один раз)", "idempotent": false },
+  deleteBankAccount: { "operationId": "deleteBankAccount", "method": "delete", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}", "tag": "organizations", "summary": "Удалить банковский счёт", "idempotent": false },
+  deleteContractFile: { "operationId": "deleteContractFile", "method": "delete", "path": "/api/v1/contracts/{id}/files/{assetId}", "tag": "contracts", "summary": "Удалить скан договора", "idempotent": false },
+  deleteCounterpartyContact: { "operationId": "deleteCounterpartyContact", "method": "delete", "path": "/api/v1/counterparties/{id}/contacts/{contactId}", "tag": "counterparties", "summary": "Удалить контакт", "idempotent": false },
+  deleteDocument: { "operationId": "deleteDocument", "method": "delete", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "Удалить черновик", "idempotent": false },
+  deleteNote: { "operationId": "deleteNote", "method": "delete", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "Удалить заметку (физически)", "idempotent": false },
+  deletePayment: { "operationId": "deletePayment", "method": "delete", "path": "/api/v1/payments/{id}", "tag": "payments", "summary": "Удалить оплату и откатить статус", "idempotent": false },
+  deleteSignatory: { "operationId": "deleteSignatory", "method": "delete", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}", "tag": "organizations", "summary": "Удалить подписанта", "idempotent": false },
+  deleteUnit: { "operationId": "deleteUnit", "method": "delete", "path": "/api/v1/units/{code}", "tag": "units", "summary": "Удалить единицу (admin)", "idempotent": false },
+  deleteUser: { "operationId": "deleteUser", "method": "delete", "path": "/api/v1/users/{id}", "tag": "users", "summary": "Soft delete пользователя (admin)", "idempotent": false },
+  deleteWebhook: { "operationId": "deleteWebhook", "method": "delete", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "Удалить подписчика вместе с журналом", "idempotent": false },
+  downloadDataExport: { "operationId": "downloadDataExport", "method": "get", "path": "/api/v1/data-exports/{id}/download", "tag": "data-exports", "summary": "Скачать готовый пакет", "idempotent": true },
+  downloadDocumentPdf: { "operationId": "downloadDocumentPdf", "method": "get", "path": "/api/v1/documents/{id}/pdf", "tag": "documents", "summary": "PDF документа (печать, подпись, водяной знак)", "idempotent": true },
+  downloadFile: { "operationId": "downloadFile", "method": "get", "path": "/api/v1/files/{versionId}", "tag": "files", "summary": "Скачать файл версии ассета", "idempotent": true },
+  downloadReportExport: { "operationId": "downloadReportExport", "method": "get", "path": "/api/v1/reports/exports/{id}/download", "tag": "reports", "summary": "Скачать готовый экспорт", "idempotent": true },
+  downloadSharedDocumentPdf: { "operationId": "downloadSharedDocumentPdf", "method": "get", "path": "/api/v1/documents/shared/{token}", "tag": "documents", "summary": "PDF по короткоживущей подписанной ссылке", "idempotent": true },
+  downloadShareDocumentPdf: { "operationId": "downloadShareDocumentPdf", "method": "get", "path": "/s/{token}/documents/{documentId}/pdf", "tag": "shares-public", "summary": "PDF документа ссылки", "idempotent": true },
+  duplicateDocument: { "operationId": "duplicateDocument", "method": "post", "path": "/api/v1/documents/{id}/duplicate", "tag": "documents", "summary": "Копия в новый черновик", "idempotent": false },
+  duplicateTemplate: { "operationId": "duplicateTemplate", "method": "post", "path": "/api/v1/templates/{id}/duplicate", "tag": "templates", "summary": "Копия шаблона в кабинете", "idempotent": false },
+  exportAudit: { "operationId": "exportAudit", "method": "get", "path": "/api/v1/audit/export", "tag": "audit", "summary": "Экспорт аудита: CSV (`;`, BOM) или JSON (admin)", "idempotent": true },
+  forgotPassword: { "operationId": "forgotPassword", "method": "post", "path": "/api/v1/auth/password/forgot", "tag": "auth", "summary": "Запрос сброса пароля (всегда 202, письмо — фаза 2)", "idempotent": false },
+  getAuditEntry: { "operationId": "getAuditEntry", "method": "get", "path": "/api/v1/audit/{id}", "tag": "audit", "summary": "Запись аудита с diff (admin)", "idempotent": true },
+  getContract: { "operationId": "getContract", "method": "get", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "Карточка договора", "idempotent": true },
+  getCounterparty: { "operationId": "getCounterparty", "method": "get", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "Карточка контрагента с контактами", "idempotent": true },
+  getCounterpartyBalance: { "operationId": "getCounterpartyBalance", "method": "get", "path": "/api/v1/counterparties/{id}/balance", "tag": "counterparties", "summary": "Сальдо на дату", "idempotent": true },
+  getCounterpartySummary: { "operationId": "getCounterpartySummary", "method": "get", "path": "/api/v1/counterparties/{id}/summary", "tag": "counterparties", "summary": "Сводка по контрагенту", "idempotent": true },
+  getDataExport: { "operationId": "getDataExport", "method": "get", "path": "/api/v1/data-exports/{id}", "tag": "data-exports", "summary": "Статус пакета переноса", "idempotent": true },
+  getDataImport: { "operationId": "getDataImport", "method": "get", "path": "/api/v1/data-imports/{id}", "tag": "data-imports", "summary": "Статус импорта и отчёт по строкам", "idempotent": true },
+  getDocument: { "operationId": "getDocument", "method": "get", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "Документ с позициями", "idempotent": true },
+  getDocumentHtml: { "operationId": "getDocumentHtml", "method": "get", "path": "/api/v1/documents/{id}/html", "tag": "documents", "summary": "HTML для предпросмотра", "idempotent": true },
+  getDocumentVersion: { "operationId": "getDocumentVersion", "method": "get", "path": "/api/v1/documents/{id}/versions/{revision}", "tag": "documents", "summary": "Версия целиком", "idempotent": true },
+  getEffectiveSettings: { "operationId": "getEffectiveSettings", "method": "get", "path": "/api/v1/settings", "tag": "settings", "summary": "Эффективные значения для контекста", "idempotent": true },
+  getMe: { "operationId": "getMe", "method": "get", "path": "/api/v1/auth/me", "tag": "auth", "summary": "Текущий пользователь, роль и права", "idempotent": true },
+  getNote: { "operationId": "getNote", "method": "get", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "Карточка заметки с привязками", "idempotent": true },
+  getNotesCalendar: { "operationId": "getNotesCalendar", "method": "get", "path": "/api/v1/notes/calendar", "tag": "notes", "summary": "События календаря по дедлайнам и напоминаниям", "idempotent": true },
+  getOrganization: { "operationId": "getOrganization", "method": "get", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "Карточка организации", "idempotent": true },
+  getOrganizationEffectiveSettings: { "operationId": "getOrganizationEffectiveSettings", "method": "get", "path": "/api/v1/organizations/{id}/effective-settings", "tag": "organizations", "summary": "Эффективные настройки организации", "idempotent": true },
+  getPayment: { "operationId": "getPayment", "method": "get", "path": "/api/v1/payments/{id}", "tag": "payments", "summary": "Карточка оплаты", "idempotent": true },
+  getProduct: { "operationId": "getProduct", "method": "get", "path": "/api/v1/products/{id}", "tag": "products", "summary": "Карточка позиции", "idempotent": true },
+  getPublicSettings: { "operationId": "getPublicSettings", "method": "get", "path": "/api/v1/settings/public", "tag": "settings", "summary": "Публичные настройки (без авторизации)", "idempotent": true },
+  getReportExport: { "operationId": "getReportExport", "method": "get", "path": "/api/v1/reports/exports/{id}", "tag": "reports", "summary": "Статус экспорта отчёта", "idempotent": true },
+  getShare: { "operationId": "getShare", "method": "get", "path": "/api/v1/shares/{id}", "tag": "shares", "summary": "Детали, просмотры и ответы", "idempotent": true },
+  getSystemStatus: { "operationId": "getSystemStatus", "method": "get", "path": "/api/v1/system/status", "tag": "system", "summary": "Версия, БД, диск, рендер (admin)", "idempotent": true },
+  getTemplate: { "operationId": "getTemplate", "method": "get", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "Карточка шаблона и версии", "idempotent": true },
+  getTemplateVersion: { "operationId": "getTemplateVersion", "method": "get", "path": "/api/v1/templates/{id}/versions/{version}", "tag": "templates", "summary": "Версия шаблона целиком", "idempotent": true },
+  getToken: { "operationId": "getToken", "method": "get", "path": "/api/v1/tokens/{id}", "tag": "tokens", "summary": "Метаданные токена (admin)", "idempotent": true },
+  getUser: { "operationId": "getUser", "method": "get", "path": "/api/v1/users/{id}", "tag": "users", "summary": "Карточка пользователя (admin)", "idempotent": true },
+  getWebhook: { "operationId": "getWebhook", "method": "get", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "Подписчик", "idempotent": true },
+  healthCheck: { "operationId": "healthCheck", "method": "get", "path": "/health", "tag": "health", "summary": "Сервис отвечает", "idempotent": true },
+  healthLive: { "operationId": "healthLive", "method": "get", "path": "/health/live", "tag": "health", "summary": "Процесс жив", "idempotent": true },
+  healthReady: { "operationId": "healthReady", "method": "get", "path": "/health/ready", "tag": "health", "summary": "Готов принимать трафик (БД доступна)", "idempotent": true },
+  importDocument: { "operationId": "importDocument", "method": "post", "path": "/api/v1/documents/import", "tag": "imports", "summary": "Создать черновик из текста или JSON", "idempotent": false },
+  inviteUser: { "operationId": "inviteUser", "method": "post", "path": "/api/v1/users/{id}/invite", "tag": "users", "summary": "Приглашение/переотправка: токен активации в ответе (почта — фаза 2)", "idempotent": false },
+  issueDocument: { "operationId": "issueDocument", "method": "post", "path": "/api/v1/documents/{id}/issue", "tag": "documents", "summary": "Выдать документ: номер и версия 1", "idempotent": false },
+  listAppErrors: { "operationId": "listAppErrors", "method": "get", "path": "/api/v1/system/errors", "tag": "system", "summary": "Ошибки 5xx из ring buffer (admin)", "idempotent": true },
+  listAudit: { "operationId": "listAudit", "method": "get", "path": "/api/v1/audit", "tag": "audit", "summary": "Журнал действий (admin)", "idempotent": true },
+  listBankAccounts: { "operationId": "listBankAccounts", "method": "get", "path": "/api/v1/organizations/{id}/bank-accounts", "tag": "organizations", "summary": "Банковские счета организации", "idempotent": true },
+  listContractFiles: { "operationId": "listContractFiles", "method": "get", "path": "/api/v1/contracts/{id}/file-links", "tag": "contracts", "summary": "Ссылки на сканы договора", "idempotent": true },
+  listContracts: { "operationId": "listContracts", "method": "get", "path": "/api/v1/contracts", "tag": "contracts", "summary": "Реестр договоров", "idempotent": true },
+  listCounterparties: { "operationId": "listCounterparties", "method": "get", "path": "/api/v1/counterparties", "tag": "counterparties", "summary": "Список контрагентов с поиском", "idempotent": true },
+  listCounterpartyDocuments: { "operationId": "listCounterpartyDocuments", "method": "get", "path": "/api/v1/counterparties/{id}/documents", "tag": "counterparties", "summary": "Документы контрагента", "idempotent": true },
+  listDevices: { "operationId": "listDevices", "method": "get", "path": "/api/v1/devices", "tag": "devices", "summary": "Устройства текущего пользователя", "idempotent": true },
+  listDocumentNotes: { "operationId": "listDocumentNotes", "method": "get", "path": "/api/v1/documents/{id}/notes", "tag": "notes", "summary": "Заметки, привязанные к документу", "idempotent": true },
+  listDocumentPayments: { "operationId": "listDocumentPayments", "method": "get", "path": "/api/v1/documents/{id}/payments", "tag": "payments", "summary": "Оплаты документа и остаток", "idempotent": true },
+  listDocuments: { "operationId": "listDocuments", "method": "get", "path": "/api/v1/documents", "tag": "documents", "summary": "Список документов", "idempotent": true },
+  listDocumentVersions: { "operationId": "listDocumentVersions", "method": "get", "path": "/api/v1/documents/{id}/versions", "tag": "documents", "summary": "Версии документа", "idempotent": true },
+  listLoginAttempts: { "operationId": "listLoginAttempts", "method": "get", "path": "/api/v1/login-attempts", "tag": "audit", "summary": "Журнал попыток входа (admin)", "idempotent": true },
+  listNotes: { "operationId": "listNotes", "method": "get", "path": "/api/v1/notes", "tag": "notes", "summary": "Список и поиск заметок", "idempotent": true },
+  listOrganizationAssets: { "operationId": "listOrganizationAssets", "method": "get", "path": "/api/v1/organizations/{id}/assets", "tag": "organizations", "summary": "Файлы организации (версии)", "idempotent": true },
+  listOrganizations: { "operationId": "listOrganizations", "method": "get", "path": "/api/v1/organizations", "tag": "organizations", "summary": "Список доступных организаций", "idempotent": true },
+  listPayments: { "operationId": "listPayments", "method": "get", "path": "/api/v1/payments", "tag": "payments", "summary": "Список оплат", "idempotent": true },
+  listPersonalTokens: { "operationId": "listPersonalTokens", "method": "get", "path": "/api/v1/tokens/personal", "tag": "tokens", "summary": "Свои personal-токены", "idempotent": true },
+  listProducts: { "operationId": "listProducts", "method": "get", "path": "/api/v1/products", "tag": "products", "summary": "Номенклатура с поиском", "idempotent": true },
+  listSettingDefinitions: { "operationId": "listSettingDefinitions", "method": "get", "path": "/api/v1/settings/definitions", "tag": "settings", "summary": "Реестр настроек (admin)", "idempotent": true },
+  listShareReplies: { "operationId": "listShareReplies", "method": "get", "path": "/api/v1/shares/{id}/replies", "tag": "shares", "summary": "Ответы клиента", "idempotent": true },
+  listShares: { "operationId": "listShares", "method": "get", "path": "/api/v1/shares", "tag": "shares", "summary": "Ссылки со статусами", "idempotent": true },
+  listShareViews: { "operationId": "listShareViews", "method": "get", "path": "/api/v1/shares/{id}/views", "tag": "shares", "summary": "Журнал просмотров", "idempotent": true },
+  listSignatories: { "operationId": "listSignatories", "method": "get", "path": "/api/v1/organizations/{id}/signatories", "tag": "organizations", "summary": "Подписанты организации", "idempotent": true },
+  listTemplates: { "operationId": "listTemplates", "method": "get", "path": "/api/v1/templates", "tag": "templates", "summary": "Галерея шаблонов", "idempotent": true },
+  listTokens: { "operationId": "listTokens", "method": "get", "path": "/api/v1/tokens", "tag": "tokens", "summary": "Список токенов кабинета (admin)", "idempotent": true },
+  listUnits: { "operationId": "listUnits", "method": "get", "path": "/api/v1/units", "tag": "units", "summary": "Единицы измерения", "idempotent": true },
+  listUsers: { "operationId": "listUsers", "method": "get", "path": "/api/v1/users", "tag": "users", "summary": "Список пользователей (admin)", "idempotent": true },
+  listWebhookDeliveries: { "operationId": "listWebhookDeliveries", "method": "get", "path": "/api/v1/webhooks/{id}/deliveries", "tag": "webhooks", "summary": "Журнал доставок", "idempotent": true },
+  listWebhooks: { "operationId": "listWebhooks", "method": "get", "path": "/api/v1/webhooks", "tag": "webhooks", "summary": "Подписчики кабинета", "idempotent": true },
+  login: { "operationId": "login", "method": "post", "path": "/api/v1/auth/login", "tag": "auth", "summary": "Вход по email и паролю", "idempotent": false },
+  logout: { "operationId": "logout", "method": "post", "path": "/api/v1/auth/logout", "tag": "auth", "summary": "Отзыв текущей сессии", "idempotent": false },
+  lookupCounterparty: { "operationId": "lookupCounterparty", "method": "post", "path": "/api/v1/counterparties/lookup", "tag": "counterparties", "summary": "Автозаполнение по ИНН (вторая фаза — пока 501)", "idempotent": false },
+  markDocumentReceived: { "operationId": "markDocumentReceived", "method": "post", "path": "/api/v1/documents/{id}/received", "tag": "documents", "summary": "Отметить акт полученным (подписан клиентом), опционально со сканом", "idempotent": false },
+  openSharePage: { "operationId": "openSharePage", "method": "get", "path": "/s/{token}", "tag": "shares-public", "summary": "HTML-страница ссылки", "idempotent": true },
+  previewDataImport: { "operationId": "previewDataImport", "method": "post", "path": "/api/v1/data-imports/preview", "tag": "data-imports", "summary": "Предпросмотр импорта пакета: план, конфликты, ошибки (dry-run)", "idempotent": false },
+  previewImport: { "operationId": "previewImport", "method": "post", "path": "/api/v1/imports/preview", "tag": "imports", "summary": "Предпросмотр импорта позиций", "idempotent": false },
+  previewTemplate: { "operationId": "previewTemplate", "method": "post", "path": "/api/v1/templates/{id}/preview", "tag": "templates", "summary": "Предпросмотр на тестовом снимке (html, pdf, png)", "idempotent": false },
+  publishTemplateVersion: { "operationId": "publishTemplateVersion", "method": "post", "path": "/api/v1/templates/{id}/versions/{version}/publish", "tag": "templates", "summary": "Публикация версии после шести проверок", "idempotent": false },
+  refreshTokens: { "operationId": "refreshTokens", "method": "post", "path": "/api/v1/auth/refresh", "tag": "auth", "summary": "Ротация refresh и новый access", "idempotent": false },
+  registerDevice: { "operationId": "registerDevice", "method": "post", "path": "/api/v1/devices", "tag": "devices", "summary": "Регистрация push-токена (идемпотентно по pushToken)", "idempotent": false },
+  removeNoteLink: { "operationId": "removeNoteLink", "method": "delete", "path": "/api/v1/notes/{id}/links", "tag": "notes", "summary": "Отвязать сущность от заметки", "idempotent": false },
+  reopenNote: { "operationId": "reopenNote", "method": "post", "path": "/api/v1/notes/{id}/reopen", "tag": "notes", "summary": "Переоткрыть заметку", "idempotent": false },
+  replaceDocumentItems: { "operationId": "replaceDocumentItems", "method": "put", "path": "/api/v1/documents/{id}/items", "tag": "documents", "summary": "Заменить позиции черновика", "idempotent": false },
+  replyToShare: { "operationId": "replyToShare", "method": "post", "path": "/s/{token}/replies", "tag": "shares-public", "summary": "Ответ клиента по ссылке", "idempotent": false },
+  reportsPayments: { "operationId": "reportsPayments", "method": "get", "path": "/api/v1/reports/payments", "tag": "reports", "summary": "Ведомость оплат за период с документом и контрагентом", "idempotent": true },
+  reportsReconciliation: { "operationId": "reportsReconciliation", "method": "get", "path": "/api/v1/reports/reconciliation", "tag": "reports", "summary": "Акт сверки: начальное сальдо, обороты, нарастающий итог", "idempotent": true },
+  reportsRegistry: { "operationId": "reportsRegistry", "method": "get", "path": "/api/v1/reports/registry", "tag": "reports", "summary": "Реестр документов за период: суммы, НДС, статусы", "idempotent": true },
+  reportsSummary: { "operationId": "reportsSummary", "method": "get", "path": "/api/v1/reports/summary", "tag": "reports", "summary": "Сводка: выставлено, оплачено, долг и просрочка за период", "idempotent": true },
+  reportsUnpaid: { "operationId": "reportsUnpaid", "method": "get", "path": "/api/v1/reports/unpaid", "tag": "reports", "summary": "Неоплаченные документы: остаток, просрочка, старые сверху", "idempotent": true },
+  resetPassword: { "operationId": "resetPassword", "method": "post", "path": "/api/v1/auth/password/reset", "tag": "auth", "summary": "Сброс пароля по одноразовому токену", "idempotent": false },
+  resetSetting: { "operationId": "resetSetting", "method": "delete", "path": "/api/v1/settings/{code}", "tag": "settings", "summary": "Сброс настройки к следующему уровню (admin)", "idempotent": false },
+  resetUserPassword: { "operationId": "resetUserPassword", "method": "post", "path": "/api/v1/users/{id}/reset-password", "tag": "users", "summary": "Сброс пароля админом: временный пароль в ответе (один раз)", "idempotent": false },
+  retryWebhookDelivery: { "operationId": "retryWebhookDelivery", "method": "post", "path": "/api/v1/webhooks/{id}/deliveries/{deliveryId}/retry", "tag": "webhooks", "summary": "Повторить доставку вручную", "idempotent": false },
+  revokeDevice: { "operationId": "revokeDevice", "method": "delete", "path": "/api/v1/devices/{id}", "tag": "devices", "summary": "Выход: отзыв устройства", "idempotent": false },
+  revokePersonalToken: { "operationId": "revokePersonalToken", "method": "delete", "path": "/api/v1/tokens/personal/{id}", "tag": "tokens", "summary": "Отозвать свой personal-токен (владелец; идемпотентно)", "idempotent": false },
+  revokeShare: { "operationId": "revokeShare", "method": "delete", "path": "/api/v1/shares/{id}", "tag": "shares", "summary": "Отозвать ссылку", "idempotent": false },
+  revokeToken: { "operationId": "revokeToken", "method": "delete", "path": "/api/v1/tokens/{id}", "tag": "tokens", "summary": "Отозвать токен (admin)", "idempotent": false },
+  rotateWebhookSecret: { "operationId": "rotateWebhookSecret", "method": "post", "path": "/api/v1/webhooks/{id}/rotate-secret", "tag": "webhooks", "summary": "Новый секрет подписи", "idempotent": false },
+  searchBanks: { "operationId": "searchBanks", "method": "get", "path": "/api/v1/banks", "tag": "banks", "summary": "Поиск банка в справочнике", "idempotent": true },
+  setDefaultAsset: { "operationId": "setDefaultAsset", "method": "post", "path": "/api/v1/assets/{id}/default", "tag": "files", "summary": "Сделать файл основным для своего вида (печать, подпись)", "idempotent": false },
+  setDefaultBankAccount: { "operationId": "setDefaultBankAccount", "method": "post", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}/default", "tag": "organizations", "summary": "Сделать счётом по умолчанию", "idempotent": false },
+  setDefaultSignatory: { "operationId": "setDefaultSignatory", "method": "post", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}/default", "tag": "organizations", "summary": "Сделать подписантом по умолчанию", "idempotent": false },
+  testWebhook: { "operationId": "testWebhook", "method": "post", "path": "/api/v1/webhooks/{id}/test", "tag": "webhooks", "summary": "Тестовая доставка (синхронно)", "idempotent": false },
+  unblockUser: { "operationId": "unblockUser", "method": "post", "path": "/api/v1/users/{id}/unblock", "tag": "users", "summary": "Разблокировать пользователя (admin)", "idempotent": false },
+  unmarkDocumentReceived: { "operationId": "unmarkDocumentReceived", "method": "delete", "path": "/api/v1/documents/{id}/received", "tag": "documents", "summary": "Снять отметку получения акта", "idempotent": false },
+  updateBankAccount: { "operationId": "updateBankAccount", "method": "patch", "path": "/api/v1/organizations/{id}/bank-accounts/{accountId}", "tag": "organizations", "summary": "Изменить банковский счёт", "idempotent": false },
+  updateContract: { "operationId": "updateContract", "method": "patch", "path": "/api/v1/contracts/{id}", "tag": "contracts", "summary": "Изменить договор", "idempotent": false },
+  updateCounterparty: { "operationId": "updateCounterparty", "method": "patch", "path": "/api/v1/counterparties/{id}", "tag": "counterparties", "summary": "Изменить контрагента", "idempotent": false },
+  updateCounterpartyContact: { "operationId": "updateCounterpartyContact", "method": "patch", "path": "/api/v1/counterparties/{id}/contacts/{contactId}", "tag": "counterparties", "summary": "Изменить контакт", "idempotent": false },
+  updateDevice: { "operationId": "updateDevice", "method": "patch", "path": "/api/v1/devices/{id}", "tag": "devices", "summary": "Уведомления, версия приложения, имя", "idempotent": false },
+  updateDocument: { "operationId": "updateDocument", "method": "patch", "path": "/api/v1/documents/{id}", "tag": "documents", "summary": "Изменить черновик", "idempotent": false },
+  updateNote: { "operationId": "updateNote", "method": "patch", "path": "/api/v1/notes/{id}", "tag": "notes", "summary": "Изменить заметку", "idempotent": false },
+  updateOrganization: { "operationId": "updateOrganization", "method": "patch", "path": "/api/v1/organizations/{id}", "tag": "organizations", "summary": "Изменить реквизиты и режим НО", "idempotent": false },
+  updateProduct: { "operationId": "updateProduct", "method": "patch", "path": "/api/v1/products/{id}", "tag": "products", "summary": "Изменить позицию", "idempotent": false },
+  updateSettings: { "operationId": "updateSettings", "method": "patch", "path": "/api/v1/settings", "tag": "settings", "summary": "Массовое обновление настроек (admin)", "idempotent": false },
+  updateSignatory: { "operationId": "updateSignatory", "method": "patch", "path": "/api/v1/organizations/{id}/signatories/{signatoryId}", "tag": "organizations", "summary": "Изменить подписанта", "idempotent": false },
+  updateTemplate: { "operationId": "updateTemplate", "method": "patch", "path": "/api/v1/templates/{id}", "tag": "templates", "summary": "Название, ориентация, флаги", "idempotent": false },
+  updateUnit: { "operationId": "updateUnit", "method": "patch", "path": "/api/v1/units/{code}", "tag": "units", "summary": "Изменить единицу (admin)", "idempotent": false },
+  updateUser: { "operationId": "updateUser", "method": "patch", "path": "/api/v1/users/{id}", "tag": "users", "summary": "Изменить пользователя (admin)", "idempotent": false },
+  updateWebhook: { "operationId": "updateWebhook", "method": "patch", "path": "/api/v1/webhooks/{id}", "tag": "webhooks", "summary": "Изменить адрес, события, активность", "idempotent": false },
+  uploadContractFile: { "operationId": "uploadContractFile", "method": "post", "path": "/api/v1/contracts/{id}/files", "tag": "contracts", "summary": "Прикрепить скан договора", "idempotent": false },
+  uploadFile: { "operationId": "uploadFile", "method": "post", "path": "/api/v1/files", "tag": "files", "summary": "Загрузить файл (скан, печать, подпись)", "idempotent": false },
+  uploadOrganizationAsset: { "operationId": "uploadOrganizationAsset", "method": "post", "path": "/api/v1/organizations/{id}/assets", "tag": "organizations", "summary": "Загрузить печать/подпись/логотип", "idempotent": false },
+  uploadOrganizationAssetVersion: { "operationId": "uploadOrganizationAssetVersion", "method": "post", "path": "/api/v1/organizations/{id}/assets/{assetId}/versions", "tag": "organizations", "summary": "Новая версия ассета", "idempotent": false },
+  verifySharePin: { "operationId": "verifySharePin", "method": "post", "path": "/s/{token}/verify", "tag": "shares-public", "summary": "Проверить PIN и открыть сессию ссылки", "idempotent": false }
 };
 
 // packages/sdk/dist/client.js
@@ -214,7 +214,7 @@ function createApiHttpClient(options) {
   const baseUrl = options.baseUrl.replace(/\/+$/, "");
   const fetchImpl = options.fetch ?? globalThis.fetch;
   if (typeof fetchImpl !== "function") {
-    throw new Error("\u041D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D fetch: \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 options.fetch (Node < 18 \u043D\u0435 \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044F)");
+    throw new Error("Не найден fetch: передайте options.fetch (Node < 18 не поддерживается)");
   }
   return {
     async call(operationId, args = {}) {
@@ -248,7 +248,7 @@ function createApiHttpClient(options) {
       } catch (error) {
         const name = error?.name;
         if (name === "TimeoutError" || name === "AbortError") {
-          throw new ApiError(0, void 0, "\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D \u0442\u0430\u0439\u043C\u0430\u0443\u0442 \u0437\u0430\u043F\u0440\u043E\u0441\u0430");
+          throw new ApiError(0, void 0, "Превышен таймаут запроса");
         }
         throw error;
       }
@@ -285,7 +285,7 @@ function buildUrl(baseUrl, operationId, pathParams, query) {
   const path = template.replace(/\{([^}]+)\}/g, (_match, name) => {
     const value = pathParams?.[name];
     if (value === void 0 || value === "") {
-      throw new Error(`\u041D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u043D \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 \u043F\u0443\u0442\u0438 \xAB${name}\xBB \u0434\u043B\u044F ${operationId}`);
+      throw new Error(`Не передан параметр пути «${name}» для ${operationId}`);
     }
     return encodeURIComponent(String(value));
   });
@@ -1461,7 +1461,7 @@ function createSdk(options) {
 
 // apps/mcp/dist/version.js
 var SERVER_NAME = "invoices-mcp";
-var SERVER_VERSION = true ? "0.1.1" : "0.0.0";
+var SERVER_VERSION = true ? "0.1.2" : "0.0.0";
 
 // apps/mcp/dist/api/client.js
 function createApiClient(config, options = {}) {
@@ -1485,7 +1485,7 @@ var NETWORK_CODES = /* @__PURE__ */ new Set([
   "ETIMEDOUT"
 ]);
 function serviceUnavailable(context) {
-  return `\u0421\u0435\u0440\u0432\u0438\u0441 \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D (INVOICES_API_URL=${context.apiUrl}). \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u0430\u0434\u0440\u0435\u0441 \u0438 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u043E\u0441\u0442\u044C: curl ${context.apiUrl}/health/live`;
+  return `Сервис недоступен (INVOICES_API_URL=${context.apiUrl}). Проверьте адрес и доступность: curl ${context.apiUrl}/health/live`;
 }
 function networkCodeOf(error) {
   const cause = error?.cause;
@@ -1499,43 +1499,43 @@ function isBadPort(error) {
 function validationDetails(items) {
   const shown = items.slice(0, 5).map((item) => item.field === void 0 ? item.message : `${item.field}: ${item.message}`);
   const rest = items.length - shown.length;
-  return `${shown.join("; ")}${rest > 0 ? ` (\u0435\u0449\u0451 ${rest})` : ""}`;
+  return `${shown.join("; ")}${rest > 0 ? ` (ещё ${rest})` : ""}`;
 }
 function describeApiError(error, context) {
   if (error instanceof ApiError) {
     const { status, code, problem, requestId } = error;
     const detail = problem?.detail ?? error.message;
     if (status === 401) {
-      return "\u0422\u043E\u043A\u0435\u043D \u043D\u0435\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u0435\u043D, \u0438\u0441\u0442\u0451\u043A \u0438\u043B\u0438 \u043E\u0442\u043E\u0437\u0432\u0430\u043D. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 INVOICES_API_TOKEN \u0438 \u043F\u0440\u0438 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u0441\u0442\u0438 \u0441\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u043D\u043E\u0432\u044B\u0439 \u0432 \u0430\u0434\u043C\u0438\u043D\u043A\u0435 \u2192 \xAB\u0422\u043E\u043A\u0435\u043D\u044B\xBB.";
+      return "Токен недействителен, истёк или отозван. Проверьте INVOICES_API_TOKEN и при необходимости создайте новый в админке → «Токены».";
     }
     if (status === 403 && code === "IP_NOT_ALLOWED") {
-      return "IP \u044D\u0442\u043E\u0433\u043E \u043A\u043B\u0438\u0435\u043D\u0442\u0430 \u043D\u0435 \u0432 \u0441\u043F\u0438\u0441\u043A\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D\u043D\u044B\u0445 \u0443 \u0442\u043E\u043A\u0435\u043D\u0430. \u041F\u043E\u043F\u0440\u043E\u0441\u0438\u0442\u0435 \u0430\u0434\u043C\u0438\u043D\u0430 \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C IP \u0438\u043B\u0438 \u043E\u0447\u0438\u0441\u0442\u0438\u0442\u044C allowlist \u0442\u043E\u043A\u0435\u043D\u0430.";
+      return "IP этого клиента не в списке разрешённых у токена. Попросите админа добавить IP или очистить allowlist токена.";
     }
     if (status === 403) {
       const scope = code === "SCOPE_FORBIDDEN" ? detail : void 0;
-      return `\u0423 \u0442\u043E\u043A\u0435\u043D\u0430 \u043D\u0435\u0442 \u043D\u0443\u0436\u043D\u043E\u0433\u043E \u043F\u0440\u0430\u0432\u0430${scope ? ` (${scope})` : ""}. \u041F\u043E\u043F\u0440\u043E\u0441\u0438\u0442\u0435 \u0430\u0434\u043C\u0438\u043D\u0430 \u0432\u044B\u0434\u0430\u0442\u044C \u0442\u043E\u043A\u0435\u043D \u0441 \u044D\u0442\u0438\u043C \u043F\u0440\u0430\u0432\u043E\u043C \u0438\u043B\u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044E \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435.`;
+      return `У токена нет нужного права${scope ? ` (${scope})` : ""}. Попросите админа выдать токен с этим правом или выполните операцию в кабинете.`;
     }
     if (status === 404 && code === "UNIT_NOT_FOUND") {
-      return "\u0415\u0434\u0438\u043D\u0438\u0446\u0430 \u0438\u0437\u043C\u0435\u0440\u0435\u043D\u0438\u044F \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u0430. \u0412\u043E\u0437\u044C\u043C\u0438\u0442\u0435 \u043A\u043E\u0434 \u0438\u0437 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0438\u0445 \u043F\u043E\u0437\u0438\u0446\u0438\u0439 (invoices_products_list) \u2014 \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440, \xAB\u0448\u0442\xBB; \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A \u0435\u0434\u0438\u043D\u0438\u0446 \u2014 \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435.";
+      return "Единица измерения не найдена. Возьмите код из существующих позиций (invoices_products_list) — например, «шт»; справочник единиц — в кабинете.";
     }
     if (status === 404) {
-      return `\u041D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u0438\u043B\u0438 \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u043D\u043E \u044D\u0442\u043E\u043C\u0443 \u0442\u043E\u043A\u0435\u043D\u0443: ${detail}. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043F\u043E\u0438\u0441\u043A\u043E\u043C.`;
+      return `Не найдено или недоступно этому токену: ${detail}. Проверьте идентификатор поиском.`;
     }
     if (status === 409) {
-      return `\u041A\u043E\u043D\u0444\u043B\u0438\u043A\u0442: ${detail}. \u041F\u0435\u0440\u0435\u0447\u0438\u0442\u0430\u0439\u0442\u0435 \u043E\u0431\u044A\u0435\u043A\u0442 \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435.`;
+      return `Конфликт: ${detail}. Перечитайте объект и повторите действие.`;
     }
     if (status === 422) {
       const items = problem?.errors ?? [];
-      return items.length > 0 ? `\u0414\u0430\u043D\u043D\u044B\u0435 \u043D\u0435 \u043F\u0440\u0438\u043D\u044F\u0442\u044B: ${validationDetails(items)}. \u0418\u0441\u043F\u0440\u0430\u0432\u044C\u0442\u0435 \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435.` : `\u0414\u0430\u043D\u043D\u044B\u0435 \u043D\u0435 \u043F\u0440\u0438\u043D\u044F\u0442\u044B: ${detail}. \u0418\u0441\u043F\u0440\u0430\u0432\u044C\u0442\u0435 \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435.`;
+      return items.length > 0 ? `Данные не приняты: ${validationDetails(items)}. Исправьте и повторите.` : `Данные не приняты: ${detail}. Исправьте и повторите.`;
     }
     if (status === 429) {
-      return "\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D \u043B\u0438\u043C\u0438\u0442 \u0437\u0430\u043F\u0440\u043E\u0441\u043E\u0432 \u043A API. \u041F\u043E\u0434\u043E\u0436\u0434\u0438\u0442\u0435 \u043C\u0438\u043D\u0443\u0442\u0443 \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435.";
+      return "Превышен лимит запросов к API. Подождите минуту и повторите.";
     }
     if (status >= 500) {
-      return `\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u0435\u0440\u0432\u0438\u0441\u0430 (${status}): ${detail}. ${requestId ? `requestId: ${requestId} \u2014 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0430\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440\u0443.` : "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u043E\u0437\u0436\u0435."}`;
+      return `Ошибка сервиса (${status}): ${detail}. ${requestId ? `requestId: ${requestId} — передайте администратору.` : "Повторите позже."}`;
     }
     if (status === 0) {
-      return detail === "\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D \u0442\u0430\u0439\u043C\u0430\u0443\u0442 \u0437\u0430\u043F\u0440\u043E\u0441\u0430" ? `API \u043D\u0435 \u043E\u0442\u0432\u0435\u0442\u0438\u043B \u0437\u0430 \u043E\u0442\u0432\u0435\u0434\u0451\u043D\u043D\u043E\u0435 \u0432\u0440\u0435\u043C\u044F. \u0423\u0432\u0435\u043B\u0438\u0447\u044C\u0442\u0435 INVOICES_TIMEOUT_MS \u0438\u043B\u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u043E\u0441\u0442\u044C (${context.apiUrl}).` : serviceUnavailable(context);
+      return detail === "Превышен таймаут запроса" ? `API не ответил за отведённое время. Увеличьте INVOICES_TIMEOUT_MS или проверьте доступность (${context.apiUrl}).` : serviceUnavailable(context);
     }
     return `${detail} (${status}${code ? ` ${code}` : ""})`;
   }
@@ -1544,15 +1544,15 @@ function describeApiError(error, context) {
     return serviceUnavailable(context);
   }
   if (isBadPort(error)) {
-    return `\u041F\u043E\u0440\u0442 \u0432 INVOICES_API_URL \u0437\u0430\u043F\u0440\u0435\u0449\u0451\u043D \u0441\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043E\u043C fetch (\u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440, 1, 9, 25). \u0423\u043A\u0430\u0436\u0438\u0442\u0435 \u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u043F\u043E\u0440\u0442 API: ${context.apiUrl}`;
+    return `Порт в INVOICES_API_URL запрещён стандартом fetch (например, 1, 9, 25). Укажите рабочий порт API: ${context.apiUrl}`;
   }
   if (error instanceof Error) {
     if (error.name === "AbortError") {
-      return "\u0417\u0430\u043F\u0440\u043E\u0441 \u043E\u0442\u043C\u0435\u043D\u0451\u043D \u043A\u043B\u0438\u0435\u043D\u0442\u043E\u043C.";
+      return "Запрос отменён клиентом.";
     }
-    return `\u0412\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044F\u044F \u043E\u0448\u0438\u0431\u043A\u0430 MCP: ${error.message}. \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u0437\u0430\u043F\u0440\u043E\u0441; \u0435\u0441\u043B\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u0435\u0442\u0441\u044F \u2014 \u0441\u043E\u043E\u0431\u0449\u0438\u0442\u0435 \u0430\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440\u0443 \u0438 \u043F\u0440\u0438\u043B\u043E\u0436\u0438\u0442\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u0430.`;
+    return `Внутренняя ошибка MCP: ${error.message}. Повторите запрос; если повторяется — сообщите администратору и приложите название инструмента.`;
   }
-  return "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u0430\u044F \u043E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0431\u0440\u0430\u0449\u0435\u043D\u0438\u0438 \u043A API.";
+  return "Неизвестная ошибка при обращении к API.";
 }
 
 // apps/mcp/dist/api/probe.js
@@ -1583,7 +1583,7 @@ async function probeApi(sdk, config, logger) {
       logger.error("api.probe.unauthorized", { status: 401, code: error.code });
       return { reachable: true, authorized, messages };
     }
-    messages.push(`\u041F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u0435: \u0431\u0430\u0437\u043E\u0432\u044B\u0435 \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0438 \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B \u044D\u0442\u043E\u043C\u0443 \u0442\u043E\u043A\u0435\u043D\u0443 \u2014 ${describeApiError(error, {
+    messages.push(`Предупреждение: базовые справочники недоступны этому токену — ${describeApiError(error, {
       apiUrl: config.apiUrl
     })}`);
     logger.warn("api.probe.scope_limited", {
@@ -1596,7 +1596,7 @@ async function probeApi(sdk, config, logger) {
     const major = majorOf(status.version);
     logger.debug("api.version", { version: status.version });
     if (major !== void 0 && major !== 0 && major !== SUPPORTED_API_MAJOR) {
-      messages.push(`\u041F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u0435: \u0432\u0435\u0440\u0441\u0438\u044F API ${status.version} \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u043A\u043E\u043D\u0442\u0440\u0430\u043A\u0442\u043E\u043C /api/v${SUPPORTED_API_MAJOR}, \u043F\u043E \u043A\u043E\u0442\u043E\u0440\u043E\u043C\u0443 \u0441\u043E\u0431\u0440\u0430\u043D MCP. \u041E\u0431\u043D\u043E\u0432\u0438\u0442\u0435 MCP \u0438\u043B\u0438 API.`);
+      messages.push(`Предупреждение: версия API ${status.version} не совпадает с контрактом /api/v${SUPPORTED_API_MAJOR}, по которому собран MCP. Обновите MCP или API.`);
     }
     return { reachable: true, authorized, apiVersion: status.version, messages };
   } catch (error) {
@@ -1620,8 +1620,8 @@ var ConfigError = class extends Error {
   }
 };
 var EnvSchema = z.object({
-  INVOICES_API_URL: z.string().trim().min(1, "\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430 \u2014 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 URL API"),
-  INVOICES_API_TOKEN: z.string().trim().regex(TOKEN_PATTERN, "\u043E\u0436\u0438\u0434\u0430\u0435\u0442\u0441\u044F \u0441\u0435\u0440\u0432\u0438\u0441\u043D\u044B\u0439 \u0442\u043E\u043A\u0435\u043D \u0432\u0438\u0434\u0430 ivs_<kid>_<secret> (\u0430\u0434\u043C\u0438\u043D\u043A\u0430 \u2192 \u0422\u043E\u043A\u0435\u043D\u044B)"),
+  INVOICES_API_URL: z.string().trim().min(1, "обязательна — базовый URL API"),
+  INVOICES_API_TOKEN: z.string().trim().regex(TOKEN_PATTERN, "ожидается сервисный токен вида ivs_<kid>_<secret> (админка → Токены)"),
   INVOICES_TIMEOUT_MS: z.coerce.number().int().min(500).max(3e5).default(1e4),
   INVOICES_LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
   /**
@@ -1644,28 +1644,28 @@ function normalizeApiUrl(raw, allowedHosts = []) {
     url = new URL(raw.trim());
   } catch {
     throw new ConfigError([
-      "INVOICES_API_URL: \u043E\u0436\u0438\u0434\u0430\u0435\u0442\u0441\u044F \u0430\u0431\u0441\u043E\u043B\u044E\u0442\u043D\u044B\u0439 URL, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 http://localhost:8080"
+      "INVOICES_API_URL: ожидается абсолютный URL, например http://localhost:8080"
     ]);
   }
   if (url.protocol !== "http:" && url.protocol !== "https:") {
     throw new ConfigError([
-      `INVOICES_API_URL: \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u044E\u0442\u0441\u044F \u0442\u043E\u043B\u044C\u043A\u043E http \u0438 https, \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u043E \xAB${url.protocol}\xBB`
+      `INVOICES_API_URL: поддерживаются только http и https, получено «${url.protocol}»`
     ]);
   }
   const allowedHttp = LOCAL_HOSTNAMES.has(url.hostname) || allowedHosts.includes(url.hostname.toLowerCase());
   if (url.protocol === "http:" && !allowedHttp) {
     throw new ConfigError([
-      `INVOICES_API_URL: http \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F localhost/127.0.0.1 \u0438 \u0434\u043B\u044F \u0445\u043E\u0441\u0442\u043E\u0432 \u0438\u0437 INVOICES_ALLOW_HTTP_HOSTS \u2014 \u0434\u043B\u044F \xAB${url.hostname}\xBB \u043D\u0443\u0436\u0435\u043D https`
+      `INVOICES_API_URL: http разрешён только для localhost/127.0.0.1 и для хостов из INVOICES_ALLOW_HTTP_HOSTS — для «${url.hostname}» нужен https`
     ]);
   }
   const path = url.pathname.replace(/\/+$/, "");
   if (path !== "") {
     throw new ConfigError([
-      `INVOICES_API_URL: \u0443\u043A\u0430\u0436\u0438\u0442\u0435 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 \u0431\u0435\u0437 \u043F\u0443\u0442\u0438 \u0438 \u0431\u0435\u0437 /api/v1 \u2014 \xAB${path}\xBB \u043B\u0438\u0448\u043D\u0438\u0439, SDK \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 /api/v1 \u0441\u0430\u043C`
+      `INVOICES_API_URL: укажите базовый адрес без пути и без /api/v1 — «${path}» лишний, SDK добавляет /api/v1 сам`
     ]);
   }
   if (url.search !== "" || url.hash !== "") {
-    throw new ConfigError(["INVOICES_API_URL: \u0431\u0435\u0437 query \u0438 \u044F\u043A\u043E\u0440\u044F \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 API"]);
+    throw new ConfigError(["INVOICES_API_URL: без query и якоря — только базовый адрес API"]);
   }
   return url.origin;
 }
@@ -1709,23 +1709,25 @@ import { McpServer } from "@modelcontextprotocol/server";
 
 // apps/mcp/dist/instructions.js
 var INSTRUCTIONS = [
-  '\u0421\u0435\u0440\u0432\u0438\u0441 \u0441\u0447\u0435\u0442\u043E\u0432 \u0438 \u0430\u043A\u0442\u043E\u0432. \u0414\u0435\u043D\u044C\u0433\u0438 \u2014 \u0441\u0442\u0440\u043E\u043A\u0438 "124000.00", \u0434\u0430\u0442\u044B \u2014 DD.MM.YYYY.',
-  "\u041F\u0435\u0440\u0435\u0434 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0435\u043C: \u043D\u0430\u0439\u0434\u0438 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044E \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 (invoices_organizations_list,",
-  "invoices_contractors_search). \u041D\u0435 \u043F\u0440\u0438\u0434\u0443\u043C\u044B\u0432\u0430\u0439 \u0446\u0435\u043D\u044B \u0438 \u0441\u0443\u043C\u043C\u044B \u2014 \u0435\u0441\u043B\u0438 \u043D\u0435 \u0443\u043A\u0430\u0437\u0430\u043D\u044B, \u0441\u043F\u0440\u043E\u0441\u0438.",
-  "\u0427\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0441\u043E\u0437\u0434\u0430\u0451\u0442\u0441\u044F \u0431\u0435\u0437 \u0432\u044B\u0434\u0430\u0447\u0438. \u0412\u044B\u0434\u0430\u0447\u0430, \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435, \u043E\u043F\u043B\u0430\u0442\u0430, \u0441\u0441\u044B\u043B\u043A\u0430 \u0438 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0435",
-  "\u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 \u0442\u0440\u0435\u0431\u0443\u044E\u0442 confirm: true \u0438 \u044F\u0432\u043D\u043E\u0433\u043E \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F.",
-  "\u0422\u043E\u043A\u0435\u043D \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u0447\u0442\u0435\u043D\u0438\u044F \u043D\u0435 \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442 \u0438\u0437\u043C\u0435\u043D\u044F\u0442\u044C \u0434\u0430\u043D\u043D\u044B\u0435. \u041D\u0435 \u0437\u0430\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0439 \u0430\u0434\u043C\u0438\u043D\u0441\u043A\u0438\u0435",
-  "\u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438. \u041F\u043E\u0434\u0440\u043E\u0431\u043D\u044B\u0435 \u0441\u0446\u0435\u043D\u0430\u0440\u0438\u0438 \u2014 \u0440\u0435\u0441\u0443\u0440\u0441 skill://invoices \u0438\u043B\u0438 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442 invoices_help.",
-  "\u0421\u0435\u0440\u0432\u0435\u0440 \u043F\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u0434\u0430\u043D\u043D\u044B\u0435 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0430 \u0432 \u043C\u043E\u0434\u0435\u043B\u044C \u043A\u043B\u0438\u0435\u043D\u0442\u0430 (\u0432\u043A\u043B\u044E\u0447\u0430\u044F \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u044B\u0435 \u043C\u043E\u0434\u0435\u043B\u0438).",
-  "\u041D\u0435 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u0435\u0433\u043E \u0434\u043B\u044F \u0434\u0430\u043D\u043D\u044B\u0445, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043D\u0435\u043B\u044C\u0437\u044F \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u0442\u044C \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u043E\u0439 \u043C\u043E\u0434\u0435\u043B\u044C\u044E;",
-  "\u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0443\u0435\u0442\u0441\u044F \u0442\u043E\u043A\u0435\u043D \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u0447\u0442\u0435\u043D\u0438\u044F."
+  'Сервис счетов и актов. Деньги — строки "124000.00", даты — DD.MM.YYYY.',
+  "Перед созданием: найди организацию и контрагента (invoices_organizations_list,",
+  "invoices_contractors_search). Не придумывай цены и суммы — если не указаны, спроси.",
+  "Черновик создаётся без выдачи. У черновика нет номера — ищи его по контрагенту и",
+  'status: ["draft"], а не по номеру; храни id из ответа create_draft.',
+  "Выдача, аннулирование, оплата, ссылка и создание",
+  "контрагента требуют confirm: true и явного согласия пользователя.",
+  "Токен только для чтения не позволяет изменять данные. Не запрашивай админские",
+  "операции. Подробные сценарии — ресурс skill://invoices или инструмент invoices_help.",
+  "Сервер передаёт данные кабинета в модель клиента (включая локальные модели).",
+  "Не используйте его для данных, которые нельзя обрабатывать выбранной моделью;",
+  "рекомендуется токен только для чтения."
 ].join("\n");
 
 // apps/mcp/dist/prompts/act-from-invoice.js
 import { z as z2 } from "zod";
 
 // apps/mcp/dist/prompts/shared.js
-var PROMPT_RULES = "\u041F\u0440\u0430\u0432\u0438\u043B\u0430: \u0441\u0443\u043C\u043C\u044B \u0438 \u0434\u0430\u0442\u044B \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0438\u0437 API, \u043D\u0435 \u043F\u0435\u0440\u0435\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0439 \u0438\u0445 \u0432\u0440\u0443\u0447\u043D\u0443\u044E. \u041D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0437\u0430\u043F\u0438\u0441\u044B\u0432\u0430\u0439 \u0431\u0435\u0437 \u044F\u0432\u043D\u043E\u0433\u043E \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F. \u0415\u0441\u043B\u0438 \u043F\u0440\u0430\u0432 \u0442\u043E\u043A\u0435\u043D\u0430 \u043D\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442 \u2014 \u0441\u043A\u0430\u0436\u0438 \u043E\u0431 \u044D\u0442\u043E\u043C \u043F\u0440\u044F\u043C\u043E.";
+var PROMPT_RULES = "Правила: суммы и даты — только из API, не пересчитывай их вручную. Ничего не записывай без явного подтверждения пользователя. Если прав токена не хватает — скажи об этом прямо.";
 function userPrompt(text) {
   return {
     messages: [{ role: "user", content: { type: "text", text } }]
@@ -1735,19 +1737,19 @@ function userPrompt(text) {
 // apps/mcp/dist/prompts/act-from-invoice.js
 var PROMPT = "invoices_prompt_act_from_invoice";
 var Args = z2.object({
-  number: z2.string().trim().min(1).describe("\u041D\u043E\u043C\u0435\u0440 \u0441\u0447\u0451\u0442\u0430, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 \u0421\u0427-2026-0043")
+  number: z2.string().trim().min(1).describe("Номер счёта, например СЧ-2026-0043")
 });
 function registerActFromInvoicePrompt(server) {
   server.registerPrompt(PROMPT, {
-    title: "\u0410\u043A\u0442 \u043F\u043E \u0441\u0447\u0451\u0442\u0443",
-    description: "\u0421\u0446\u0435\u043D\u0430\u0440\u0438\u0439 \u0437\u0430\u043A\u0440\u044B\u0442\u0438\u044F \u0441\u0447\u0451\u0442\u0430 \u0430\u043A\u0442\u043E\u043C: \u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0438 \u0441\u0443\u043C\u043C\u044B \u0438\u0437 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0438 \u0441\u0447\u0451\u0442\u0430, \u0434\u043E\u0436\u0434\u0430\u0442\u044C\u0441\u044F \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F, \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u0430\u043A\u0442 \u0438 \u0432\u044B\u0434\u0430\u0442\u044C \u0435\u0433\u043E.",
+    title: "Акт по счёту",
+    description: "Сценарий закрытия счёта актом: показать позиции и суммы из карточки счёта, дождаться подтверждения, создать акт и выдать его.",
     argsSchema: Args
   }, ({ number }) => userPrompt([
-    `\u0421\u043E\u0437\u0434\u0430\u0439 \u0430\u043A\u0442 \u043F\u043E \u0441\u0447\u0451\u0442\u0443 ${number}. \u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u043D\u0435 \u0443\u0442\u043E\u0447\u043D\u0438\u043B \u2014 \u043F\u043E\u043B\u043D\u043E\u0435 \u0437\u0430\u043A\u0440\u044B\u0442\u0438\u0435.`,
-    "\u041F\u043E\u043A\u0430\u0436\u0438, \u043A\u0430\u043A\u0438\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0438 \u0441\u0443\u043C\u043C\u044B \u0432\u043E\u0439\u0434\u0443\u0442 \u0432 \u0430\u043A\u0442, \u0434\u043E\u0436\u0434\u0438\u0441\u044C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F,",
-    "\u0437\u0430\u0442\u0435\u043C invoices_documents_create_act \u0438 (\u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F) invoices_documents_issue.",
+    `Создай акт по счёту ${number}. Если пользователь не уточнил — полное закрытие.`,
+    "Покажи, какие позиции и суммы войдут в акт, дождись подтверждения,",
+    "затем invoices_documents_create_act и (после подтверждения) invoices_documents_issue.",
     "",
-    "\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u0438 \u0441\u0443\u043C\u043C\u044B \u0432\u043E\u0437\u044C\u043C\u0438 \u0438\u0437 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0438 \u0441\u0447\u0451\u0442\u0430 (invoices_documents_search \u043F\u043E \u043D\u043E\u043C\u0435\u0440\u0443, \u0437\u0430\u0442\u0435\u043C invoices_documents_get).",
+    "Позиции и суммы возьми из карточки счёта (invoices_documents_search по номеру, затем invoices_documents_get).",
     "",
     PROMPT_RULES
   ].join("\n")));
@@ -1757,22 +1759,22 @@ function registerActFromInvoicePrompt(server) {
 import { z as z3 } from "zod";
 var PROMPT2 = "invoices_prompt_contractor_summary";
 var Args2 = z3.object({
-  contractor: z3.string().trim().min(1).describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0438\u043B\u0438 \u0418\u041D\u041D"),
-  period: z3.string().trim().min(1).optional().describe("\u041F\u0435\u0440\u0438\u043E\u0434 \u0441\u0432\u043E\u0434\u043A\u0438 (\u043D\u0435\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)")
+  contractor: z3.string().trim().min(1).describe("Контрагент: название или ИНН"),
+  period: z3.string().trim().min(1).optional().describe("Период сводки (необязательно)")
 });
 function registerContractorSummaryPrompt(server) {
   server.registerPrompt(PROMPT2, {
-    title: "\u0421\u0432\u043E\u0434\u043A\u0430 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443",
-    description: "\u0421\u0446\u0435\u043D\u0430\u0440\u0438\u0439 \u0441\u0432\u043E\u0434\u043A\u0438: \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u0434\u043E\u043B\u0433, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430, \u043D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0441\u0447\u0435\u0442\u0430 \u0438 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u2014 \u0438\u0437 invoices_contractors_summary \u0438 invoices_reports_unpaid.",
+    title: "Сводка по контрагенту",
+    description: "Сценарий сводки: выставлено, оплачено, долг, просрочка, неоплаченные счета и последние документы — из invoices_contractors_summary и invoices_reports_unpaid.",
     argsSchema: Args2
   }, ({ contractor, period }) => userPrompt([
-    `\u0421\u0434\u0435\u043B\u0430\u0439 \u0441\u0432\u043E\u0434\u043A\u0443 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443 ${contractor}${period === void 0 ? "" : ` \u0437\u0430 ${period}`}:`,
-    "- \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u0434\u043E\u043B\u0433, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430;",
-    "- \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0430 \u043F\u043E \u043C\u0435\u0441\u044F\u0446\u0430\u043C;",
-    "- \u043D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0441\u0447\u0435\u0442\u0430 \u0441 \u0434\u043D\u044F\u043C\u0438 \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0438;",
-    "- \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B.",
-    "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 invoices_contractors_summary \u0438 invoices_reports_unpaid. \u041D\u0435 \u043F\u0435\u0440\u0435\u0441\u0447\u0438\u0442\u044B\u0432\u0430\u0439 \u0441\u0443\u043C\u043C\u044B \u0432\u0440\u0443\u0447\u043D\u0443\u044E.",
-    ...period === void 0 ? ["", "\u041F\u0435\u0440\u0438\u043E\u0434 \u043D\u0435 \u0443\u043A\u0430\u0437\u0430\u043D \u2014 \u0443\u0442\u043E\u0447\u043D\u0438 \u0435\u0433\u043E \u0443 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F, \u043F\u0440\u0435\u0436\u0434\u0435 \u0447\u0435\u043C \u0441\u0447\u0438\u0442\u0430\u0442\u044C."] : [],
+    `Сделай сводку по контрагенту ${contractor}${period === void 0 ? "" : ` за ${period}`}:`,
+    "- сколько выставлено, оплачено, долг, просрочка;",
+    "- динамика по месяцам;",
+    "- неоплаченные счета с днями просрочки;",
+    "- последние документы.",
+    "Используй invoices_contractors_summary и invoices_reports_unpaid. Не пересчитывай суммы вручную.",
+    ...period === void 0 ? ["", "Период не указан — уточни его у пользователя, прежде чем считать."] : [],
     "",
     PROMPT_RULES
   ].join("\n")));
@@ -1782,28 +1784,28 @@ function registerContractorSummaryPrompt(server) {
 import { z as z4 } from "zod";
 var PROMPT3 = "invoices_prompt_create_invoice";
 var Args3 = z4.object({
-  organization: z4.string().trim().min(1).describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F: \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0438\u043B\u0438 ID"),
-  contractor: z4.string().trim().min(1).describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0438\u043B\u0438 \u0418\u041D\u041D"),
-  description: z4.string().trim().min(1).describe("\u0427\u0442\u043E \u0432\u044B\u0441\u0442\u0430\u0432\u0438\u0442\u044C: \u0440\u0430\u0431\u043E\u0442\u044B, \u0443\u0441\u043B\u0443\u0433\u0438, \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E, \u0435\u0434\u0438\u043D\u0438\u0446\u0430, \u0446\u0435\u043D\u0430"),
-  period: z4.string().trim().min(1).optional().describe("\u041F\u0435\u0440\u0438\u043E\u0434 \u0438\u043B\u0438 \u0434\u0430\u0442\u0430 \u0441\u0447\u0451\u0442\u0430 (\u043D\u0435\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)")
+  organization: z4.string().trim().min(1).describe("Организация: название или ID"),
+  contractor: z4.string().trim().min(1).describe("Контрагент: название или ИНН"),
+  description: z4.string().trim().min(1).describe("Что выставить: работы, услуги, количество, единица, цена"),
+  period: z4.string().trim().min(1).optional().describe("Период или дата счёта (необязательно)")
 });
 function registerCreateInvoicePrompt(server) {
   server.registerPrompt(PROMPT3, {
-    title: "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0441\u0447\u0451\u0442 \u043F\u043E \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044E",
-    description: "\u041F\u043E\u0448\u0430\u0433\u043E\u0432\u044B\u0439 \u0441\u0446\u0435\u043D\u0430\u0440\u0438\u0439: \u043D\u0430\u0439\u0442\u0438 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044E \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430, \u0440\u0430\u0437\u043B\u043E\u0436\u0438\u0442\u044C \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043D\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A, \u0432\u044B\u0434\u0430\u0442\u044C \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u0438 \u0434\u0430\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443 \u043D\u0430 PDF.",
+    title: "Создать счёт по описанию",
+    description: "Пошаговый сценарий: найти организацию и контрагента, разложить описание на позиции, создать черновик, выдать после подтверждения и дать ссылку на PDF.",
     argsSchema: Args3
   }, ({ organization, contractor, description, period }) => userPrompt([
-    `\u0421\u043E\u0437\u0434\u0430\u0439 \u0441\u0447\u0451\u0442 \u043F\u043E \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044E. \u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F: ${organization}. \u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: ${contractor}.`,
-    `\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u0440\u0430\u0431\u043E\u0442/\u0443\u0441\u043B\u0443\u0433: ${description}.${period === void 0 ? "" : ` \u041F\u0435\u0440\u0438\u043E\u0434: ${period}.`}`,
+    `Создай счёт по описанию. Организация: ${organization}. Контрагент: ${contractor}.`,
+    `Описание работ/услуг: ${description}.${period === void 0 ? "" : ` Период: ${period}.`}`,
     "",
-    "\u0428\u0430\u0433\u0438:",
-    "1. \u041D\u0430\u0439\u0434\u0438 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044E (invoices_organizations_list) \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 (invoices_contractors_search \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E/\u0418\u041D\u041D).",
-    "   \u0415\u0441\u043B\u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 \u043D\u0435\u0442 \u2014 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438 \u0441\u043E\u0437\u0434\u0430\u0442\u044C (invoices_contractors_create), \u043D\u043E \u043D\u0435 \u0441\u043E\u0437\u0434\u0430\u0432\u0430\u0439 \u0431\u0435\u0437 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F.",
-    "2. \u0420\u0430\u0437\u0431\u0435\u0439 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043D\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0438: \u043D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435, \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E, \u0435\u0434\u0438\u043D\u0438\u0446\u0430, \u0446\u0435\u043D\u0430.",
-    "   \u0415\u0441\u043B\u0438 \u0446\u0435\u043D\u0430 \u043D\u0435 \u0443\u043A\u0430\u0437\u0430\u043D\u0430 \u2014 \u0441\u043F\u0440\u043E\u0441\u0438. \u041D\u0435 \u0432\u044B\u0434\u0443\u043C\u044B\u0432\u0430\u0439 \u0441\u0443\u043C\u043C\u044B.",
-    "3. \u0421\u043E\u0437\u0434\u0430\u0439 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A (invoices_documents_create_draft) \u0438 \u043F\u043E\u043A\u0430\u0436\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u0443 \u043F\u043E\u0437\u0438\u0446\u0438\u0439 \u0438 \u0438\u0442\u043E\u0433.",
-    "4. \u0421\u043F\u0440\u043E\u0441\u0438 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u043D\u0430 \u0432\u044B\u0434\u0430\u0447\u0443. \u0412\u044B\u0434\u0430\u0432\u0430\u0439 \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u043E\u0441\u043B\u0435 \u044F\u0432\u043D\u043E\u0433\u043E \xAB\u0434\u0430\xBB (invoices_documents_issue, confirm: true).",
-    "5. \u0414\u0430\u0439 \u0441\u0441\u044B\u043B\u043A\u0443 \u043D\u0430 PDF (invoices_documents_pdf_link).",
+    "Шаги:",
+    "1. Найди организацию (invoices_organizations_list) и контрагента (invoices_contractors_search по названию/ИНН).",
+    "   Если контрагента нет — предложи создать (invoices_contractors_create), но не создавай без подтверждения.",
+    "2. Разбей описание на позиции: наименование, количество, единица, цена.",
+    "   Если цена не указана — спроси. Не выдумывай суммы.",
+    "3. Создай черновик (invoices_documents_create_draft) и покажи таблицу позиций и итог.",
+    "4. Спроси подтверждение на выдачу. Выдавай только после явного «да» (invoices_documents_issue, confirm: true).",
+    "5. Дай ссылку на PDF (invoices_documents_pdf_link).",
     "",
     PROMPT_RULES
   ].join("\n")));
@@ -1813,13 +1815,13 @@ function registerCreateInvoicePrompt(server) {
 var PROMPT4 = "invoices_prompt_unpaid_review";
 function registerUnpaidReviewPrompt(server) {
   server.registerPrompt(PROMPT4, {
-    title: "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u0434\u0435\u0431\u0438\u0442\u043E\u0440\u043A\u0438",
-    description: "\u0421\u0446\u0435\u043D\u0430\u0440\u0438\u0439 \u0440\u0430\u0437\u0431\u043E\u0440\u0430 \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043D\u043E\u0439 \u0434\u0435\u0431\u0438\u0442\u043E\u0440\u043A\u0438: \u0441\u0433\u0440\u0443\u043F\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430\u043C, \u043E\u0442\u043C\u0435\u0442\u0438\u0442\u044C \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0443 \u0431\u043E\u043B\u044C\u0448\u0435 30 \u0434\u043D\u0435\u0439 \u0438 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438\u0442\u044C \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0435 \u0448\u0430\u0433\u0438."
+    title: "Проверка дебиторки",
+    description: "Сценарий разбора просроченной дебиторки: сгруппировать по контрагентам, отметить просрочку больше 30 дней и предложить следующие шаги."
   }, () => userPrompt([
-    "\u041F\u0440\u043E\u0432\u0435\u0440\u044C \u0434\u0435\u0431\u0438\u0442\u043E\u0440\u043A\u0443: invoices_reports_unpaid. \u0421\u0433\u0440\u0443\u043F\u043F\u0438\u0440\u0443\u0439 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430\u043C,",
-    "\u043E\u0442\u043C\u0435\u0442\u044C \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0443 > 30 \u0434\u043D\u0435\u0439, \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0435 \u0448\u0430\u0433\u0438 (\u043D\u0430\u043F\u043E\u043C\u043D\u0438\u0442\u044C, \u0432\u044B\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0430\u043A\u0442, \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443).",
+    "Проверь дебиторку: invoices_reports_unpaid. Сгруппируй по контрагентам,",
+    "отметь просрочку > 30 дней, предложи следующие шаги (напомнить, выставить акт, создать ссылку).",
     "",
-    "\u0428\u0430\u0433\u0438 (\u0430\u043A\u0442, \u0441\u0441\u044B\u043B\u043A\u0430, \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435) \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u0440\u0435\u0434\u043B\u0430\u0433\u0430\u0439: \u0432\u044B\u043F\u043E\u043B\u043D\u044F\u0439 \u0438\u0445 \u043F\u043E\u0441\u043B\u0435 \u044F\u0432\u043D\u043E\u0433\u043E \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F.",
+    "Шаги (акт, ссылка, напоминание) только предлагай: выполняй их после явного подтверждения пользователя.",
     "",
     PROMPT_RULES
   ].join("\n")));
@@ -1849,10 +1851,10 @@ function resolveLimit(value, fallback = DEFAULT_LIMIT) {
   if (value === void 0)
     return fallback;
   if (!Number.isInteger(value) || value < 1) {
-    throw new PaginationError(`limit \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u0446\u0435\u043B\u044B\u043C \u0447\u0438\u0441\u043B\u043E\u043C \u043E\u0442 1 \u0434\u043E ${MAX_LIMIT}.`);
+    throw new PaginationError(`limit должен быть целым числом от 1 до ${MAX_LIMIT}.`);
   }
   if (value > MAX_LIMIT) {
-    throw new PaginationError(`limit \u0431\u043E\u043B\u044C\u0448\u0435 ${MAX_LIMIT} \u043D\u0435 \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044F: \u0437\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u0435 ${MAX_LIMIT} \u0438 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 nextCursor \u0438\u0437 \u043E\u0442\u0432\u0435\u0442\u0430 \u0432 cursor.`);
+    throw new PaginationError(`limit больше ${MAX_LIMIT} не поддерживается: запросите ${MAX_LIMIT} и передайте nextCursor из ответа в cursor.`);
   }
   return value;
 }
@@ -1860,7 +1862,7 @@ function toPage(response) {
   return { items: response.items, nextCursor: response.nextCursor ?? null };
 }
 function nextPageHint(page) {
-  return page.nextCursor === null ? void 0 : `\u0415\u0441\u0442\u044C \u0435\u0449\u0451: \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 cursor=${page.nextCursor}`;
+  return page.nextCursor === null ? void 0 : `Есть ещё: передайте cursor=${page.nextCursor}`;
 }
 
 // apps/mcp/dist/tools/contracts.js
@@ -1868,76 +1870,76 @@ import { z as z6 } from "zod";
 
 // apps/mcp/dist/format/labels.js
 var ORGANIZATION_KIND = {
-  sole_proprietor: "\u0418\u041F",
-  llc: "\u041E\u041E\u041E",
-  other: "\u0414\u0440\u0443\u0433\u043E\u0435"
+  sole_proprietor: "ИП",
+  llc: "ООО",
+  other: "Другое"
 };
 var TAX_REGIME = {
-  osno: "\u041E\u0421\u041D\u041E",
-  usn: "\u0423\u0421\u041D",
-  ausn: "\u0410\u0423\u0421\u041D",
-  eskh: "\u0415\u0421\u0425\u041D",
-  psn: "\u041F\u0421\u041D",
-  npd: "\u041D\u041F\u0414"
+  osno: "ОСНО",
+  usn: "УСН",
+  ausn: "АУСН",
+  eskh: "ЕСХН",
+  psn: "ПСН",
+  npd: "НПД"
 };
 var VAT_STATUS = {
-  payer: "\u043F\u043B\u0430\u0442\u0435\u043B\u044C\u0449\u0438\u043A \u041D\u0414\u0421",
-  exempt: "\u0431\u0435\u0437 \u041D\u0414\u0421"
+  payer: "плательщик НДС",
+  exempt: "без НДС"
 };
 var ORG_STATUS = {
-  active: "\u0430\u043A\u0442\u0438\u0432\u043D\u0430",
-  archived: "\u0432 \u0430\u0440\u0445\u0438\u0432\u0435"
+  active: "активна",
+  archived: "в архиве"
 };
 var COUNTERPARTY_KIND = {
-  legal: "\u044E\u0440\u043B\u0438\u0446\u043E",
-  sole_proprietor: "\u0418\u041F",
-  individual: "\u0444\u0438\u0437\u043B\u0438\u0446\u043E"
+  legal: "юрлицо",
+  sole_proprietor: "ИП",
+  individual: "физлицо"
 };
 var VISIBILITY = {
-  organization: "\u0441\u0432\u043E\u044F \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F",
-  shared: "\u043E\u0431\u0449\u0438\u0439",
-  personal: "\u043B\u0438\u0447\u043D\u044B\u0439"
+  organization: "своя организация",
+  shared: "общий",
+  personal: "личный"
 };
 var DOCUMENT_TYPE = {
-  invoice: "\u0421\u0447\u0451\u0442",
-  act: "\u0410\u043A\u0442",
-  invoice_facture: "\u0421\u0447\u0451\u0442-\u0444\u0430\u043A\u0442\u0443\u0440\u0430",
-  upd: "\u0423\u041F\u0414",
-  contract: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440"
+  invoice: "Счёт",
+  act: "Акт",
+  invoice_facture: "Счёт-фактура",
+  upd: "УПД",
+  contract: "Договор"
 };
 var DOCUMENT_STATUS = {
-  draft: "\u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A",
-  on_approval: "\u043D\u0430 \u0441\u043E\u0433\u043B\u0430\u0441\u043E\u0432\u0430\u043D\u0438\u0438",
-  issued: "\u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D",
-  sent: "\u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D",
-  partially_paid: "\u0447\u0430\u0441\u0442\u0438\u0447\u043D\u043E \u043E\u043F\u043B\u0430\u0447\u0435\u043D",
-  overdue: "\u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D",
-  paid: "\u043E\u043F\u043B\u0430\u0447\u0435\u043D",
-  cancelled: "\u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D",
-  signed: "\u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D"
+  draft: "черновик",
+  on_approval: "на согласовании",
+  issued: "выставлен",
+  sent: "отправлен",
+  partially_paid: "частично оплачен",
+  overdue: "просрочен",
+  paid: "оплачен",
+  cancelled: "аннулирован",
+  signed: "подписан"
 };
 var CONTRACT_STATUS = {
-  active: "\u0434\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442",
-  closed: "\u0437\u0430\u043A\u0440\u044B\u0442",
-  archived: "\u0432 \u0430\u0440\u0445\u0438\u0432\u0435"
+  active: "действует",
+  closed: "закрыт",
+  archived: "в архиве"
 };
 var SHARE_STATUS = {
-  active: "\u0430\u043A\u0442\u0438\u0432\u043D\u0430",
-  expired: "\u0438\u0441\u0442\u0435\u043A\u043B\u0430",
-  exhausted: "\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u043B\u0438\u0441\u044C",
-  revoked: "\u043E\u0442\u043E\u0437\u0432\u0430\u043D\u0430"
+  active: "активна",
+  expired: "истекла",
+  exhausted: "просмотры закончились",
+  revoked: "отозвана"
 };
 var PAYMENT_METHOD = {
-  manual: "\u0432\u0440\u0443\u0447\u043D\u0443\u044E",
-  bank: "\u0431\u0430\u043D\u043A"
+  manual: "вручную",
+  bank: "банк"
 };
 var PRODUCT_KIND = {
-  product: "\u0442\u043E\u0432\u0430\u0440",
-  service: "\u0443\u0441\u043B\u0443\u0433\u0430"
+  product: "товар",
+  service: "услуга"
 };
 function label(dictionary, value) {
   if (value === null || value === void 0 || value === "")
-    return "\u2014";
+    return "—";
   return dictionary[value] ?? value;
 }
 
@@ -1958,7 +1960,7 @@ function summaryTable(options) {
   const hidden = rows.length - shown.length;
   const lines = [title, "", mdTable(headers, shown)];
   if (hidden > 0) {
-    lines.push("", `\u2026\u0438 \u0435\u0449\u0451 ${hidden}. \u0423\u0442\u043E\u0447\u043D\u0438\u0442\u0435 \u0444\u0438\u043B\u044C\u0442\u0440\u044B \u0438\u043B\u0438 \u0437\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u0435 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0443\u044E \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443.`);
+    lines.push("", `…и ещё ${hidden}. Уточните фильтры или запросите следующую страницу.`);
   }
   for (const line of footer) {
     lines.push("", line);
@@ -1974,7 +1976,7 @@ var MONEY_PATTERN = /^-?\d{1,15}(?:[.,]\d{1,2})?$/;
 function parseKopecks(value) {
   const trimmed = value.trim().replace(",", ".");
   if (!MONEY_PATTERN.test(trimmed)) {
-    throw new RangeError(`\u041D\u0435\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u0430\u044F \u0434\u0435\u043D\u0435\u0436\u043D\u0430\u044F \u0441\u0443\u043C\u043C\u0430: ${value}`);
+    throw new RangeError(`Некорректная денежная сумма: ${value}`);
   }
   const negative = trimmed.startsWith("-");
   const [rubles = "0", fraction = ""] = (negative ? trimmed.slice(1) : trimmed).split(".");
@@ -1983,8 +1985,8 @@ function parseKopecks(value) {
 }
 
 // apps/mcp/dist/format/money.js
-var GROUP_SEPARATOR = "\xA0";
-var DASH = "\u2014";
+var GROUP_SEPARATOR = " ";
+var DASH = "—";
 function groupDigits(digits) {
   return digits.replace(/\B(?=(\d{3})+(?!\d))/g, GROUP_SEPARATOR);
 }
@@ -2012,7 +2014,7 @@ import { z as z5 } from "zod";
 
 // apps/mcp/dist/result-size.js
 var MAX_RESULT_BYTES = 64 * 1024;
-var TOO_LARGE_TEXT = "\u041E\u0442\u0432\u0435\u0442 \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u043E\u0439, \u0447\u0442\u043E\u0431\u044B \u043E\u0442\u0434\u0430\u0442\u044C \u0435\u0433\u043E \u0446\u0435\u043B\u0438\u043A\u043E\u043C. \u0423\u0442\u043E\u0447\u043D\u0438\u0442\u0435 \u0444\u0438\u043B\u044C\u0442\u0440\u044B (\u043F\u0435\u0440\u0438\u043E\u0434, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442, \u0441\u0442\u0430\u0442\u0443\u0441) \u0438\u043B\u0438 \u0443\u043C\u0435\u043D\u044C\u0448\u0438\u0442\u0435 limit \u2014 \u043F\u043E\u043B\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u043D\u0435 \u043F\u043E\u043C\u0435\u0449\u0430\u044E\u0442\u0441\u044F \u0432 \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442.";
+var TOO_LARGE_TEXT = "Ответ слишком большой, чтобы отдать его целиком. Уточните фильтры (период, контрагент, статус) или уменьшите limit — полные данные не помещаются в контекст.";
 function byteLength(value) {
   const json = JSON.stringify(value);
   return json === void 0 ? 0 : Buffer.byteLength(json);
@@ -2031,7 +2033,7 @@ function collectArrays(value, out) {
   }
 }
 function trimNote(dropped) {
-  return `\u2026\u043E\u0442\u0432\u0435\u0442 \u0441\u043E\u043A\u0440\u0430\u0449\u0451\u043D \u043D\u0430 ${dropped} \u044D\u043B\u0435\u043C\u0435\u043D\u0442(\u043E\u0432), \u0447\u0442\u043E\u0431\u044B \u0443\u043B\u043E\u0436\u0438\u0442\u044C\u0441\u044F \u0432 ${MAX_RESULT_BYTES / 1024} \u041A\u0411. \u0423\u0442\u043E\u0447\u043D\u0438\u0442\u0435 \u0444\u0438\u043B\u044C\u0442\u0440\u044B (\u043F\u0435\u0440\u0438\u043E\u0434, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442) \u0438\u043B\u0438 \u0437\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u0435 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0443\u044E \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 \u0447\u0435\u0440\u0435\u0437 cursor.`;
+  return `…ответ сокращён на ${dropped} элемент(ов), чтобы уложиться в ${MAX_RESULT_BYTES / 1024} КБ. Уточните фильтры (период, контрагент) или запросите следующую страницу через cursor.`;
 }
 function trimArrays(data) {
   const arrays = [];
@@ -2120,7 +2122,7 @@ var DESTRUCTIVE_ANNOTATIONS = {
   idempotentHint: false,
   openWorldHint: false
 };
-var CONFIRM_REQUIRED = "\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0438\u0437\u043C\u0435\u043D\u044F\u0435\u0442 \u0434\u0430\u043D\u043D\u044B\u0435. \u041D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u043E. \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u0432\u044B\u0437\u043E\u0432 \u0441 confirm: true, \u0435\u0441\u043B\u0438 \u044D\u0442\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0443\u0436\u043D\u043E, \u0438 \u043E\u0431\u044A\u044F\u0441\u043D\u0438\u0442\u0435 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044E, \u0447\u0442\u043E \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u0441\u044F.";
+var CONFIRM_REQUIRED = "Операция изменяет данные. Ничего не выполнено. Повторите вызов с confirm: true, если это действительно нужно, и объясните пользователю, что изменится.";
 function idempotencyKeyOf(value) {
   return value ?? randomUUID();
 }
@@ -2130,7 +2132,7 @@ function failureText(error, config) {
   if (error instanceof ProtocolError)
     return error.message;
   if (error instanceof SdkError) {
-    return `\u041E\u0448\u0438\u0431\u043A\u0430 MCP SDK: ${error.message}. \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u0437\u0430\u043F\u0440\u043E\u0441; \u0435\u0441\u043B\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u0435\u0442\u0441\u044F \u2014 \u0441\u043E\u043E\u0431\u0449\u0438\u0442\u0435 \u0430\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440\u0443.`;
+    return `Ошибка MCP SDK: ${error.message}. Повторите запрос; если повторяется — сообщите администратору.`;
   }
   return describeApiError(error, { apiUrl: config.apiUrl });
 }
@@ -2172,7 +2174,7 @@ async function execute(ctx, tool, handler) {
 // apps/mcp/dist/tools/contracts.js
 var SEARCH_TOOL = "invoices_contracts_search";
 var GET_TOOL = "invoices_contracts_get";
-var DateOnly = z6.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "\u0434\u0430\u0442\u0430 \u0432 \u0444\u043E\u0440\u043C\u0430\u0442\u0435 DD.MM.YYYY");
+var DateOnly = z6.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
 var ContractListItem = z6.object({
   id: z6.string(),
   number: nullableString,
@@ -2184,22 +2186,22 @@ var ContractListItem = z6.object({
   status: z6.string()
 });
 var SearchInput = z6.object({
-  organizationId: z6.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u044B \u044D\u0442\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
-  contractorId: z6.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u044B \u044D\u0442\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430"),
-  query: z6.string().trim().min(1).optional().describe("\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u043E\u043C\u0435\u0440\u0443, \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u0443, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443"),
+  organizationId: z6.uuid().optional().describe("Только договоры этой организации"),
+  contractorId: z6.uuid().optional().describe("Только договоры этого контрагента"),
+  query: z6.string().trim().min(1).optional().describe("Поиск по номеру, предмету, контрагенту"),
   status: z6.enum(["active", "closed", "archived"]).optional(),
-  from: DateOnly.optional().describe("\u0414\u0430\u0442\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 \u0441 (DD.MM.YYYY)"),
-  to: DateOnly.optional().describe("\u0414\u0430\u0442\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 \u043F\u043E (DD.MM.YYYY)"),
-  limit: z6.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
-  cursor: z6.string().optional().describe("nextCursor \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430")
+  from: DateOnly.optional().describe("Дата договора с (DD.MM.YYYY)"),
+  to: DateOnly.optional().describe("Дата договора по (DD.MM.YYYY)"),
+  limit: z6.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z6.string().optional().describe("nextCursor из предыдущего ответа")
 });
 var SearchOutput = z6.object({
   items: z6.array(ContractListItem),
   nextCursor: z6.string().nullable()
 });
 var GetInput = z6.object({
-  contractId: z6.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 (UUID)"),
-  include: z6.array(z6.enum(["documents", "files"])).optional().describe("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443 \u0438/\u0438\u043B\u0438 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u0435 \u0444\u0430\u0439\u043B\u044B")
+  contractId: z6.uuid().describe("Идентификатор договора (UUID)"),
+  include: z6.array(z6.enum(["documents", "files"])).optional().describe("Добавить последние документы по договору и/или приложенные файлы")
 });
 var FileItem = z6.object({
   assetId: z6.string(),
@@ -2237,8 +2239,8 @@ var GetOutput = z6.object({
 });
 function registerContractTools(server, ctx) {
   server.registerTool(SEARCH_TOOL, {
-    title: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u044B: \u043F\u043E\u0438\u0441\u043A",
-    description: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u044B \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0430: \u043D\u043E\u043C\u0435\u0440, \u0434\u0430\u0442\u0430, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442, \u043F\u0440\u0435\u0434\u043C\u0435\u0442, \u0441\u0443\u043C\u043C\u0430 \u0438 \u0441\u0442\u0430\u0442\u0443\u0441. \u041D\u0443\u0436\u0435\u043D, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u0438\u0432\u044F\u0437\u0430\u0442\u044C \u0441\u0447\u0451\u0442 \u043A \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443 \u0438\u043B\u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u043C.",
+    title: "Договоры: поиск",
+    description: "Договоры кабинета: номер, дата, контрагент, предмет, сумма и статус. Нужен, чтобы привязать счёт к договору или проверить условия перед выставлением.",
     inputSchema: SearchInput,
     outputSchema: SearchOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -2266,26 +2268,26 @@ function registerContractTools(server, ctx) {
       status: contract.status
     }));
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u044B \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043F\u0435\u0440\u0438\u043E\u0434 \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430." : `\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432 \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${items.length}`,
-      headers: ["\u2116", "\u0414\u0430\u0442\u0430", "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u041F\u0440\u0435\u0434\u043C\u0435\u0442", "\u0421\u0443\u043C\u043C\u0430", "\u0421\u0442\u0430\u0442\u0443\u0441"],
+      title: items.length === 0 ? "Договоры не найдены. Проверьте период и контрагента." : `Договоров на странице: ${items.length}`,
+      headers: ["№", "Дата", "Контрагент", "Предмет", "Сумма", "Статус"],
       rows: items.map((contract) => [
-        contract.number ?? "\u0431/\u043D",
-        contract.contractDate ?? "\u2014",
-        contract.contractorShortName ?? "\u2014",
-        contract.subject ?? "\u2014",
+        contract.number ?? "б/н",
+        contract.contractDate ?? "—",
+        contract.contractorShortName ?? "—",
+        contract.subject ?? "—",
         formatMoneyString(contract.amount),
         label(CONTRACT_STATUS, contract.status)
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0443 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 \u0441 \u0444\u0430\u0439\u043B\u0430\u043C\u0438 \u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u043C\u0438 \u043E\u0442\u0434\u0430\u0451\u0442 invoices_contracts_get."
+        "Карточку договора с файлами и документами отдаёт invoices_contracts_get."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
   server.registerTool(GET_TOOL, {
-    title: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440: \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430",
-    description: '\u0414\u043E\u0433\u043E\u0432\u043E\u0440: \u043D\u043E\u043C\u0435\u0440, \u0434\u0430\u0442\u0430, \u043F\u0440\u0435\u0434\u043C\u0435\u0442, \u0441\u0443\u043C\u043C\u0430, \u0441\u0442\u0430\u0442\u0443\u0441, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442. include: ["files"] \u2014 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u0435 \u0444\u0430\u0439\u043B\u044B, ["documents"] \u2014 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443.',
+    title: "Договор: карточка",
+    description: 'Договор: номер, дата, предмет, сумма, статус, контрагент. include: ["files"] — приложенные файлы, ["documents"] — последние документы по договору.',
     inputSchema: GetInput,
     outputSchema: GetOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -2314,19 +2316,19 @@ async function loadContractCard(ctx, contractId, includeList) {
     paid: document.paid ?? null
   })) : void 0;
   const lines = [
-    `**\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u2116 ${contract.number ?? "\u0431/\u043D"}** \u043E\u0442 ${contract.contractDate ?? "\u2014"}`,
-    `\u0421\u0442\u0430\u0442\u0443\u0441: ${label(CONTRACT_STATUS, contract.status)}`,
-    `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: ${contract.counterparty?.shortName ?? "\u2014"}` + (contract.counterparty?.inn === null || contract.counterparty?.inn === void 0 ? "" : ` (\u0418\u041D\u041D ${contract.counterparty.inn})`),
-    contract.subject === null || contract.subject === "" ? "" : `\u041F\u0440\u0435\u0434\u043C\u0435\u0442: ${contract.subject}`,
-    `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(contract.amount)}`,
-    contract.text === null || contract.text === "" ? "\u0422\u0435\u043A\u0441\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 \u043D\u0435 \u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D." : "\u0422\u0435\u043A\u0441\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 \u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D."
+    `**Договор № ${contract.number ?? "б/н"}** от ${contract.contractDate ?? "—"}`,
+    `Статус: ${label(CONTRACT_STATUS, contract.status)}`,
+    `Контрагент: ${contract.counterparty?.shortName ?? "—"}` + (contract.counterparty?.inn === null || contract.counterparty?.inn === void 0 ? "" : ` (ИНН ${contract.counterparty.inn})`),
+    contract.subject === null || contract.subject === "" ? "" : `Предмет: ${contract.subject}`,
+    `Сумма: ${formatMoneyString(contract.amount)}`,
+    contract.text === null || contract.text === "" ? "Текст договора не заполнен." : "Текст договора заполнен."
   ].filter((line) => line !== "");
   const blocks = [lines.join("\n")];
   if (files !== void 0) {
-    blocks.push("", "**\u0424\u0430\u0439\u043B\u044B**", files.length === 0 ? "\u0424\u0430\u0439\u043B\u043E\u0432 \u043D\u0435\u0442." : mdBullets(files.map((file) => `${file.fileName ?? "\u0444\u0430\u0439\u043B"}${file.sizeBytes === null ? "" : `, ${Math.round(file.sizeBytes / 1024)} \u041A\u0411`}${file.downloadUrl === null ? "" : ` \u2014 ${file.downloadUrl}`}`)));
+    blocks.push("", "**Файлы**", files.length === 0 ? "Файлов нет." : mdBullets(files.map((file) => `${file.fileName ?? "файл"}${file.sizeBytes === null ? "" : `, ${Math.round(file.sizeBytes / 1024)} КБ`}${file.downloadUrl === null ? "" : ` — ${file.downloadUrl}`}`)));
   }
   if (documents !== void 0) {
-    blocks.push("", "**\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B**", documents.length === 0 ? "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043F\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443 \u043D\u0435\u0442." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} \u2116 ${document.number ?? "\u0431/\u043D"} \u043E\u0442 ${document.documentDate ?? "\u2014"}: ${formatMoneyString(document.total)}, ${label(DOCUMENT_STATUS, document.status)}`)));
+    blocks.push("", "**Последние документы**", documents.length === 0 ? "Документов по договору нет." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} № ${document.number ?? "б/н"} от ${document.documentDate ?? "—"}: ${formatMoneyString(document.total)}, ${label(DOCUMENT_STATUS, document.status)}`)));
   }
   return {
     markdown: blocks.join("\n"),
@@ -2352,15 +2354,15 @@ async function loadContractCard(ctx, contractId, includeList) {
 }
 var CREATE_CONTRACT_TOOL = "invoices_contracts_create";
 var UPDATE_CONTRACT_TOOL = "invoices_contracts_update";
-var MoneyString = z6.string().regex(/^\d+(\.\d{1,2})?$/, '\u0441\u0443\u043C\u043C\u0430 \u0441\u0442\u0440\u043E\u043A\u043E\u0439 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445 \u0441 \u043A\u043E\u043F\u0435\u0439\u043A\u0430\u043C\u0438, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 "300000.00"');
+var MoneyString = z6.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "300000.00"');
 var CreateContractInput = z6.object({
-  organizationId: z6.uuid().describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u043E\u0439 \u0437\u0430\u043A\u043B\u044E\u0447\u0451\u043D \u0434\u043E\u0433\u043E\u0432\u043E\u0440"),
-  contractorId: z6.uuid().describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 (ID \u0438\u0437 invoices_contractors_search)"),
-  number: z6.string().trim().min(1).describe("\u041D\u043E\u043C\u0435\u0440 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430"),
-  contractDate: DateOnly.describe("\u0414\u0430\u0442\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430, DD.MM.YYYY"),
-  subject: z6.string().optional().describe("\u041F\u0440\u0435\u0434\u043C\u0435\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430"),
-  amount: MoneyString.optional().describe("\u0421\u0443\u043C\u043C\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430"),
-  text: z6.string().optional().describe("\u0422\u0435\u043A\u0441\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 (\u0432 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0435 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0442\u043E\u043B\u044C\u043A\u043E hasText)"),
+  organizationId: z6.uuid().describe("Организация, от которой заключён договор"),
+  contractorId: z6.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
+  number: z6.string().trim().min(1).describe("Номер договора"),
+  contractDate: DateOnly.describe("Дата договора, DD.MM.YYYY"),
+  subject: z6.string().optional().describe("Предмет договора"),
+  amount: MoneyString.optional().describe("Сумма договора"),
+  text: z6.string().optional().describe("Текст договора (в карточке показывается только hasText)"),
   confirm: z6.boolean().optional()
 });
 var CreateContractOutput = z6.object({
@@ -2386,15 +2388,15 @@ var UpdateContractOutput = z6.object({
 });
 function registerContractWriteTools(server, ctx) {
   server.registerTool(CREATE_CONTRACT_TOOL, {
-    title: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440: \u0441\u043E\u0437\u0434\u0430\u0442\u044C",
-    description: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u0434\u043E\u0433\u043E\u0432\u043E\u0440. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true. \u041F\u043E\u0441\u043B\u0435 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u044F \u0441\u0447\u0451\u0442 \u043C\u043E\u0436\u043D\u043E \u043F\u0440\u0438\u0432\u044F\u0437\u0430\u0442\u044C \u043A \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443 \u0447\u0435\u0440\u0435\u0437 contractId \u0432 invoices_documents_create_draft.",
+    title: "Договор: создать",
+    description: "Создаёт договор. Требует confirm: true. После создания счёт можно привязать к договору через contractId в invoices_documents_create_draft.",
     inputSchema: CreateContractInput,
     outputSchema: CreateContractOutput,
     annotations: WRITE_ANNOTATIONS
   }, (args) => mutation(ctx, CREATE_CONTRACT_TOOL, args.confirm, async () => {
     const { confirm: _confirm, contractorId, ...rest } = args;
     const contract = await ctx.sdk.contracts.create({ ...rest, counterpartyId: contractorId });
-    return toolResult(`\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u0441\u043E\u0437\u0434\u0430\u043D: \u2116 ${contract.number ?? "\u0431/\u043D"} \u043E\u0442 ${contract.contractDate ?? "\u2014"}${contract.counterparty?.shortName === void 0 ? "" : `, ${contract.counterparty.shortName}`}
+    return toolResult(`Договор создан: № ${contract.number ?? "б/н"} от ${contract.contractDate ?? "—"}${contract.counterparty?.shortName === void 0 ? "" : `, ${contract.counterparty.shortName}`}
 ID: ${contract.id}`, {
       id: contract.id,
       number: contract.number ?? null,
@@ -2402,8 +2404,8 @@ ID: ${contract.id}`, {
     });
   }));
   server.registerTool(UPDATE_CONTRACT_TOOL, {
-    title: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440: \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C",
-    description: "\u041F\u0440\u0430\u0432\u0438\u0442 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430 (\u043D\u043E\u043C\u0435\u0440, \u0434\u0430\u0442\u0430, \u043F\u0440\u0435\u0434\u043C\u0435\u0442, \u0441\u0443\u043C\u043C\u0430, \u0441\u0442\u0430\u0442\u0443\u0441, \u0442\u0435\u043A\u0441\u0442). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.",
+    title: "Договор: изменить",
+    description: "Правит реквизиты договора (номер, дата, предмет, сумма, статус, текст). Требует confirm: true.",
     inputSchema: UpdateContractInput,
     outputSchema: UpdateContractOutput,
     annotations: WRITE_ANNOTATIONS
@@ -2411,8 +2413,8 @@ ID: ${contract.id}`, {
     const { confirm: _confirm, contractId, ...patch } = args;
     const contract = await ctx.sdk.contracts.update(contractId, patch);
     const updatedFields = Object.keys(patch).filter((key) => patch[key] !== void 0);
-    return toolResult(`\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u043E\u0431\u043D\u043E\u0432\u043B\u0451\u043D: \u2116 ${contract.number ?? "\u0431/\u043D"}, \u0441\u0442\u0430\u0442\u0443\u0441 ${label(CONTRACT_STATUS, contract.status)}
-\u0418\u0437\u043C\u0435\u043D\u0435\u043D\u044B \u043F\u043E\u043B\u044F: ${updatedFields.length === 0 ? "\u2014" : updatedFields.join(", ")}`, {
+    return toolResult(`Договор обновлён: № ${contract.number ?? "б/н"}, статус ${label(CONTRACT_STATUS, contract.status)}
+Изменены поля: ${updatedFields.length === 0 ? "—" : updatedFields.join(", ")}`, {
       id: contract.id,
       number: contract.number ?? null,
       status: contract.status,
@@ -2428,7 +2430,7 @@ function requireId(variables, template) {
   const value = variables.id;
   if (typeof value === "string" && UUID.test(value))
     return value;
-  throw new ProtocolError2(ProtocolErrorCode.InvalidParams, `\u0412 \u0430\u0434\u0440\u0435\u0441\u0435 ${template} \u043D\u0443\u0436\u0435\u043D UUID. \u0412\u043E\u0437\u044C\u043C\u0438\u0442\u0435 \u0435\u0433\u043E \u0438\u0437 \u043F\u043E\u0438\u0441\u043A\u0430 (invoices_documents_search, invoices_contractors_search, invoices_organizations_list, invoices_contracts_search). \u041F\u043E\u043B\u0443\u0447\u0435\u043D\u043E: \xAB${typeof value === "string" ? value : ""}\xBB.`);
+  throw new ProtocolError2(ProtocolErrorCode.InvalidParams, `В адресе ${template} нужен UUID. Возьмите его из поиска (invoices_documents_search, invoices_contractors_search, invoices_organizations_list, invoices_contracts_search). Получено: «${typeof value === "string" ? value : ""}».`);
 }
 function resourceResult(uri, markdown, data) {
   return fitResourceResult(uri, markdown, data);
@@ -2481,17 +2483,17 @@ function registerContractResources(server, ctx) {
       const items = toPage(await ctx.sdk.contracts.list({ limit: 5 })).items;
       return items.map((contract) => ({
         uri: `contract://${contract.id}`,
-        name: `\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u2116 ${contract.number}`,
-        title: `\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u2116 ${contract.number}`,
-        description: contract.counterparty?.shortName === void 0 ? `\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u043E\u0442 ${contract.contractDate}` : `\u0414\u043E\u0433\u043E\u0432\u043E\u0440 \u043E\u0442 ${contract.contractDate}, ${contract.counterparty.shortName}`
+        name: `Договор № ${contract.number}`,
+        title: `Договор № ${contract.number}`,
+        description: contract.counterparty?.shortName === void 0 ? `Договор от ${contract.contractDate}` : `Договор от ${contract.contractDate}, ${contract.counterparty.shortName}`
       }));
     }),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.contracts.list({ limit: 5 })).items)
     }
   }), {
-    title: "\u0414\u043E\u0433\u043E\u0432\u043E\u0440",
-    description: "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430: \u043D\u043E\u043C\u0435\u0440, \u0441\u0443\u043C\u043C\u0430, \u0441\u0442\u0430\u0442\u0443\u0441, \u0444\u0430\u0439\u043B\u044B \u0438 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B. \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435.",
+    title: "Договор",
+    description: "Карточка договора: номер, сумма, статус, файлы и последние документы. Только чтение.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, RESOURCE, async () => {
     const card = await loadContractCard(ctx, requireId(variables, TEMPLATE), [
@@ -2511,7 +2513,7 @@ import { z as z7 } from "zod";
 // apps/mcp/dist/format/date.js
 function formatIsoDate(value) {
   if (value === null || value === void 0 || value === "")
-    return "\u2014";
+    return "—";
   const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
   if (match === null)
     return value;
@@ -2535,14 +2537,14 @@ var ContractorListItem = z7.object({
   status: z7.string()
 });
 var SearchInput2 = z7.object({
-  query: z7.string().trim().min(1).optional().describe("\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E, \u0418\u041D\u041D \u0438\u043B\u0438 email; \u043F\u0443\u0441\u0442\u043E \u2014 \u043F\u0435\u0440\u0432\u044B\u0435 N \u043F\u043E \u0430\u043B\u0444\u0430\u0432\u0438\u0442\u0443"),
-  inn: z7.string().trim().min(10).optional().describe("\u0422\u043E\u0447\u043D\u044B\u0439 \u0418\u041D\u041D (10 \u0438\u043B\u0438 12 \u0446\u0438\u0444\u0440)"),
+  query: z7.string().trim().min(1).optional().describe("Поиск по названию, ИНН или email; пусто — первые N по алфавиту"),
+  inn: z7.string().trim().min(10).optional().describe("Точный ИНН (10 или 12 цифр)"),
   kind: z7.enum(["legal", "sole_proprietor", "individual"]).optional(),
-  visibility: z7.enum(["shared", "organization"]).optional().describe("shared \u2014 \u043E\u0431\u0449\u0438\u0435 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u044B \u0440\u0430\u0431\u043E\u0447\u0435\u0439 \u043E\u0431\u043B\u0430\u0441\u0442\u0438, organization \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u044D\u0442\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
-  organizationId: z7.uuid().optional().describe("\u041E\u0433\u0440\u0430\u043D\u0438\u0447\u0438\u0442\u044C \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430\u043C\u0438 \u043E\u0434\u043D\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
+  visibility: z7.enum(["shared", "organization"]).optional().describe("shared — общие контрагенты рабочей области, organization — только этой организации"),
+  organizationId: z7.uuid().optional().describe("Ограничить контрагентами одной организации"),
   status: z7.enum(["active", "archived"]).optional(),
-  limit: z7.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
-  cursor: z7.string().optional().describe("nextCursor \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430")
+  limit: z7.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z7.string().optional().describe("nextCursor из предыдущего ответа")
 });
 var SearchOutput2 = z7.object({
   items: z7.array(ContractorListItem),
@@ -2556,8 +2558,8 @@ var ContactItem = z7.object({
   isPrimary: z7.boolean()
 });
 var GetInput2 = z7.object({
-  contractorId: z7.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 (UUID)"),
-  include: z7.array(z7.enum(["contacts", "documents", "summary"])).optional().describe("\u0427\u0442\u043E \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0435: \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E), \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B, \u0441\u0432\u043E\u0434\u043A\u0430")
+  contractorId: z7.uuid().describe("Идентификатор контрагента (UUID)"),
+  include: z7.array(z7.enum(["contacts", "documents", "summary"])).optional().describe("Что добавить к карточке: контакты (по умолчанию), последние документы, сводка")
 });
 var DocumentItemSchema = z7.object({
   id: z7.string(),
@@ -2598,9 +2600,9 @@ var GetOutput2 = z7.object({
   }).optional()
 });
 var SummaryInput = z7.object({
-  contractorId: z7.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 (UUID)"),
-  from: z7.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("\u041D\u0430\u0447\u0430\u043B\u043E \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u2014 \u0431\u0435\u0437 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F)"),
-  to: z7.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("\u041A\u043E\u043D\u0435\u0446 \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY (\u0432\u043B\u0438\u044F\u0435\u0442 \u043D\u0430 \u0441\u0430\u043B\u044C\u0434\u043E \u0438 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B)")
+  contractorId: z7.uuid().describe("Идентификатор контрагента (UUID)"),
+  from: z7.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Начало периода, DD.MM.YYYY (по умолчанию — без ограничения)"),
+  to: z7.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Конец периода, DD.MM.YYYY (влияет на сальдо и последние документы)")
 });
 var SummaryOutput = z7.object({
   contractor: z7.object({
@@ -2654,8 +2656,8 @@ function documentRow(document) {
 }
 function registerContractorTools(server, ctx) {
   server.registerTool(SEARCH_TOOL2, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u044B: \u043F\u043E\u0438\u0441\u043A",
-    description: "\u0418\u0449\u0435\u0442 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u0432 \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E, \u0418\u041D\u041D \u0438\u043B\u0438 email. \u0412\u044B\u0437\u044B\u0432\u0430\u0442\u044C \u041F\u0415\u0420\u0415\u0414 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0435\u043C \u0441\u0447\u0451\u0442\u0430: \u0441\u043D\u0430\u0447\u0430\u043B\u0430 \u043D\u0430\u0439\u0434\u0438 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u0433\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 \u043F\u043E \u0418\u041D\u041D, \u0438 \u0442\u043E\u043B\u044C\u043A\u043E \u0435\u0441\u043B\u0438 \u0435\u0433\u043E \u043D\u0435\u0442 \u2014 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438 \u0441\u043E\u0437\u0434\u0430\u0442\u044C. \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 items + nextCursor.",
+    title: "Контрагенты: поиск",
+    description: "Ищет контрагентов по названию, ИНН или email. Вызывать ПЕРЕД созданием счёта: сначала найди существующего контрагента по ИНН, и только если его нет — предложи создать. Возвращает страницу items + nextCursor.",
     inputSchema: SearchInput2,
     outputSchema: SearchOutput2,
     annotations: READ_ONLY_ANNOTATIONS
@@ -2684,8 +2686,8 @@ function registerContractorTools(server, ctx) {
     }));
     const found = args.inn ?? args.query;
     const markdown = summaryTable({
-      title: items.length === 0 ? `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u044B \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B${found === void 0 ? "" : ` \u043F\u043E \u0437\u0430\u043F\u0440\u043E\u0441\u0443 \xAB${found}\xBB`}. \u0415\u0441\u043B\u0438 \u0435\u0433\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0435\u0442 \u2014 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0438\u0442\u0435 \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u043D\u043E\u0432\u043E\u0433\u043E (\u044D\u0442\u043E \u0438\u0437\u043C\u0435\u043D\u0438\u0442 \u0434\u0430\u043D\u043D\u044B\u0435, \u043D\u0443\u0436\u043D\u043E \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435).` : `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u0432: ${items.length}${found === void 0 ? "" : ` (\u0437\u0430\u043F\u0440\u043E\u0441 \xAB${found}\xBB)`}`,
-      headers: ["\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u0418\u041D\u041D", "\u0412\u0438\u0434", "\u0412\u0438\u0434\u0438\u043C\u043E\u0441\u0442\u044C", "\u0421\u0442\u0430\u0442\u0443\u0441"],
+      title: items.length === 0 ? `Контрагенты не найдены${found === void 0 ? "" : ` по запросу «${found}»`}. Если его действительно нет — предложите создать нового (это изменит данные, нужно подтверждение).` : `Контрагентов: ${items.length}${found === void 0 ? "" : ` (запрос «${found}»)`}`,
+      headers: ["Контрагент", "ИНН", "Вид", "Видимость", "Статус"],
       rows: items.map((contractor) => [
         contractor.shortName,
         contractor.inn,
@@ -2695,14 +2697,14 @@ function registerContractorTools(server, ctx) {
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0443 \u0438 \u0441\u0432\u043E\u0434\u043A\u0443 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443 \u043E\u0442\u0434\u0430\u044E\u0442 invoices_contractors_get \u0438 invoices_contractors_summary."
+        "Карточку и сводку по контрагенту отдают invoices_contractors_get и invoices_contractors_summary."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
   server.registerTool(GET_TOOL2, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430",
-    description: '\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430: \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B, \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B, \u043F\u043E \u0437\u0430\u043F\u0440\u043E\u0441\u0443 \u2014 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u0438 \u0441\u0432\u043E\u0434\u043A\u0430. include: ["documents"] \u0434\u043E\u0431\u0430\u0432\u0438\u0442 5 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0445 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432, ["summary"] \u2014 \u0441\u0443\u043C\u043C\u044B \u0438 \u0434\u043E\u043B\u0433.',
+    title: "Контрагент: карточка",
+    description: 'Карточка контрагента: реквизиты, контакты, по запросу — последние документы и сводка. include: ["documents"] добавит 5 последних документов, ["summary"] — суммы и долг.',
     inputSchema: GetInput2,
     outputSchema: GetOutput2,
     annotations: READ_ONLY_ANNOTATIONS
@@ -2711,8 +2713,8 @@ function registerContractorTools(server, ctx) {
     return toolResult(card.markdown, card.data);
   }));
   server.registerTool(SUMMARY_TOOL, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u043A\u0430\u0440\u0442\u0430 \u0432\u0437\u0430\u0438\u043C\u043E\u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u0439",
-    description: "\u0421\u0432\u043E\u0434\u043A\u0430 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434: \u0441\u0430\u043B\u044C\u0434\u043E \u0438 \u043E\u0431\u043E\u0440\u043E\u0442\u044B, \u0441\u0443\u043C\u043C\u044B \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u043C, \u0434\u043E\u043B\u0433, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430, \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u0438 \u043D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0441 \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u043E\u0439 \u0432 \u0434\u043D\u044F\u0445. \u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C, \u043A\u043E\u0433\u0434\u0430 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u044E\u0442 \xAB\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u043B\u0436\u0435\u043D\xBB, \xAB\u0447\u0442\u043E \u043D\u0435 \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E\xBB, \xAB\u043A\u0430\u043A\u0438\u0435 \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F\xBB.",
+    title: "Контрагент: карта взаимоотношений",
+    description: "Сводка по контрагенту за период: сальдо и обороты, суммы по документам, долг, просрочка, последние документы и неоплаченные с просрочкой в днях. Использовать, когда спрашивают «сколько должен», «что не оплачено», «какие отношения».",
     inputSchema: SummaryInput,
     outputSchema: SummaryOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -2743,22 +2745,22 @@ function registerContractorTools(server, ctx) {
     const overdueKopecks = unpaid.filter((item) => item.daysOverdue > 0).reduce((sum, item) => sum + parseKopecksSafe(item.remaining), 0n);
     const lastDocuments = toPage(documentsResponse).items.map(documentRow);
     const markdown = [
-      `**${contractor.shortName}**, \u0418\u041D\u041D ${contractor.inn} \u2014 \u043D\u0430 ${balance.at}`,
+      `**${contractor.shortName}**, ИНН ${contractor.inn} — на ${balance.at}`,
       "",
       mdBullets([
-        `\u0421\u0430\u043B\u044C\u0434\u043E \u043D\u0430\u0447\u0430\u043B\u044C\u043D\u043E\u0435: ${formatMoneyString(balance.opening)}`,
-        `\u041E\u0431\u043E\u0440\u043E\u0442 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434: ${formatMoneyString(balance.turnover)}`,
-        `\u0421\u0430\u043B\u044C\u0434\u043E \u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0435 (\u0434\u043E\u043B\u0433): ${formatMoneyString(balance.closing)}`,
-        `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: ${summaryView.documents.count} \u043D\u0430 ${formatMoneyString(summaryView.documents.total)}, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E ${formatMoneyString(summaryView.documents.paid)}, \u0434\u043E\u043B\u0433 ${formatMoneyString(summaryView.documents.debt)}`,
-        `\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432: ${summaryView.contracts.count} \u043D\u0430 ${formatMoneyString(summaryView.contracts.amount)}`,
-        summaryView.lastOperationAt === null ? "\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u0439 \u043D\u0435 \u0431\u044B\u043B\u043E" : `\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044F: ${formatIsoDate(summaryView.lastOperationAt)}`
+        `Сальдо начальное: ${formatMoneyString(balance.opening)}`,
+        `Оборот за период: ${formatMoneyString(balance.turnover)}`,
+        `Сальдо конечное (долг): ${formatMoneyString(balance.closing)}`,
+        `Документов: ${summaryView.documents.count} на ${formatMoneyString(summaryView.documents.total)}, оплачено ${formatMoneyString(summaryView.documents.paid)}, долг ${formatMoneyString(summaryView.documents.debt)}`,
+        `Договоров: ${summaryView.contracts.count} на ${formatMoneyString(summaryView.contracts.amount)}`,
+        summaryView.lastOperationAt === null ? "Операций не было" : `Последняя операция: ${formatIsoDate(summaryView.lastOperationAt)}`
       ]),
       "",
-      "**\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435**",
-      unpaid.length === 0 ? "\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0445 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043D\u0435\u0442." : mdBullets(unpaid.map((item) => `${label(DOCUMENT_TYPE, item.type)} \u2116 ${item.number} \u043E\u0442 ${item.documentDate}: \u043E\u0441\u0442\u0430\u0442\u043E\u043A ${formatMoneyString(item.remaining)}${item.daysOverdue > 0 ? `, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430 ${item.daysOverdue} \u0434\u043D.` : ""}`)),
+      "**Неоплаченные**",
+      unpaid.length === 0 ? "Неоплаченных документов нет." : mdBullets(unpaid.map((item) => `${label(DOCUMENT_TYPE, item.type)} № ${item.number} от ${item.documentDate}: остаток ${formatMoneyString(item.remaining)}${item.daysOverdue > 0 ? `, просрочка ${item.daysOverdue} дн.` : ""}`)),
       "",
-      "**\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B**",
-      lastDocuments.length === 0 ? "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043D\u0435\u0442." : mdBullets(lastDocuments.map((document) => `${label(DOCUMENT_TYPE, document.type)} \u2116 ${document.number ?? "\u0431/\u043D"} \u043E\u0442 ${document.documentDate ?? "\u2014"}: ${formatMoneyString(document.total)} (\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E ${formatMoneyString(document.paid)})`))
+      "**Последние документы**",
+      lastDocuments.length === 0 ? "Документов нет." : mdBullets(lastDocuments.map((document) => `${label(DOCUMENT_TYPE, document.type)} № ${document.number ?? "б/н"} от ${document.documentDate ?? "—"}: ${formatMoneyString(document.total)} (оплачено ${formatMoneyString(document.paid)})`))
     ].join("\n");
     return toolResult(markdown, {
       contractor: {
@@ -2815,23 +2817,23 @@ async function loadContractorCard(ctx, contractorId, includeList) {
   };
   const lines = [
     `**${contractor.shortName}** (${label(COUNTERPARTY_KIND, contractor.kind)})`,
-    `\u0418\u041D\u041D ${contractor.inn}${contractor.kpp === null ? "" : `, \u041A\u041F\u041F ${contractor.kpp}`}`,
-    `\u0412\u0438\u0434\u0438\u043C\u043E\u0441\u0442\u044C: ${label(VISIBILITY, contractor.visibility)}; \u0441\u0442\u0430\u0442\u0443\u0441: ${label(ORG_STATUS, contractor.status)}`,
-    contractor.legalAddress === null ? "" : `\u0410\u0434\u0440\u0435\u0441: ${contractor.legalAddress}`,
-    contractor.phone === null ? "" : `\u0422\u0435\u043B\u0435\u0444\u043E\u043D: ${contractor.phone}`,
+    `ИНН ${contractor.inn}${contractor.kpp === null ? "" : `, КПП ${contractor.kpp}`}`,
+    `Видимость: ${label(VISIBILITY, contractor.visibility)}; статус: ${label(ORG_STATUS, contractor.status)}`,
+    contractor.legalAddress === null ? "" : `Адрес: ${contractor.legalAddress}`,
+    contractor.phone === null ? "" : `Телефон: ${contractor.phone}`,
     contractor.emails.length === 0 ? "" : `Email: ${contractor.emails.join(", ")}`,
-    contractor.comment === null ? "" : `\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439: ${contractor.comment}`
+    contractor.comment === null ? "" : `Комментарий: ${contractor.comment}`
   ].filter((line) => line !== "");
-  const contactLines = contacts.length === 0 ? ["\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u043E\u0432 \u043D\u0435\u0442."] : contacts.map((contact) => `- ${contact.fullName}${contact.position === null ? "" : `, ${contact.position}`}${contact.phone === null ? "" : `, ${contact.phone}`}${contact.isPrimary ? " (\u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439)" : ""}`);
-  const blocks = [lines.join("\n"), "", "**\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B**", contactLines.join("\n")];
+  const contactLines = contacts.length === 0 ? ["Контактов нет."] : contacts.map((contact) => `- ${contact.fullName}${contact.position === null ? "" : `, ${contact.position}`}${contact.phone === null ? "" : `, ${contact.phone}`}${contact.isPrimary ? " (основной)" : ""}`);
+  const blocks = [lines.join("\n"), "", "**Контакты**", contactLines.join("\n")];
   if (documents !== void 0) {
-    blocks.push("", "**\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B**", documents.length === 0 ? "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043D\u0435\u0442." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} \u2116 ${document.number ?? "\u0431/\u043D"} \u043E\u0442 ${document.documentDate ?? "\u2014"}: ${formatMoneyString(document.total)}, ${label(DOCUMENT_STATUS, document.status)}`)));
+    blocks.push("", "**Последние документы**", documents.length === 0 ? "Документов нет." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} № ${document.number ?? "б/н"} от ${document.documentDate ?? "—"}: ${formatMoneyString(document.total)}, ${label(DOCUMENT_STATUS, document.status)}`)));
   }
   if (summary !== void 0) {
-    blocks.push("", "**\u0421\u0432\u043E\u0434\u043A\u0430**", mdBullets([
-      `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: ${summary.documentsCount} \u043D\u0430 ${formatMoneyString(summary.total)}`,
-      `\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(summary.paid)}, \u0434\u043E\u043B\u0433: ${formatMoneyString(summary.debt)}`,
-      `\u0414\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432: ${summary.contractsCount} \u043D\u0430 ${formatMoneyString(summary.contractsAmount)}`
+    blocks.push("", "**Сводка**", mdBullets([
+      `Документов: ${summary.documentsCount} на ${formatMoneyString(summary.total)}`,
+      `Оплачено: ${formatMoneyString(summary.paid)}, долг: ${formatMoneyString(summary.debt)}`,
+      `Договоров: ${summary.contractsCount} на ${formatMoneyString(summary.contractsAmount)}`
     ]));
   }
   return {
@@ -2882,13 +2884,13 @@ var ContactInput = z7.object({
   isPrimary: z7.boolean().optional()
 });
 var CreateInput = z7.object({
-  kind: z7.enum(["legal", "sole_proprietor", "individual"]).describe("\u0412\u0438\u0434 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430"),
-  visibility: z7.enum(["shared", "organization"]).optional().describe("shared \u2014 \u043E\u0431\u0449\u0438\u0439 \u0434\u043B\u044F \u0440\u0430\u0431\u043E\u0447\u0435\u0439 \u043E\u0431\u043B\u0430\u0441\u0442\u0438 (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E), organization \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
-  organizationId: z7.uuid().optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u0435\u043D \u043F\u0440\u0438 visibility = organization"),
-  shortName: z7.string().trim().min(1).describe("\u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435, \u043A\u0430\u043A \u0432 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u0445"),
-  fullName: z7.string().trim().min(1).describe("\u041F\u043E\u043B\u043D\u043E\u0435 \u043D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435"),
-  inn: z7.string().trim().min(10).describe("\u0418\u041D\u041D: 10 \u0446\u0438\u0444\u0440 \u0443 \u044E\u0440\u043B\u0438\u0446\u0430, 12 \u0443 \u0418\u041F \u0438 \u0444\u0438\u0437\u043B\u0438\u0446\u0430"),
-  kpp: z7.string().optional().describe("\u041A\u041F\u041F \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u044E\u0440\u043B\u0438\u0446\u0430"),
+  kind: z7.enum(["legal", "sole_proprietor", "individual"]).describe("Вид контрагента"),
+  visibility: z7.enum(["shared", "organization"]).optional().describe("shared — общий для рабочей области (по умолчанию), organization — только для организации"),
+  organizationId: z7.uuid().optional().describe("Обязателен при visibility = organization"),
+  shortName: z7.string().trim().min(1).describe("Краткое название, как в документах"),
+  fullName: z7.string().trim().min(1).describe("Полное наименование"),
+  inn: z7.string().trim().min(10).describe("ИНН: 10 цифр у юрлица, 12 у ИП и физлица"),
+  kpp: z7.string().optional().describe("КПП — только для юрлица"),
   ogrn: z7.string().optional(),
   ogrnip: z7.string().optional(),
   legalAddress: z7.string().optional(),
@@ -2897,7 +2899,7 @@ var CreateInput = z7.object({
   emails: z7.array(z7.email()).optional(),
   comment: z7.string().optional(),
   contacts: z7.array(ContactInput).optional(),
-  confirm: z7.boolean().optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E true \u2014 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u043C\u0435\u043D\u044F\u0435\u0442 \u0434\u0430\u043D\u043D\u044B\u0435")
+  confirm: z7.boolean().optional().describe("Обязательно true — создание меняет данные")
 });
 var CreateOutput = z7.object({
   id: z7.string(),
@@ -2936,8 +2938,8 @@ var ArchiveOutput = z7.object({
 });
 function registerContractorWriteTools(server, ctx) {
   server.registerTool(CREATE_TOOL, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u0441\u043E\u0437\u0434\u0430\u0442\u044C",
-    description: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430. \u0421\u041D\u0410\u0427\u0410\u041B\u0410 \u0432\u044B\u0437\u043E\u0432\u0438\u0442\u0435 invoices_contractors_search \u043F\u043E \u0418\u041D\u041D \u2014 \u0434\u0443\u0431\u043B\u0438 \u043C\u0435\u0448\u0430\u044E\u0442 \u0438\u0441\u0442\u043E\u0440\u0438\u0438. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true \u0438 \u044F\u0432\u043D\u043E\u0433\u043E \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F. API \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 warnings (\u043F\u043E\u0445\u043E\u0436\u0438\u0435 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u044B) \u2014 \u043F\u043E\u043A\u0430\u0436\u0438\u0442\u0435 \u0438\u0445 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044E.",
+    title: "Контрагент: создать",
+    description: "Создаёт контрагента. СНАЧАЛА вызовите invoices_contractors_search по ИНН — дубли мешают истории. Требует confirm: true и явного согласия пользователя. API возвращает warnings (похожие контрагенты) — покажите их пользователю.",
     inputSchema: CreateInput,
     outputSchema: CreateOutput,
     annotations: { ...WRITE_ANNOTATIONS, idempotentHint: false }
@@ -2952,11 +2954,11 @@ function registerContractorWriteTools(server, ctx) {
       message: warning.message
     }));
     const markdown = [
-      `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 \u0441\u043E\u0437\u0434\u0430\u043D: **${result.counterparty.shortName}**, \u0418\u041D\u041D ${result.counterparty.inn}`,
+      `Контрагент создан: **${result.counterparty.shortName}**, ИНН ${result.counterparty.inn}`,
       `ID: ${result.counterparty.id}`,
-      ...warnings.length === 0 ? [] : ["", "**\u041E\u0431\u0440\u0430\u0442\u0438\u0442\u0435 \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u0435**", mdBullets(warnings.map((warning) => warning.message))],
+      ...warnings.length === 0 ? [] : ["", "**Обратите внимание**", mdBullets(warnings.map((warning) => warning.message))],
       "",
-      "\u0414\u0430\u043B\u044C\u0448\u0435: \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0441\u0447\u0451\u0442\u0430 \u0441\u043E\u0437\u0434\u0430\u0451\u0442\u0441\u044F \u0447\u0435\u0440\u0435\u0437 invoices_documents_create_draft."
+      "Дальше: черновик счёта создаётся через invoices_documents_create_draft."
     ].join("\n");
     return toolResult(markdown, {
       id: result.counterparty.id,
@@ -2966,8 +2968,8 @@ function registerContractorWriteTools(server, ctx) {
     });
   }));
   server.registerTool(UPDATE_TOOL, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C",
-    description: "\u041F\u0440\u0430\u0432\u0438\u0442 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430. `inn` \u0438 `kind` \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043D\u0435\u043B\u044C\u0437\u044F (\u0441\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u043D\u043E\u0432\u043E\u0433\u043E \u0438 \u0430\u0440\u0445\u0438\u0432\u0438\u0440\u0443\u0439\u0442\u0435 \u0441\u0442\u0430\u0440\u043E\u0433\u043E). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.",
+    title: "Контрагент: изменить",
+    description: "Правит реквизиты контрагента. `inn` и `kind` изменить нельзя (создайте нового и архивируйте старого). Требует confirm: true.",
     inputSchema: UpdateInput,
     outputSchema: UpdateOutput,
     annotations: WRITE_ANNOTATIONS
@@ -2976,19 +2978,19 @@ function registerContractorWriteTools(server, ctx) {
     const updated = await ctx.sdk.counterparties.updateCounterparty(contractorId, patch);
     const updatedFields = Object.keys(patch).filter((key) => patch[key] !== void 0);
     return toolResult([
-      `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 \u043E\u0431\u043D\u043E\u0432\u043B\u0451\u043D: **${updated.shortName}**`,
-      `\u0418\u0437\u043C\u0435\u043D\u0435\u043D\u044B \u043F\u043E\u043B\u044F: ${updatedFields.length === 0 ? "\u2014" : updatedFields.join(", ")}`
+      `Контрагент обновлён: **${updated.shortName}**`,
+      `Изменены поля: ${updatedFields.length === 0 ? "—" : updatedFields.join(", ")}`
     ].join("\n"), { id: updated.id, shortName: updated.shortName, updatedFields });
   }));
   server.registerTool(ARCHIVE_TOOL, {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: \u0430\u0440\u0445\u0438\u0432\u0438\u0440\u043E\u0432\u0430\u0442\u044C",
-    description: "\u041F\u0435\u0440\u0435\u043D\u043E\u0441\u0438\u0442 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 \u0432 \u0430\u0440\u0445\u0438\u0432. \u0414\u0430\u043D\u043D\u044B\u0435 \u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u044E\u0442\u0441\u044F, \u043D\u043E \u0432\u044B\u0431\u0440\u0430\u0442\u044C \u0435\u0433\u043E \u0432 \u043D\u043E\u0432\u044B\u0445 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u0445 \u043D\u0435\u043B\u044C\u0437\u044F. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true \u2014 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u043C\u0435\u043D\u044F\u0435\u0442 \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A.",
+    title: "Контрагент: архивировать",
+    description: "Переносит контрагента в архив. Данные и документы сохраняются, но выбрать его в новых документах нельзя. Требует confirm: true — операция меняет справочник.",
     inputSchema: ArchiveInput,
     outputSchema: ArchiveOutput,
     annotations: DESTRUCTIVE_ANNOTATIONS
   }, (args) => mutation(ctx, ARCHIVE_TOOL, args.confirm, async () => {
     await ctx.sdk.counterparties.archiveCounterparty(args.contractorId);
-    return toolResult(`\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 ${args.contractorId} \u043F\u0435\u0440\u0435\u043D\u0435\u0441\u0451\u043D \u0432 \u0430\u0440\u0445\u0438\u0432. \u0412\u0435\u0440\u043D\u0443\u0442\u044C \u0435\u0433\u043E \u043C\u043E\u0436\u043D\u043E \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435.`, { id: args.contractorId, status: "archived" });
+    return toolResult(`Контрагент ${args.contractorId} перенесён в архив. Вернуть его можно в кабинете.`, { id: args.contractorId, status: "archived" });
   }));
 }
 
@@ -3003,15 +3005,15 @@ function registerContractorResources(server, ctx) {
         uri: `contractor://${contractor.id}`,
         name: contractor.shortName,
         title: contractor.shortName,
-        description: `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442, \u0418\u041D\u041D ${contractor.inn}`
+        description: `Контрагент, ИНН ${contractor.inn}`
       }));
     }),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.counterparties.list({ limit: 5 })).items)
     }
   }), {
-    title: "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442",
-    description: "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430: \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B, \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B, \u0441\u0443\u043C\u043C\u044B \u0438 \u0434\u043E\u043B\u0433, \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B. \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435.",
+    title: "Контрагент",
+    description: "Карточка контрагента: реквизиты, контакты, суммы и долг, последние документы. Только чтение.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, RESOURCE2, async () => {
     const card = await loadContractorCard(ctx, requireId(variables, TEMPLATE2), [
@@ -3044,7 +3046,7 @@ var DOCUMENT_STATUSES = [
   "signed"
 ];
 var DOCUMENT_TYPES = ["invoice", "act", "invoice_facture", "upd", "contract"];
-var DateOnly2 = z8.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "\u0434\u0430\u0442\u0430 \u0432 \u0444\u043E\u0440\u043C\u0430\u0442\u0435 DD.MM.YYYY");
+var DateOnly2 = z8.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
 var DocumentListItem = z8.object({
   id: z8.string(),
   type: z8.string(),
@@ -3060,19 +3062,19 @@ var DocumentListItem = z8.object({
   currentRevision: z8.number()
 });
 var SearchInput3 = z8.object({
-  type: z8.enum(DOCUMENT_TYPES).optional().describe("\u0422\u0438\u043F: \u0441\u0447\u0451\u0442, \u0430\u043A\u0442, \u0441\u0447\u0451\u0442-\u0444\u0430\u043A\u0442\u0443\u0440\u0430, \u0423\u041F\u0414, \u0434\u043E\u0433\u043E\u0432\u043E\u0440"),
-  status: z8.array(z8.enum(DOCUMENT_STATUSES)).optional().describe("\u0424\u0438\u043B\u044C\u0442\u0440 \u043F\u043E \u0441\u0442\u0430\u0442\u0443\u0441\u0430\u043C (\u043B\u044E\u0431\u043E\u0439 \u0438\u0437)"),
-  organizationId: z8.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u044D\u0442\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
-  contractorId: z8.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u044D\u0442\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430 (ID \u0438\u0437 invoices_contractors_search)"),
-  contractId: z8.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u044D\u0442\u043E\u0433\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430"),
-  number: z8.string().trim().min(1).optional().describe("\u041D\u043E\u043C\u0435\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (\u0442\u043E\u0447\u043D\u043E\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0435\u043D\u0438\u0435)"),
-  query: z8.string().trim().min(1).optional().describe("\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u043E\u043C\u0435\u0440\u0443, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443, \u043D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044E"),
-  from: DateOnly2.optional().describe("\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u0441 \u0434\u0430\u0442\u044B (DD.MM.YYYY)"),
-  to: DateOnly2.optional().describe("\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u043E \u0434\u0430\u0442\u0443 (DD.MM.YYYY)"),
-  overdueOnly: z8.boolean().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043D\u044B\u0435"),
-  sort: z8.enum(["createdAt_desc", "documentDate_desc", "documentDate_asc"]).optional().describe("\u0421\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u043A\u0430; \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u2014 createdAt_desc"),
-  limit: z8.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
-  cursor: z8.string().optional().describe("nextCursor \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430")
+  type: z8.enum(DOCUMENT_TYPES).optional().describe("Тип: счёт, акт, счёт-фактура, УПД, договор"),
+  status: z8.array(z8.enum(DOCUMENT_STATUSES)).optional().describe('Фильтр по статусам (любой из); без фильтра — все, включая черновики (status:"draft")'),
+  organizationId: z8.uuid().optional().describe("Только документы этой организации"),
+  contractorId: z8.uuid().optional().describe("Только документы этого контрагента (ID из invoices_contractors_search)"),
+  contractId: z8.uuid().optional().describe("Только документы этого договора"),
+  number: z8.string().trim().min(1).optional().describe('Номер документа. У черновиков номера нет — ищите их по contractorId, status:["draft"] или query'),
+  query: z8.string().trim().min(1).optional().describe("Поиск по номеру, контрагенту, назначению"),
+  from: DateOnly2.optional().describe("Документы с даты (DD.MM.YYYY)"),
+  to: DateOnly2.optional().describe("Документы по дату (DD.MM.YYYY)"),
+  overdueOnly: z8.boolean().optional().describe("Только просроченные"),
+  sort: z8.enum(["createdAt_desc", "documentDate_desc", "documentDate_asc"]).optional().describe("Сортировка; по умолчанию — createdAt_desc"),
+  limit: z8.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z8.string().optional().describe("nextCursor из предыдущего ответа")
 });
 var SearchOutput3 = z8.object({
   items: z8.array(DocumentListItem),
@@ -3096,8 +3098,8 @@ var ItemView = z8.object({
   note: nullableString
 });
 var GetInput3 = z8.object({
-  documentId: z8.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (UUID)"),
-  revision: z8.number().int().min(0).optional().describe("\u0412\u0435\u0440\u0441\u0438\u044F \u0432\u044B\u0434\u0430\u043D\u043D\u043E\u0433\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430; \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u2014 \u0442\u0435\u043A\u0443\u0449\u0430\u044F")
+  documentId: z8.uuid().describe("Идентификатор документа (UUID)"),
+  revision: z8.number().int().min(0).optional().describe("Версия выданного документа; по умолчанию — текущая")
 });
 var GetOutput3 = z8.object({
   id: z8.string(),
@@ -3142,7 +3144,7 @@ var GetOutput3 = z8.object({
   changeReason: nullableString
 });
 var PaymentsInput = z8.object({
-  documentId: z8.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (UUID)")
+  documentId: z8.uuid().describe("Идентификатор документа (UUID)")
 });
 var PaymentItem = z8.object({
   id: z8.string(),
@@ -3161,11 +3163,11 @@ var PaymentsOutput = z8.object({
   payments: z8.array(PaymentItem)
 });
 var PdfInput = z8.object({
-  documentId: z8.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (UUID)"),
-  revision: z8.number().int().min(0).optional().describe("\u0412\u0435\u0440\u0441\u0438\u044F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430"),
-  seal: z8.boolean().optional().describe("\u0421 \u043F\u0435\u0447\u0430\u0442\u044C\u044E \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u043A\u0430\u043A \u0432 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0435)"),
-  sign: z8.boolean().optional().describe("\u0421 \u043F\u043E\u0434\u043F\u0438\u0441\u044C\u044E (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u043A\u0430\u043A \u0432 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0435)"),
-  watermark: z8.enum(["draft", "paid", "sample", "corrected"]).optional().describe("\u0412\u043E\u0434\u044F\u043D\u043E\u0439 \u0437\u043D\u0430\u043A: \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A, \u043E\u043F\u043B\u0430\u0447\u0435\u043D, \u043E\u0431\u0440\u0430\u0437\u0435\u0446, \u0438\u0441\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0439")
+  documentId: z8.uuid().describe("Идентификатор документа (UUID)"),
+  revision: z8.number().int().min(0).optional().describe("Версия документа"),
+  seal: z8.boolean().optional().describe("С печатью организации (по умолчанию как в документе)"),
+  sign: z8.boolean().optional().describe("С подписью (по умолчанию как в документе)"),
+  watermark: z8.enum(["draft", "paid", "sample", "corrected"]).optional().describe("Водяной знак: черновик, оплачен, образец, исправленный")
 });
 var PdfOutput = z8.object({
   url: z8.string(),
@@ -3198,8 +3200,8 @@ function parseSafe(value) {
 }
 function registerDocumentTools(server, ctx) {
   server.registerTool(SEARCH_TOOL3, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u043F\u043E\u0438\u0441\u043A",
-    description: "\u041F\u043E\u0438\u0441\u043A \u0441\u0447\u0435\u0442\u043E\u0432, \u0430\u043A\u0442\u043E\u0432, \u0441\u0447\u0435\u0442\u043E\u0432-\u0444\u0430\u043A\u0442\u0443\u0440, \u0423\u041F\u0414 \u0438 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u043E\u0432 \u043F\u043E \u0442\u0438\u043F\u0443, \u0441\u0442\u0430\u0442\u0443\u0441\u0443, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443, \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0443, \u043D\u043E\u043C\u0435\u0440\u0443, \u043F\u0435\u0440\u0438\u043E\u0434\u0443 \u0438 \u0442\u0435\u043A\u0441\u0442\u0443. \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 \u0441 \u0441\u0443\u043C\u043C\u0430\u043C\u0438 \u0438 nextCursor. \u042D\u0442\u043E \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439 \u0441\u043F\u043E\u0441\u043E\u0431 \u043D\u0430\u0439\u0442\u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0437\u043E\u0432\u043E\u043C invoices_documents_get.",
+    title: "Документы: поиск",
+    description: 'Поиск счетов, актов, счетов-фактур, УПД и договоров по типу, статусу, контрагенту, договору, номеру, периоду и тексту. Возвращает страницу с суммами и nextCursor. Это основной способ найти документ перед вызовом invoices_documents_get. Черновики в выдаче есть (без status — все статусы), но по НОМЕРУ их не найти: номер появляется только после выдачи. Черновик ищите по contractorId + status:["draft"] или по query (название контрагента).',
     inputSchema: SearchInput3,
     outputSchema: SearchOutput3,
     annotations: READ_ONLY_ANNOTATIONS
@@ -3237,27 +3239,27 @@ function registerDocumentTools(server, ctx) {
     }));
     const pageTotals = sumPage(items);
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043F\u0435\u0440\u0438\u043E\u0434, \u0442\u0438\u043F \u0438 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430." : `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${items.length}`,
-      headers: ["\u2116", "\u0414\u0430\u0442\u0430", "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u0421\u0443\u043C\u043C\u0430", "\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E", "\u0421\u0442\u0430\u0442\u0443\u0441"],
+      title: items.length === 0 ? "Документы не найдены. Проверьте период, тип и контрагента." : `Документов на странице: ${items.length}`,
+      headers: ["№", "Дата", "Контрагент", "Сумма", "Оплачено", "Статус"],
       rows: items.map((document) => [
-        document.number ?? "\u0431/\u043D",
-        document.documentDate ?? "\u2014",
-        document.counterpartyShortName ?? "\u2014",
+        document.number ?? "б/н",
+        document.documentDate ?? "—",
+        document.counterpartyShortName ?? "—",
         formatMoneyString(document.total),
         formatMoneyString(document.paid),
         label(DOCUMENT_STATUS, document.status)
       ]),
       footer: [
-        `\u0418\u0442\u043E\u0433\u043E \u043F\u043E \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${formatMoneyString(pageTotals.total)}, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E ${formatMoneyString(pageTotals.paid)}, \u043E\u0441\u0442\u0430\u0442\u043E\u043A ${formatMoneyString(pageTotals.remaining)}`,
+        `Итого по странице: ${formatMoneyString(pageTotals.total)}, оплачено ${formatMoneyString(pageTotals.paid)}, остаток ${formatMoneyString(pageTotals.remaining)}`,
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u041F\u043E\u043B\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (\u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u0441\u0443\u043C\u043C\u044B, \u041D\u0414\u0421) \u043E\u0442\u0434\u0430\u0451\u0442 invoices_documents_get."
+        "Полные данные документа (позиции, суммы, НДС) отдаёт invoices_documents_get."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor, pageTotals });
   }));
   server.registerTool(GET_TOOL3, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430",
-    description: "\u041F\u043E\u043B\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430: \u0441\u0442\u0430\u0442\u0443\u0441, \u0441\u0443\u043C\u043C\u044B \u0438 \u041D\u0414\u0421, \u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u043E\u043F\u043B\u0430\u0442\u044B, \u043F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u044F. \u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 revision \u043E\u0442\u0434\u0430\u0451\u0442 \u0441\u043E\u0445\u0440\u0430\u043D\u0451\u043D\u043D\u0443\u044E \u0432\u0435\u0440\u0441\u0438\u044E \u0432\u044B\u0434\u0430\u043D\u043D\u043E\u0433\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430. \u0412\u044B\u0434\u0430\u043D\u043D\u044B\u0439 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u043D\u0435\u0438\u0437\u043C\u0435\u043D\u044F\u0435\u043C \u2014 \u043F\u0440\u0430\u0432\u043A\u0438 \u0442\u043E\u043B\u044C\u043A\u043E \u043D\u043E\u0432\u043E\u0439 \u0432\u0435\u0440\u0441\u0438\u0435\u0439 \u0447\u0435\u0440\u0435\u0437 \u043A\u0430\u0431\u0438\u043D\u0435\u0442.",
+    title: "Документ: карточка",
+    description: "Полная карточка документа: статус, суммы и НДС, позиции, оплаты, предупреждения. Параметр revision отдаёт сохранённую версию выданного документа. Выданный документ неизменяем — правки только новой версией через кабинет.",
     inputSchema: GetInput3,
     outputSchema: GetOutput3,
     annotations: READ_ONLY_ANNOTATIONS
@@ -3266,8 +3268,8 @@ function registerDocumentTools(server, ctx) {
     return toolResult(card.markdown, card.data);
   }));
   server.registerTool(PAYMENTS_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u043E\u043F\u043B\u0430\u0442\u044B \u0438 \u043E\u0441\u0442\u0430\u0442\u043E\u043A",
-    description: "\u041E\u043F\u043B\u0430\u0442\u044B \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443: \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E, \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u043E\u0441\u0442\u0430\u0442\u043E\u043A \u0438 \u043F\u0435\u0440\u0435\u043F\u043B\u0430\u0442\u0430, \u0441\u043F\u0438\u0441\u043E\u043A \u043F\u043B\u0430\u0442\u0435\u0436\u0435\u0439 \u0441 \u0434\u0430\u0442\u043E\u0439 \u0438 \u0441\u043F\u043E\u0441\u043E\u0431\u043E\u043C. \u0414\u043B\u044F \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \xAB\u043E\u043F\u043B\u0430\u0447\u0435\u043D \u043B\u0438 \u0441\u0447\u0451\u0442\xBB \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u044D\u0442\u043E\u0442 \u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442.",
+    title: "Документ: оплаты и остаток",
+    description: "Оплаты по документу: сколько выставлено, сколько оплачено, остаток и переплата, список платежей с датой и способом. Для вопроса «оплачен ли счёт» используйте этот инструмент.",
     inputSchema: PaymentsInput,
     outputSchema: PaymentsOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -3281,17 +3283,17 @@ function registerDocumentTools(server, ctx) {
       comment: payment.comment ?? null
     }));
     const markdown = [
-      `\u041E\u043F\u043B\u0430\u0442\u044B \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443: ${label(DOCUMENT_STATUS, result.status)}`,
+      `Оплаты по документу: ${label(DOCUMENT_STATUS, result.status)}`,
       "",
       mdBullets([
-        `\u0412\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E: ${formatMoneyString(result.total)}`,
-        `\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(result.paid)}`,
-        `\u041E\u0441\u0442\u0430\u0442\u043E\u043A: ${formatMoneyString(result.remaining)}`,
-        ...result.overpaid === null || result.overpaid === "0.00" ? [] : [`\u041F\u0435\u0440\u0435\u043F\u043B\u0430\u0442\u0430: ${formatMoneyString(result.overpaid)}`]
+        `Выставлено: ${formatMoneyString(result.total)}`,
+        `Оплачено: ${formatMoneyString(result.paid)}`,
+        `Остаток: ${formatMoneyString(result.remaining)}`,
+        ...result.overpaid === null || result.overpaid === "0.00" ? [] : [`Переплата: ${formatMoneyString(result.overpaid)}`]
       ]),
       "",
-      "**\u041F\u043B\u0430\u0442\u0435\u0436\u0438**",
-      payments.length === 0 ? "\u041F\u043B\u0430\u0442\u0435\u0436\u0435\u0439 \u043D\u0435\u0442." : mdBullets(payments.map((payment) => `${payment.paidAt ?? "\u2014"}: ${formatMoneyString(payment.amount)}${payment.method === "bank" ? " (\u0431\u0430\u043D\u043A)" : " (\u0432\u0440\u0443\u0447\u043D\u0443\u044E)"}${payment.comment === null ? "" : ` \u2014 ${payment.comment}`}`))
+      "**Платежи**",
+      payments.length === 0 ? "Платежей нет." : mdBullets(payments.map((payment) => `${payment.paidAt ?? "—"}: ${formatMoneyString(payment.amount)}${payment.method === "bank" ? " (банк)" : " (вручную)"}${payment.comment === null ? "" : ` — ${payment.comment}`}`))
     ].join("\n");
     return toolResult(markdown, {
       documentId: result.documentId,
@@ -3304,8 +3306,8 @@ function registerDocumentTools(server, ctx) {
     });
   }));
   server.registerTool(PDF_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0441\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 PDF",
-    description: "\u041A\u043E\u0440\u043E\u0442\u043A\u043E\u0436\u0438\u0432\u0443\u0449\u0430\u044F \u0441\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 PDF \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 (\u0441 \u043F\u0435\u0447\u0430\u0442\u044C\u044E \u0438 \u043F\u043E\u0434\u043F\u0438\u0441\u044C\u044E \u043F\u043E \u0437\u0430\u043F\u0440\u043E\u0441\u0443). PDF \u043D\u0435 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F \u0441\u043E\u0434\u0435\u0440\u0436\u0438\u043C\u044B\u043C \u2014 \u0442\u043E\u043B\u044C\u043A\u043E URL: \u043E\u0442\u0434\u0430\u0439\u0442\u0435 \u0435\u0433\u043E \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044E, \u0441\u0441\u044B\u043B\u043A\u0430 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442 \u0431\u0435\u0437 \u0442\u043E\u043A\u0435\u043D\u0430 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043D\u043E\u0435 \u0432\u0440\u0435\u043C\u044F.",
+    title: "Документ: ссылка на PDF",
+    description: "Короткоживущая ссылка на PDF документа (с печатью и подписью по запросу). PDF не возвращается содержимым — только URL: отдайте его пользователю, ссылка работает без токена ограниченное время.",
     inputSchema: PdfInput,
     outputSchema: PdfOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -3346,38 +3348,38 @@ async function loadDocumentCard(ctx, documentId, revision) {
   const subtotal = version?.totals.subtotal ?? current.totals.subtotal ?? null;
   const discountTotal = version?.totals.discountTotal ?? current.totals.discountTotal ?? null;
   const marks = [
-    `${label(DOCUMENT_TYPE, current.type)} \u2116 ${current.number ?? "\u0431/\u043D"} \u043E\u0442 ${current.documentDate ?? "\u2014"}`,
-    `\u0421\u0442\u0430\u0442\u0443\u0441: ${label(DOCUMENT_STATUS, current.status)}` + (current.currentRevision === 0 ? "" : `, \u0442\u0435\u043A\u0443\u0449\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F ${current.currentRevision}`),
-    `\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442: ${counterparty.shortName} (\u0418\u041D\u041D ${counterparty.inn ?? "\u2014"})`,
-    current.contractId === null ? "" : `\u0414\u043E\u0433\u043E\u0432\u043E\u0440: ${current.contractId}`,
-    `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(grandTotal)}` + (vatTotal === null ? "" : `, \u0432 \u0442.\u0447. \u041D\u0414\u0421 ${formatMoneyString(vatTotal)}`),
-    `\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(current.payments.paid)}, \u043E\u0441\u0442\u0430\u0442\u043E\u043A ${formatMoneyString(current.payments.remaining)}`,
-    current.issuedAt === null ? "" : `\u0412\u044B\u0434\u0430\u043D: ${formatIsoDate(current.issuedAt)}`,
-    current.cancelledAt === null ? "" : `\u0410\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D: ${formatIsoDate(current.cancelledAt)}` + (current.cancelReason === null ? "" : ` (${current.cancelReason})`),
-    version === void 0 ? "" : `\u041F\u043E\u043A\u0430\u0437\u0430\u043D\u0430 \u0432\u0435\u0440\u0441\u0438\u044F ${version.revision} \u043E\u0442 ${formatIsoDate(version.createdAt)}` + (version.changeReason === "" ? "" : ` \u2014 ${version.changeReason}`)
+    `${label(DOCUMENT_TYPE, current.type)} № ${current.number ?? "б/н"} от ${current.documentDate ?? "—"}`,
+    `Статус: ${label(DOCUMENT_STATUS, current.status)}` + (current.currentRevision === 0 ? "" : `, текущая версия ${current.currentRevision}`),
+    `Контрагент: ${counterparty.shortName} (ИНН ${counterparty.inn ?? "—"})`,
+    current.contractId === null ? "" : `Договор: ${current.contractId}`,
+    `Сумма: ${formatMoneyString(grandTotal)}` + (vatTotal === null ? "" : `, в т.ч. НДС ${formatMoneyString(vatTotal)}`),
+    `Оплачено: ${formatMoneyString(current.payments.paid)}, остаток ${formatMoneyString(current.payments.remaining)}`,
+    current.issuedAt === null ? "" : `Выдан: ${formatIsoDate(current.issuedAt)}`,
+    current.cancelledAt === null ? "" : `Аннулирован: ${formatIsoDate(current.cancelledAt)}` + (current.cancelReason === null ? "" : ` (${current.cancelReason})`),
+    version === void 0 ? "" : `Показана версия ${version.revision} от ${formatIsoDate(version.createdAt)}` + (version.changeReason === "" ? "" : ` — ${version.changeReason}`)
   ].filter((line) => line !== "");
   const positionRows = items.slice(0, 10).map((item) => [
     String(item.lineNo),
     `${item.name}${item.unit === null ? "" : `, ${item.unit}`}`,
-    `${item.qty ?? "\u2014"} \xD7 ${formatMoneyString(item.price)}`,
+    `${item.qty ?? "—"} × ${formatMoneyString(item.price)}`,
     formatMoneyString(item.lineTotal),
-    item.vatRate === null ? "\u2014" : `${item.vatRate} %`
+    item.vatRate === null ? "—" : `${item.vatRate} %`
   ]);
   const blocks = [marks.join("\n")];
   if (positionRows.length > 0) {
-    blocks.push("", `\u041F\u043E\u0437\u0438\u0446\u0438\u0438 (${items.length}):`, "", summaryTable({
+    blocks.push("", `Позиции (${items.length}):`, "", summaryTable({
       title: "",
-      headers: ["\u2116", "\u041F\u043E\u0437\u0438\u0446\u0438\u044F", "\u041A\u043E\u043B-\u0432\u043E \xD7 \u0446\u0435\u043D\u0430", "\u0421\u0443\u043C\u043C\u0430", "\u041D\u0414\u0421"],
+      headers: ["№", "Позиция", "Кол-во × цена", "Сумма", "НДС"],
       rows: positionRows
     }).replace(/^\n+/, "").replace(/^\n+/, ""));
     if (items.length > 10) {
-      blocks.push("", `\u2026\u0438 \u0435\u0449\u0451 ${items.length - 10}. \u041F\u043E\u043B\u043D\u044B\u0439 \u0441\u043F\u0438\u0441\u043E\u043A \u2014 \u0432 structuredContent.`);
+      blocks.push("", `…и ещё ${items.length - 10}. Полный список — в structuredContent.`);
     }
   }
   if (current.warnings.length > 0) {
-    blocks.push("", "**\u041F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u044F**", mdBullets(current.warnings.map((warning) => warning.message)));
+    blocks.push("", "**Предупреждения**", mdBullets(current.warnings.map((warning) => warning.message)));
   }
-  blocks.push("", "PDF: \u0441\u0441\u044B\u043B\u043A\u0443 \u043E\u0442\u0434\u0430\u0451\u0442 invoices_documents_pdf_link (\u0436\u0438\u0432\u0451\u0442 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043D\u043E\u0435 \u0432\u0440\u0435\u043C\u044F).");
+  blocks.push("", "PDF: ссылку отдаёт invoices_documents_pdf_link (живёт ограниченное время).");
   return {
     markdown: blocks.join("\n"),
     parentDocumentId: current.parentDocumentId ?? null,
@@ -3431,10 +3433,10 @@ async function createDocumentPdfLink(ctx, documentId, options) {
     ...options.watermark === void 0 ? {} : { watermark: options.watermark }
   });
   const markdown = [
-    `\u0421\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 PDF: ${link.url}`,
+    `Ссылка на PDF: ${link.url}`,
     "",
-    `\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0434\u043E ${formatIsoDate(link.expiresAt)} (${link.expiresAt}).`,
-    "\u0421\u0441\u044B\u043B\u043A\u0430 \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F: \u043A\u0442\u043E \u0435\u0451 \u043F\u043E\u043B\u0443\u0447\u0438\u043B, \u0442\u043E\u0442 \u043C\u043E\u0436\u0435\u0442 \u043E\u0442\u043A\u0440\u044B\u0442\u044C PDF. \u041D\u0435 \u043F\u0435\u0440\u0435\u0441\u044B\u043B\u0430\u0439\u0442\u0435 \u0435\u0451 \u0432 \u043D\u0435\u0434\u043E\u0432\u0435\u0440\u0435\u043D\u043D\u044B\u0435 \u043A\u0430\u043D\u0430\u043B\u044B."
+    `Действует до ${formatIsoDate(link.expiresAt)} (${link.expiresAt}).`,
+    "Ссылка публичная: кто её получил, тот может открыть PDF. Не пересылайте её в недоверенные каналы."
   ].join("\n");
   return { markdown, data: { url: link.url, expiresAt: link.expiresAt } };
 }
@@ -3445,8 +3447,8 @@ var CANCEL_TOOL = "invoices_documents_cancel";
 var DELETE_DRAFT_TOOL = "invoices_documents_delete_draft";
 var CREATE_ACT_TOOL = "invoices_documents_create_act";
 var IMPORT_TOOL = "invoices_documents_import";
-var MoneyString2 = z8.string().regex(/^\d+(\.\d{1,2})?$/, '\u0441\u0443\u043C\u043C\u0430 \u0441\u0442\u0440\u043E\u043A\u043E\u0439 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445 \u0441 \u043A\u043E\u043F\u0435\u0439\u043A\u0430\u043C\u0438, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 "124000.00"');
-var QtyString = z8.string().regex(/^\d+(\.\d{1,3})?$/, "\u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u0442\u0440\u043E\u043A\u043E\u0439, \u0434\u043E \u0442\u0440\u0451\u0445 \u0437\u043D\u0430\u043A\u043E\u0432 \u043F\u043E\u0441\u043B\u0435 \u0442\u043E\u0447\u043A\u0438");
+var MoneyString2 = z8.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "124000.00"');
+var QtyString = z8.string().regex(/^\d+(\.\d{1,3})?$/, "количество строкой, до трёх знаков после точки");
 var VatRate = z8.union([
   z8.literal(0),
   z8.literal(5),
@@ -3456,13 +3458,13 @@ var VatRate = z8.union([
   z8.literal(22)
 ]);
 var ItemInput = z8.object({
-  productId: z8.uuid().optional().describe("ID \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u044B, \u0435\u0441\u043B\u0438 \u0446\u0435\u043D\u0430 \u0431\u0435\u0440\u0451\u0442\u0441\u044F \u0438\u0437 \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0430"),
-  name: z8.string().trim().min(1).describe("\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435 \u0432 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0435"),
-  unit: z8.string().trim().min(1).describe("\u0415\u0434\u0438\u043D\u0438\u0446\u0430: \u0448\u0442, \u0443\u0441\u043B, \u043C\u0435\u0441, \u0447 \u2026"),
+  productId: z8.uuid().optional().describe("ID позиции номенклатуры, если цена берётся из справочника"),
+  name: z8.string().trim().min(1).describe("Наименование в документе"),
+  unit: z8.string().trim().min(1).describe("Единица: шт, усл, мес, ч …"),
   qty: QtyString,
-  price: MoneyString2.describe("\u0426\u0435\u043D\u0430 \u0437\u0430 \u0435\u0434\u0438\u043D\u0438\u0446\u0443 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445"),
-  discount: z8.object({ kind: z8.enum(["percent", "amount"]), value: z8.string() }).optional().describe("\u0421\u043A\u0438\u0434\u043A\u0430: percent \u2014 \u043F\u0440\u043E\u0446\u0435\u043D\u0442\u044B, amount \u2014 \u0441\u0443\u043C\u043C\u0430 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445"),
-  vatRate: VatRate.optional().describe("\u0421\u0442\u0430\u0432\u043A\u0430 \u041D\u0414\u0421: 0, 5, 7, 10, 20 \u0438\u043B\u0438 22"),
+  price: MoneyString2.describe("Цена за единицу в рублях"),
+  discount: z8.object({ kind: z8.enum(["percent", "amount"]), value: z8.string() }).optional().describe("Скидка: percent — проценты, amount — сумма в рублях"),
+  vatRate: VatRate.optional().describe("Ставка НДС: 0, 5, 7, 10, 20 или 22"),
   note: z8.string().optional()
 });
 var TotalsOutput = z8.object({
@@ -3472,17 +3474,17 @@ var TotalsOutput = z8.object({
   grandTotal: nullableString
 });
 var CreateDraftInput = z8.object({
-  type: z8.enum(["invoice", "act", "invoice_facture"]).describe("\u0422\u0438\u043F \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A\u0430"),
-  organizationId: z8.uuid().describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u043E\u0439 \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442"),
-  contractorId: z8.uuid().describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 (ID \u0438\u0437 invoices_contractors_search)"),
-  documentDate: DateOnly2.describe("\u0414\u0430\u0442\u0430 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430, DD.MM.YYYY"),
-  contractId: z8.uuid().optional().describe("\u0414\u043E\u0433\u043E\u0432\u043E\u0440, \u043A \u043A\u043E\u0442\u043E\u0440\u043E\u043C\u0443 \u043E\u0442\u043D\u043E\u0441\u0438\u0442\u0441\u044F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442"),
-  basis: z8.string().optional().describe("\u041E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435"),
-  period: z8.object({ from: DateOnly2, to: DateOnly2, label: z8.string().optional() }).optional().describe("\u041F\u0435\u0440\u0438\u043E\u0434 \u043E\u043A\u0430\u0437\u0430\u043D\u0438\u044F \u0443\u0441\u043B\u0443\u0433 (\u0434\u043B\u044F \u0430\u043A\u0442\u0430)"),
+  type: z8.enum(["invoice", "act", "invoice_facture"]).describe("Тип черновика"),
+  organizationId: z8.uuid().describe("Организация, от которой выставляется документ"),
+  contractorId: z8.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
+  documentDate: DateOnly2.describe("Дата документа, DD.MM.YYYY"),
+  contractId: z8.uuid().optional().describe("Договор, к которому относится документ"),
+  basis: z8.string().optional().describe("Основание"),
+  period: z8.object({ from: DateOnly2, to: DateOnly2, label: z8.string().optional() }).optional().describe("Период оказания услуг (для акта)"),
   note: z8.string().optional(),
-  items: z8.array(ItemInput).min(1).describe("\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430; \u0446\u0435\u043D\u0430 \u0438 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u0442\u0440\u043E\u043A\u0430\u043C\u0438"),
-  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("\u041A\u043B\u044E\u0447 \u0438\u0434\u0435\u043C\u043F\u043E\u0442\u0435\u043D\u0442\u043D\u043E\u0441\u0442\u0438: \u043F\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0442\u043E\u0442 \u0436\u0435, \u0447\u0442\u043E\u0431\u044B \u043D\u0435 \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u0434\u0443\u0431\u043B\u044C"),
-  confirm: z8.boolean().optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E true")
+  items: z8.array(ItemInput).min(1).describe("Позиции документа; цена и количество строками"),
+  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не создать дубль"),
+  confirm: z8.boolean().optional().describe("Обязательно true")
 });
 var CreateDraftOutput = z8.object({
   id: z8.string(),
@@ -3493,7 +3495,7 @@ var CreateDraftOutput = z8.object({
 });
 var UpdateItemsInput = z8.object({
   documentId: z8.uuid(),
-  items: z8.array(ItemInput).min(1).describe("\u041F\u043E\u043B\u043D\u0430\u044F \u0437\u0430\u043C\u0435\u043D\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0439: \u0441\u043F\u0438\u0441\u043E\u043A \u0437\u0430\u043C\u0435\u043D\u0438\u0442 \u0442\u0435\u043A\u0443\u0449\u0438\u0439 \u0446\u0435\u043B\u0438\u043A\u043E\u043C"),
+  items: z8.array(ItemInput).min(1).describe("Полная замена позиций: список заменит текущий целиком"),
   confirm: z8.boolean().optional()
 });
 var UpdateItemsOutput = z8.object({
@@ -3503,10 +3505,10 @@ var UpdateItemsOutput = z8.object({
 });
 var IssueInput = z8.object({
   documentId: z8.uuid(),
-  number: z8.string().optional().describe("\u0421\u0432\u043E\u0439 \u043D\u043E\u043C\u0435\u0440; \u0431\u0435\u0437 \u043D\u0435\u0433\u043E \u2014 \u0438\u0437 \u0441\u0435\u0440\u0432\u0438\u0441\u0430 \u043D\u0443\u043C\u0435\u0440\u0430\u0446\u0438\u0438"),
-  documentDate: DateOnly2.optional().describe("\u0414\u0430\u0442\u0430 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430; \u0431\u0435\u0437 \u043D\u0435\u0451 \u2014 \u0442\u0435\u043A\u0443\u0449\u0430\u044F"),
-  withSeal: z8.boolean().optional().describe("\u041F\u0435\u0447\u0430\u0442\u044C \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 (\u0435\u0441\u043B\u0438 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D\u0430)"),
-  withSignature: z8.boolean().optional().describe("\u041F\u043E\u0434\u043F\u0438\u0441\u044C (\u0435\u0441\u043B\u0438 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D\u0430)"),
+  number: z8.string().optional().describe("Свой номер; без него — из сервиса нумерации"),
+  documentDate: DateOnly2.optional().describe("Дата документа; без неё — текущая"),
+  withSeal: z8.boolean().optional().describe("Печать организации (если загружена)"),
+  withSignature: z8.boolean().optional().describe("Подпись (если загружена)"),
   idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional(),
   confirm: z8.boolean().optional()
 });
@@ -3520,7 +3522,7 @@ var IssueOutput = z8.object({
 });
 var CancelInput = z8.object({
   documentId: z8.uuid(),
-  reason: z8.string().trim().min(3).describe("\u041F\u0440\u0438\u0447\u0438\u043D\u0430 \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u2014 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u0430 \u0438 \u043F\u043E\u043F\u0430\u0434\u0430\u0435\u0442 \u0432 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442"),
+  reason: z8.string().trim().min(3).describe("Причина аннулирования — обязательна и попадает в документ"),
   confirm: z8.boolean().optional()
 });
 var CancelOutput = z8.object({
@@ -3538,9 +3540,9 @@ var DeleteDraftOutput = z8.object({
   deleted: z8.literal(true)
 });
 var CreateActInput = z8.object({
-  invoiceId: z8.uuid().describe("\u0421\u0447\u0451\u0442, \u043F\u043E \u043A\u043E\u0442\u043E\u0440\u043E\u043C\u0443 \u0437\u0430\u043A\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0430\u043A\u0442"),
-  mode: z8.enum(["full", "partial"]).describe("full \u2014 \u0432\u0435\u0441\u044C \u0441\u0447\u0451\u0442, partial \u2014 \u043F\u043E \u043F\u043E\u0437\u0438\u0446\u0438\u044F\u043C"),
-  allocations: z8.array(z8.object({ itemId: z8.uuid(), qty: QtyString })).optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0434\u043B\u044F mode = partial: \u043A\u0430\u043A\u0438\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0438 \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0437\u0430\u043A\u0440\u044B\u0442\u044C"),
+  invoiceId: z8.uuid().describe("Счёт, по которому закрывается акт"),
+  mode: z8.enum(["full", "partial"]).describe("full — весь счёт, partial — по позициям"),
+  allocations: z8.array(z8.object({ itemId: z8.uuid(), qty: QtyString })).optional().describe("Обязательно для mode = partial: какие позиции и сколько закрыть"),
   documentDate: DateOnly2.optional(),
   confirm: z8.boolean().optional()
 });
@@ -3552,14 +3554,14 @@ var CreateActOutput = z8.object({
   totals: TotalsOutput
 });
 var ImportInput = z8.object({
-  type: z8.enum(["invoice", "act"]).describe("\u0422\u0438\u043F \u0441\u043E\u0437\u0434\u0430\u0432\u0430\u0435\u043C\u043E\u0433\u043E \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A\u0430"),
+  type: z8.enum(["invoice", "act"]).describe("Тип создаваемого черновика"),
   organizationId: z8.uuid(),
-  contractorId: z8.uuid().optional().describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442; \u043C\u043E\u0436\u043D\u043E \u043D\u0435 \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C, \u0435\u0441\u043B\u0438 \u043E\u043D \u0435\u0441\u0442\u044C \u0432 \u0444\u0430\u0439\u043B\u0435"),
+  contractorId: z8.uuid().optional().describe("Контрагент; можно не указывать, если он есть в файле"),
   documentDate: DateOnly2,
-  text: z8.string().min(1).optional().describe("\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u0442\u0435\u043A\u0441\u0442\u043E\u043C: TSV/CSV. \u041B\u0438\u0431\u043E text, \u043B\u0438\u0431\u043E items \u2014 \u043D\u0435 \u043E\u0431\u0430"),
-  items: z8.array(z8.record(z8.string(), z8.unknown())).optional().describe("\u0413\u043E\u0442\u043E\u0432\u044B\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u043C\u0430\u0441\u0441\u0438\u0432\u043E\u043C \u043E\u0431\u044A\u0435\u043A\u0442\u043E\u0432 (\u043F\u043E\u043B\u044F \u043A\u0430\u043A \u0432 items \u043E\u0431\u044B\u0447\u043D\u043E\u0433\u043E \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u044F)"),
+  text: z8.string().min(1).optional().describe("Позиции текстом: TSV/CSV. Либо text, либо items — не оба"),
+  items: z8.array(z8.record(z8.string(), z8.unknown())).optional().describe("Готовые позиции массивом объектов (поля как в items обычного создания)"),
   settings: z8.object({
-    delimiter: z8.enum(["auto", ",", ";", "|", "	"]).optional().describe('\u0420\u0430\u0437\u0434\u0435\u043B\u0438\u0442\u0435\u043B\u044C; \u0434\u043B\u044F \u0442\u0430\u0431\u0443\u043B\u044F\u0446\u0438\u0438 \u2014 "\\t"'),
+    delimiter: z8.enum(["auto", ",", ";", "|", "	"]).optional().describe('Разделитель; для табуляции — "\\t"'),
     hasHeader: z8.boolean().optional(),
     decimalSeparator: z8.enum(["auto", ".", ","]).optional(),
     sumMismatchPolicy: z8.enum(["trust_sum", "recalc_by_price"]).optional(),
@@ -3593,8 +3595,8 @@ var ImportOutput = z8.object({
 });
 function registerDocumentWriteTools(server, ctx) {
   server.registerTool(CREATE_DRAFT_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A",
-    description: '\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0441\u0447\u0451\u0442\u0430/\u0430\u043A\u0442\u0430/\u0441\u0447\u0451\u0442\u0430-\u0444\u0430\u043A\u0442\u0443\u0440\u044B. \u041D\u0415 \u0432\u044B\u0434\u0430\u0451\u0442 \u0435\u0433\u043E: \u043D\u043E\u043C\u0435\u0440 \u0438 PDF \u043F\u043E\u044F\u0432\u044F\u0442\u0441\u044F \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u043E\u0441\u043B\u0435 invoices_documents_issue. \u0426\u0435\u043D\u044B \u0438 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u2014 \u0441\u0442\u0440\u043E\u043A\u0430\u043C\u0438 ("124000.00"), \u043D\u0435 \u0447\u0438\u0441\u043B\u0430\u043C\u0438. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.',
+    title: "Документ: создать черновик",
+    description: 'Создаёт черновик счёта/акта/счёта-фактуры. НЕ выдаёт его: номер и PDF появятся только после invoices_documents_issue. Верните пользователю id из ответа: по нему работают invoices_documents_get, update_items и issue, а поиск по номеру черновик не найдёт. Цены и количество — строками ("124000.00"), не числами. Требует confirm: true.',
     inputSchema: CreateDraftInput,
     outputSchema: CreateDraftOutput,
     annotations: WRITE_ANNOTATIONS
@@ -3613,17 +3615,17 @@ function registerDocumentWriteTools(server, ctx) {
       message: warning.message
     }));
     const markdown = [
-      `\u0427\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0441\u043E\u0437\u0434\u0430\u043D: ${label(DOCUMENT_TYPE, created.type)} \u043E\u0442 ${created.documentDate ?? "\u2014"}`,
+      `Черновик создан: ${label(DOCUMENT_TYPE, created.type)} от ${created.documentDate ?? "—"}`,
       `ID: ${created.id}`,
       "",
       mdBullets([
-        `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(totals.grandTotal)}`,
-        `\u041D\u0414\u0421: ${formatMoneyString(totals.vatTotal)}`,
-        `\u041F\u043E\u0437\u0438\u0446\u0438\u0439: ${created.totals.itemsCount}`
+        `Сумма: ${formatMoneyString(totals.grandTotal)}`,
+        `НДС: ${formatMoneyString(totals.vatTotal)}`,
+        `Позиций: ${created.totals.itemsCount}`
       ]),
-      ...warnings.length === 0 ? [] : ["", "**\u041E\u0431\u0440\u0430\u0442\u0438\u0442\u0435 \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u0435**", mdBullets(warnings.map((warning) => warning.message))],
+      ...warnings.length === 0 ? [] : ["", "**Обратите внимание**", mdBullets(warnings.map((warning) => warning.message))],
       "",
-      "\u0414\u0430\u043B\u044C\u0448\u0435: \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u0438 (invoices_documents_get / update_items) \u0438 \u0432\u044B\u0434\u0430\u0442\u044C \u0441 invoices_documents_issue (\u043F\u043E\u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F confirm: true)."
+      "Дальше: проверить позиции (invoices_documents_get / update_items) и выдать с invoices_documents_issue (потребуется confirm: true)."
     ].join("\n");
     return toolResult(markdown, {
       id: created.id,
@@ -3634,8 +3636,8 @@ function registerDocumentWriteTools(server, ctx) {
     });
   }));
   server.registerTool(UPDATE_ITEMS_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0437\u0430\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u0438",
-    description: "\u041F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E \u0437\u0430\u043C\u0435\u043D\u044F\u0435\u0442 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0427\u0415\u0420\u041D\u041E\u0412\u0418\u041A\u0410. \u0423 \u0432\u044B\u0434\u0430\u043D\u043D\u043E\u0433\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 \u043F\u0440\u0430\u0432\u043A\u0438 \u0437\u0430\u043F\u0440\u0435\u0449\u0435\u043D\u044B (\u043D\u0443\u0436\u043D\u0430 \u0440\u0435\u0432\u0438\u0437\u0438\u044F \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.",
+    title: "Документ: заменить позиции",
+    description: "Полностью заменяет позиции ЧЕРНОВИКА. У выданного документа правки запрещены (нужна ревизия в кабинете). Требует confirm: true.",
     inputSchema: UpdateItemsInput,
     outputSchema: UpdateItemsOutput,
     annotations: WRITE_ANNOTATIONS
@@ -3649,18 +3651,18 @@ function registerDocumentWriteTools(server, ctx) {
       grandTotal: updated.totals.grandTotal ?? null
     };
     return toolResult([
-      `\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u0437\u0430\u043C\u0435\u043D\u0435\u043D\u044B: ${label(DOCUMENT_TYPE, updated.type)} \u043E\u0442 ${updated.documentDate ?? "\u2014"}`,
+      `Позиции заменены: ${label(DOCUMENT_TYPE, updated.type)} от ${updated.documentDate ?? "—"}`,
       "",
       mdBullets([
-        `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(totals.grandTotal)}`,
-        `\u041D\u0414\u0421: ${formatMoneyString(totals.vatTotal)}`,
-        `\u041F\u043E\u0437\u0438\u0446\u0438\u0439: ${updated.totals.itemsCount}`
+        `Сумма: ${formatMoneyString(totals.grandTotal)}`,
+        `НДС: ${formatMoneyString(totals.vatTotal)}`,
+        `Позиций: ${updated.totals.itemsCount}`
       ])
     ].join("\n"), { id: updated.id, status: updated.status, totals });
   }));
   server.registerTool(ISSUE_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0432\u044B\u0434\u0430\u0442\u044C",
-    description: "\u0412\u044B\u0434\u0430\u0451\u0442 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A: \u0444\u0438\u043A\u0441\u0438\u0440\u0443\u0435\u0442 \u043D\u043E\u043C\u0435\u0440, \u0432\u0435\u0440\u0441\u0438\u044E \u0438 PDF. \u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u043F\u043E\u0441\u043B\u0435 \u044D\u0442\u043E\u0433\u043E \u043D\u0435\u0438\u0437\u043C\u0435\u043D\u044F\u0435\u043C (\u043F\u0440\u0430\u0432\u043A\u0438 \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0440\u0435\u0432\u0438\u0437\u0438\u0435\u0439 \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435). \u041D\u0415\u041E\u0411\u0420\u0410\u0422\u0418\u041C\u041E, \u0442\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true \u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u0438\u044F \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F.",
+    title: "Документ: выдать",
+    description: "Выдаёт черновик: фиксирует номер, версию и PDF. Документ после этого неизменяем (правки — только ревизией в кабинете). НЕОБРАТИМО, требует confirm: true и согласия пользователя.",
     inputSchema: IssueInput,
     outputSchema: IssueOutput,
     annotations: DESTRUCTIVE_ANNOTATIONS
@@ -3670,15 +3672,15 @@ function registerDocumentWriteTools(server, ctx) {
       idempotencyKey: idempotencyKeyOf(idempotencyKey)
     });
     const markdown = [
-      `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u0432\u044B\u0434\u0430\u043D: \u2116 **${issued.number ?? "\u0431/\u043D"}** \u043E\u0442 ${issued.documentDate ?? "\u2014"}`,
+      `Документ выдан: № **${issued.number ?? "б/н"}** от ${issued.documentDate ?? "—"}`,
       "",
       mdBullets([
-        `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(issued.totals.grandTotal)}`,
-        `\u0412\u0435\u0440\u0441\u0438\u044F: ${issued.currentRevision}`,
+        `Сумма: ${formatMoneyString(issued.totals.grandTotal)}`,
+        `Версия: ${issued.currentRevision}`,
         `ID: ${issued.id}`
       ]),
       "",
-      "\u0421\u0441\u044B\u043B\u043A\u0443 \u043D\u0430 PDF \u0434\u0430\u0451\u0442 invoices_documents_pdf_link. \u0410\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u2014 invoices_documents_cancel (\u0442\u043E\u0436\u0435 \u0441 confirm)."
+      "Ссылку на PDF даёт invoices_documents_pdf_link. Аннулирование — invoices_documents_cancel (тоже с confirm)."
     ].join("\n");
     return toolResult(markdown, {
       id: issued.id,
@@ -3690,8 +3692,8 @@ function registerDocumentWriteTools(server, ctx) {
     });
   }));
   server.registerTool(CANCEL_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u0442\u044C",
-    description: "\u0410\u043D\u043D\u0443\u043B\u0438\u0440\u0443\u0435\u0442 \u0432\u044B\u0434\u0430\u043D\u043D\u044B\u0439 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u0441 \u043F\u0440\u0438\u0447\u0438\u043D\u043E\u0439. \u041D\u0435\u043E\u0431\u0440\u0430\u0442\u0438\u043C\u043E: \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u043E\u0441\u0442\u0430\u0451\u0442\u0441\u044F \u0432 \u0430\u0440\u0445\u0438\u0432\u0435 \u0441 \u043E\u0442\u043C\u0435\u0442\u043A\u043E\u0439. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true \u0438 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0439 \u043F\u0440\u0438\u0447\u0438\u043D\u044B.",
+    title: "Документ: аннулировать",
+    description: "Аннулирует выданный документ с причиной. Необратимо: документ остаётся в архиве с отметкой. Требует confirm: true и обязательной причины.",
     inputSchema: CancelInput,
     outputSchema: CancelOutput,
     annotations: DESTRUCTIVE_ANNOTATIONS
@@ -3699,9 +3701,9 @@ function registerDocumentWriteTools(server, ctx) {
     const { confirm: _confirm, documentId, reason } = args;
     const cancelled = await ctx.sdk.documents.cancel(documentId, { reason });
     return toolResult([
-      `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u2116 ${cancelled.number ?? "\u0431/\u043D"} \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D.`,
-      `\u041F\u0440\u0438\u0447\u0438\u043D\u0430: ${cancelled.cancelReason ?? reason}`,
-      `\u0410\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D: ${formatIsoDate(cancelled.cancelledAt)}`
+      `Документ № ${cancelled.number ?? "б/н"} аннулирован.`,
+      `Причина: ${cancelled.cancelReason ?? reason}`,
+      `Аннулирован: ${formatIsoDate(cancelled.cancelledAt)}`
     ].join("\n"), {
       id: cancelled.id,
       status: cancelled.status,
@@ -3710,27 +3712,27 @@ function registerDocumentWriteTools(server, ctx) {
     });
   }));
   server.registerTool(DELETE_DRAFT_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A",
-    description: "\u0423\u0434\u0430\u043B\u044F\u0435\u0442 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A. \u0412\u044B\u0434\u0430\u043D\u043D\u044B\u0439 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u0443\u0434\u0430\u043B\u0438\u0442\u044C \u043D\u0435\u043B\u044C\u0437\u044F \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u0442\u044C (invoices_documents_cancel). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.",
+    title: "Документ: удалить черновик",
+    description: "Удаляет черновик. Выданный документ удалить нельзя — только аннулировать (invoices_documents_cancel). Требует confirm: true.",
     inputSchema: DeleteDraftInput,
     outputSchema: DeleteDraftOutput,
     annotations: DESTRUCTIVE_ANNOTATIONS
   }, (args) => mutation(ctx, DELETE_DRAFT_TOOL, args.confirm, async () => {
     await ctx.sdk.documents.delete(args.documentId);
-    return toolResult(`\u0427\u0435\u0440\u043D\u043E\u0432\u0438\u043A ${args.documentId} \u0443\u0434\u0430\u043B\u0451\u043D.`, {
+    return toolResult(`Черновик ${args.documentId} удалён.`, {
       id: args.documentId,
       deleted: true
     });
   }));
   server.registerTool(CREATE_ACT_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0430\u043A\u0442 \u043F\u043E \u0441\u0447\u0451\u0442\u0443",
-    description: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u0427\u0415\u0420\u041D\u041E\u0412\u0418\u041A \u0430\u043A\u0442\u0430 \u043F\u043E \u0441\u0447\u0451\u0442\u0443: mode = full \u0437\u0430\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0441\u0447\u0451\u0442 \u0446\u0435\u043B\u0438\u043A\u043E\u043C, partial \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0438 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u0430 (allocations). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true. \u0412\u044B\u0434\u0430\u0447\u0430 \u0430\u043A\u0442\u0430 \u2014 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u043E \u0447\u0435\u0440\u0435\u0437 invoices_documents_issue.",
+    title: "Документ: акт по счёту",
+    description: "Создаёт ЧЕРНОВИК акта по счёту: mode = full закрывает счёт целиком, partial — только указанные позиции и количества (allocations). Требует confirm: true. Выдача акта — отдельно через invoices_documents_issue.",
     inputSchema: CreateActInput,
     outputSchema: CreateActOutput,
     annotations: WRITE_ANNOTATIONS
   }, (args) => mutation(ctx, CREATE_ACT_TOOL, args.confirm, async () => {
     if (args.mode === "partial" && (args.allocations === void 0 || args.allocations.length === 0)) {
-      throw new PaginationError("\u0414\u043B\u044F mode = partial \u043D\u0443\u0436\u0435\u043D allocations: \u0441\u043F\u0438\u0441\u043E\u043A \u043F\u043E\u0437\u0438\u0446\u0438\u0439 {itemId, qty} \u0438\u0437 \u0441\u0447\u0451\u0442\u0430. \u0421\u043E\u0441\u0442\u0430\u0432 \u043F\u043E\u0437\u0438\u0446\u0438\u0439 \u0441\u0447\u0451\u0442\u0430 \u043E\u0442\u0434\u0430\u0451\u0442 invoices_documents_get.");
+      throw new PaginationError("Для mode = partial нужен allocations: список позиций {itemId, qty} из счёта. Состав позиций счёта отдаёт invoices_documents_get.");
     }
     const { confirm: _confirm, invoiceId, ...body } = args;
     const act = await ctx.sdk.documents.createActFromInvoice(invoiceId, body);
@@ -3741,12 +3743,12 @@ function registerDocumentWriteTools(server, ctx) {
       grandTotal: act.totals.grandTotal ?? null
     };
     return toolResult([
-      `\u0427\u0435\u0440\u043D\u043E\u0432\u0438\u043A \u0430\u043A\u0442\u0430 \u0441\u043E\u0437\u0434\u0430\u043D \u043F\u043E \u0441\u0447\u0451\u0442\u0443: ${act.id}`,
+      `Черновик акта создан по счёту: ${act.id}`,
       "",
       mdBullets([
-        `\u0421\u0443\u043C\u043C\u0430: ${formatMoneyString(totals.grandTotal)}`,
-        `\u041F\u043E\u0437\u0438\u0446\u0438\u0439: ${act.totals.itemsCount}`,
-        `\u0421\u0447\u0451\u0442-\u0440\u043E\u0434\u0438\u0442\u0435\u043B\u044C: ${act.parentDocumentId ?? invoiceId}`
+        `Сумма: ${formatMoneyString(totals.grandTotal)}`,
+        `Позиций: ${act.totals.itemsCount}`,
+        `Счёт-родитель: ${act.parentDocumentId ?? invoiceId}`
       ])
     ].join("\n"), {
       id: act.id,
@@ -3757,14 +3759,14 @@ function registerDocumentWriteTools(server, ctx) {
     });
   }));
   server.registerTool(IMPORT_TOOL, {
-    title: "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442: \u0438\u043C\u043F\u043E\u0440\u0442 \u043F\u043E\u0437\u0438\u0446\u0438\u0439",
-    description: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u0427\u0415\u0420\u041D\u041E\u0412\u0418\u041A \u0438\u0437 \u0441\u043F\u0438\u0441\u043A\u0430 \u043F\u043E\u0437\u0438\u0446\u0438\u0439: \u0442\u0435\u043A\u0441\u0442 (TSV/CSV) \u0438\u043B\u0438 \u0433\u043E\u0442\u043E\u0432\u044B\u0439 JSON-\u043C\u0430\u0441\u0441\u0438\u0432. \u0424\u0430\u0439\u043B\u044B \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u044E\u0442\u0441\u044F. \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 importReport: \u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0441\u0442\u0440\u043E\u043A \u0440\u0430\u0437\u043E\u0431\u0440\u0430\u043D\u043E, \u0447\u0442\u043E \u043D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0438 \u043F\u043E\u0447\u0435\u043C\u0443. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true.",
+    title: "Документ: импорт позиций",
+    description: "Создаёт ЧЕРНОВИК из списка позиций: текст (TSV/CSV) или готовый JSON-массив. Файлы не передаются. Возвращает importReport: сколько строк разобрано, что не удалось и почему. Требует confirm: true.",
     inputSchema: ImportInput,
     outputSchema: ImportOutput,
     annotations: WRITE_ANNOTATIONS
   }, (args) => mutation(ctx, IMPORT_TOOL, args.confirm, async () => {
     if (args.text === void 0 === (args.items === void 0)) {
-      throw new PaginationError("\u041D\u0443\u0436\u043D\u043E \u0440\u043E\u0432\u043D\u043E \u043E\u0434\u043D\u043E \u0438\u0437 \u0434\u0432\u0443\u0445: text (\u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0441\u0442\u0440\u043E\u043A\u0430\u043C\u0438 TSV/CSV) \u0438\u043B\u0438 items (\u043C\u0430\u0441\u0441\u0438\u0432 \u043E\u0431\u044A\u0435\u043A\u0442\u043E\u0432). \u041E\u0431\u0430 \u0441\u0440\u0430\u0437\u0443 \u0438\u043B\u0438 \u043D\u0438 \u043E\u0434\u043D\u043E\u0433\u043E \u2014 \u043E\u0448\u0438\u0431\u043A\u0430.");
+      throw new PaginationError("Нужно ровно одно из двух: text (позиции строками TSV/CSV) или items (массив объектов). Оба сразу или ни одного — ошибка.");
     }
     const { confirm: _confirm, contractorId, idempotencyKey, ...rest } = args;
     const result = await ctx.sdk.imports.importDocument({
@@ -3773,22 +3775,22 @@ function registerDocumentWriteTools(server, ctx) {
     }, { idempotencyKey: idempotencyKeyOf(idempotencyKey) });
     const report = result.importReport;
     return toolResult([
-      `\u0418\u043C\u043F\u043E\u0440\u0442 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D: \u0441\u043E\u0437\u0434\u0430\u043D \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A ${result.id}`,
+      `Импорт выполнен: создан черновик ${result.id}`,
       "",
       mdBullets([
-        `\u0421\u0442\u0440\u043E\u043A \u0432 \u0438\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u0435: ${report.rowsTotal}`,
-        `\u0418\u043C\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u043E: ${report.imported}`,
-        `\u041F\u0440\u043E\u043F\u0443\u0449\u0435\u043D\u043E: ${report.skipped}`,
-        `\u0421 \u043E\u0448\u0438\u0431\u043A\u0430\u043C\u0438: ${report.failed}`
+        `Строк в источнике: ${report.rowsTotal}`,
+        `Импортировано: ${report.imported}`,
+        `Пропущено: ${report.skipped}`,
+        `С ошибками: ${report.failed}`
       ]),
       ...report.errors.length === 0 ? [] : [
         "",
-        "**\u041E\u0448\u0438\u0431\u043A\u0438 \u0441\u0442\u0440\u043E\u043A**",
-        mdBullets(report.errors.slice(0, 10).map((error) => `\u0441\u0442\u0440\u043E\u043A\u0430 ${error.row ?? "\u2014"}${error.column === null ? "" : `, \u043A\u043E\u043B\u043E\u043D\u043A\u0430 ${error.column}`}: ${error.message}`)),
-        ...report.errors.length > 10 ? [`\u2026\u0438 \u0435\u0449\u0451 ${report.errors.length - 10}.`] : []
+        "**Ошибки строк**",
+        mdBullets(report.errors.slice(0, 10).map((error) => `строка ${error.row ?? "—"}${error.column === null ? "" : `, колонка ${error.column}`}: ${error.message}`)),
+        ...report.errors.length > 10 ? [`…и ещё ${report.errors.length - 10}.`] : []
       ],
       "",
-      "\u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0447\u0435\u0440\u0435\u0437 invoices_documents_get \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0434\u0430\u0447\u0435\u0439."
+      "Проверьте позиции через invoices_documents_get перед выдачей."
     ].join("\n"), {
       id: result.id,
       status: result.status,
@@ -3818,13 +3820,13 @@ var ACT = "act";
 var ACT_TEMPLATE = "act://{id}";
 function registerDocumentResources(server, ctx) {
   server.registerResource(INVOICE, new ResourceTemplate3(INVOICE_TEMPLATE, {
-    list: () => listTemplateItems(ctx, INVOICE, () => listDocuments(ctx, "invoice", "\u0421\u0447\u0451\u0442")),
+    list: () => listTemplateItems(ctx, INVOICE, () => listDocuments(ctx, "invoice", "Счёт")),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.documents.list({ type: "invoice", limit: 5 })).items)
     }
   }), {
-    title: "\u0421\u0447\u0451\u0442",
-    description: "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0441\u0447\u0451\u0442\u0430: \u0448\u0430\u043F\u043A\u0430, \u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u0438\u0442\u043E\u0433\u0438, \u0441\u0442\u0430\u0442\u0443\u0441, \u043E\u043F\u043B\u0430\u0442\u044B. \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435; \u0432\u044B\u0434\u0430\u043D\u043D\u044B\u0439 \u0441\u0447\u0451\u0442 \u043D\u0435\u0438\u0437\u043C\u0435\u043D\u044F\u0435\u043C.",
+    title: "Счёт",
+    description: "Карточка счёта: шапка, позиции, итоги, статус, оплаты. Только чтение; выданный счёт неизменяем.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, INVOICE, async () => {
     const id = requireId(variables, INVOICE_TEMPLATE);
@@ -3836,36 +3838,36 @@ function registerDocumentResources(server, ctx) {
   }));
   server.registerResource(INVOICE_PDF, new ResourceTemplate3(INVOICE_PDF_TEMPLATE, {
     list: () => listTemplateItems(ctx, INVOICE_PDF, async () => {
-      const items = await listDocuments(ctx, "invoice", "\u0421\u0447\u0451\u0442");
+      const items = await listDocuments(ctx, "invoice", "Счёт");
       return items.map((item) => ({
         ...item,
         uri: `${item.uri}/pdf`,
-        name: `${item.name} \u2014 PDF`
+        name: `${item.name} — PDF`
       }));
     }),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.documents.list({ type: "invoice", limit: 5 })).items)
     }
   }), {
-    title: "PDF \u0441\u0447\u0451\u0442\u0430",
-    description: "\u0421\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 PDF \u0441\u0447\u0451\u0442\u0430 \u0441 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043D\u044B\u043C \u0441\u0440\u043E\u043A\u043E\u043C \u0436\u0438\u0437\u043D\u0438 (\u043D\u0435 \u0431\u0438\u043D\u0430\u0440\u043D\u0438\u043A). \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435.",
+    title: "PDF счёта",
+    description: "Ссылка на PDF счёта с ограниченным сроком жизни (не бинарник). Только чтение.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, INVOICE_PDF, async () => {
     const id = requireId(variables, INVOICE_PDF_TEMPLATE);
     const link = await createDocumentPdfLink(ctx, id, {});
-    return resourceResult(uri, [`PDF \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 ${id}`, "", link.markdown].join("\n"), {
+    return resourceResult(uri, [`PDF документа ${id}`, "", link.markdown].join("\n"), {
       documentId: id,
       ...link.data
     });
   }));
   server.registerResource(ACT, new ResourceTemplate3(ACT_TEMPLATE, {
-    list: () => listTemplateItems(ctx, ACT, () => listDocuments(ctx, "act", "\u0410\u043A\u0442")),
+    list: () => listTemplateItems(ctx, ACT, () => listDocuments(ctx, "act", "Акт")),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.documents.list({ type: "act", limit: 5 })).items)
     }
   }), {
-    title: "\u0410\u043A\u0442",
-    description: "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u0430\u043A\u0442\u0430: \u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u0441\u0443\u043C\u043C\u044B, \u0441\u0447\u0451\u0442-\u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435. \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435.",
+    title: "Акт",
+    description: "Карточка акта: позиции, суммы, счёт-основание. Только чтение.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, ACT, async () => {
     const id = requireId(variables, ACT_TEMPLATE);
@@ -3875,7 +3877,7 @@ function registerDocumentResources(server, ctx) {
     }
     const parent = card.parentDocumentId;
     const markdown = [
-      parent === null ? "\u0421\u0447\u0451\u0442-\u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435 \u043D\u0435 \u0443\u043A\u0430\u0437\u0430\u043D." : `\u0421\u0447\u0451\u0442-\u043E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\u0435: invoice://${parent}`,
+      parent === null ? "Счёт-основание не указан." : `Счёт-основание: invoice://${parent}`,
       "",
       card.markdown
     ].join("\n");
@@ -3886,15 +3888,15 @@ async function listDocuments(ctx, type, prefix) {
   const items = toPage(await ctx.sdk.documents.list({ type, limit: 5 })).items;
   return items.map((document) => ({
     uri: `${type === "invoice" ? "invoice" : "act"}://${document.id}`,
-    name: `${prefix} \u2116 ${document.number ?? "\u0431/\u043D"}`,
-    title: `${prefix} \u2116 ${document.number ?? "\u0431/\u043D"} \u043E\u0442 ${document.documentDate}`,
-    description: `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u043E\u0442 ${document.documentDate}, ${document.counterpartyShortName}`
+    name: `${prefix} № ${document.number ?? "б/н"}`,
+    title: `${prefix} № ${document.number ?? "б/н"} от ${document.documentDate}`,
+    description: `Документ от ${document.documentDate}, ${document.counterpartyShortName}`
   }));
 }
 function wrongType(actual, id, expected) {
   const actualLabel = label(DOCUMENT_TYPE, actual);
-  const hint = actual === "act" ? `\u0410\u043A\u0442 \u0447\u0438\u0442\u0430\u0439\u0442\u0435 \u043F\u043E act://${id}.` : actual === "invoice" ? `\u0421\u0447\u0451\u0442 \u0447\u0438\u0442\u0430\u0439\u0442\u0435 \u043F\u043E invoice://${id}.` : "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0443 \u043B\u044E\u0431\u043E\u0433\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430 \u043E\u0442\u0434\u0430\u0451\u0442 invoices_documents_get.";
-  return new ProtocolError3(ProtocolErrorCode2.InvalidParams, `${expected === "invoice" ? "invoice://{id}" : "act://{id}"} \u0447\u0438\u0442\u0430\u0435\u0442 \u0442\u043E\u043B\u044C\u043A\u043E ${expected === "invoice" ? "\u0441\u0447\u0435\u0442\u0430" : "\u0430\u043A\u0442\u044B"}, \u0430 \u044D\u0442\u043E\u0442 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u2014 ${actualLabel}. ${hint}`);
+  const hint = actual === "act" ? `Акт читайте по act://${id}.` : actual === "invoice" ? `Счёт читайте по invoice://${id}.` : "Карточку любого документа отдаёт invoices_documents_get.";
+  return new ProtocolError3(ProtocolErrorCode2.InvalidParams, `${expected === "invoice" ? "invoice://{id}" : "act://{id}"} читает только ${expected === "invoice" ? "счета" : "акты"}, а этот документ — ${actualLabel}. ${hint}`);
 }
 
 // apps/mcp/dist/resources/organizations.js
@@ -3917,17 +3919,17 @@ var OrganizationListItem = z9.object({
   status: z9.enum(["active", "archived"])
 });
 var ListInput = z9.object({
-  status: z9.enum(["active", "archived"]).optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0435 \u0438\u043B\u0438 \u0442\u043E\u043B\u044C\u043A\u043E \u0430\u0440\u0445\u0438\u0432\u043D\u044B\u0435 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
-  q: z9.string().trim().min(1).optional().describe("\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E \u0438\u043B\u0438 \u0418\u041D\u041D"),
-  limit: z9.number().int().optional().describe("\u0421\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u0435\u0440\u043D\u0443\u0442\u044C: 1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20; \u0431\u043E\u043B\u044C\u0448\u0435 100 \u2014 \u043E\u0448\u0438\u0431\u043A\u0430 \u0441 \u043F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u043E\u0439 \u043F\u0440\u043E cursor"),
-  cursor: z9.string().optional().describe("nextCursor \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430")
+  status: z9.enum(["active", "archived"]).optional().describe("Только активные или только архивные организации"),
+  q: z9.string().trim().min(1).optional().describe("Поиск по названию или ИНН"),
+  limit: z9.number().int().optional().describe("Сколько вернуть: 1–100, по умолчанию 20; больше 100 — ошибка с подсказкой про cursor"),
+  cursor: z9.string().optional().describe("nextCursor из предыдущего ответа")
 });
 var ListOutput = z9.object({
   items: z9.array(OrganizationListItem),
   nextCursor: z9.string().nullable()
 });
 var GetInput4 = z9.object({
-  organizationId: z9.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 (UUID)")
+  organizationId: z9.uuid().describe("Идентификатор организации (UUID)")
 });
 var SignatoryItem = z9.object({
   fullName: z9.string(),
@@ -3966,8 +3968,8 @@ var GetOutput4 = z9.object({
 });
 function registerOrganizationTools(server, ctx) {
   server.registerTool(LIST_TOOL, {
-    title: "\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438: \u0441\u043F\u0438\u0441\u043E\u043A",
-    description: "\u0421\u043F\u0438\u0441\u043E\u043A \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0430 (\u043A\u0440\u0430\u0442\u043A\u043E: \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435, \u0418\u041D\u041D, \u0440\u0435\u0436\u0438\u043C \u041D\u041E, \u041D\u0414\u0421, \u0441\u0442\u0430\u0442\u0443\u0441). \u041D\u0443\u0436\u0435\u043D \u0432 \u0441\u0430\u043C\u043E\u043C \u043D\u0430\u0447\u0430\u043B\u0435, \u0447\u0442\u043E\u0431\u044B \u043F\u043E\u043D\u044F\u0442\u044C, \u043E\u0442 \u043A\u0430\u043A\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438 \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u044F\u0442\u044C \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B. \u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 items + nextCursor.",
+    title: "Организации: список",
+    description: "Список организаций кабинета (кратко: название, ИНН, режим НО, НДС, статус). Нужен в самом начале, чтобы понять, от какой организации выставлять документы. Возвращает страницу items + nextCursor.",
     inputSchema: ListInput,
     outputSchema: ListOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -3992,8 +3994,8 @@ function registerOrganizationTools(server, ctx) {
       status: organization.status
     }));
     const markdown = summaryTable({
-      title: `\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0439: ${items.length}${args.q === void 0 ? "" : ` (\u043F\u043E\u0438\u0441\u043A \xAB${args.q}\xBB)`}`,
-      headers: ["\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F", "\u0418\u041D\u041D", "\u0420\u0435\u0436\u0438\u043C \u041D\u041E", "\u041D\u0414\u0421", "\u0421\u0442\u0430\u0442\u0443\u0441"],
+      title: `Организаций: ${items.length}${args.q === void 0 ? "" : ` (поиск «${args.q}»)`}`,
+      headers: ["Организация", "ИНН", "Режим НО", "НДС", "Статус"],
       rows: items.map((organization) => [
         organization.shortName,
         organization.inn,
@@ -4003,14 +4005,14 @@ function registerOrganizationTools(server, ctx) {
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0443 \u0441 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u0430\u043C\u0438 \u0438 \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u043C\u0438 \u0441\u0447\u0435\u0442\u0430\u043C\u0438 \u043E\u0442\u0434\u0430\u0451\u0442 invoices_organizations_get."
+        "Карточку с реквизитами и банковскими счетами отдаёт invoices_organizations_get."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
   server.registerTool(GET_TOOL4, {
-    title: "\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F: \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430",
-    description: "\u0420\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438: \u0418\u041D\u041D/\u041A\u041F\u041F/\u041E\u0413\u0420\u041D, \u0430\u0434\u0440\u0435\u0441\u0430, \u0440\u0435\u0436\u0438\u043C \u041D\u041E \u0438 \u041D\u0414\u0421, \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0435 \u0441\u0447\u0435\u0442\u0430, \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u044B \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E. \u041D\u0443\u0436\u043D\u0430 \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u043C \u0441\u0447\u0451\u0442\u0430 \u0438 \u0434\u043B\u044F \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438 \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u043E\u0432 \u0432 PDF.",
+    title: "Организация: карточка",
+    description: "Реквизиты организации: ИНН/КПП/ОГРН, адреса, режим НО и НДС, банковские счета, подписанты по умолчанию. Нужна перед выставлением счёта и для проверки реквизитов в PDF.",
     inputSchema: GetInput4,
     outputSchema: GetOutput4,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4037,24 +4039,24 @@ async function loadOrganizationCard(ctx, organizationId) {
   const kindSuffix = organization.shortName.includes(kindLabel) ? "" : ` (${kindLabel})`;
   const requisites = [
     `**${organization.shortName}**${kindSuffix}`,
-    `\u0418\u041D\u041D ${organization.inn}${organization.kpp === null ? "" : `, \u041A\u041F\u041F ${organization.kpp}`}`,
-    organization.ogrn === null ? "" : `\u041E\u0413\u0420\u041D ${organization.ogrn}`,
-    organization.ogrnip === null ? "" : `\u041E\u0413\u0420\u041D\u0418\u041F ${organization.ogrnip}`,
-    `\u0420\u0435\u0436\u0438\u043C \u041D\u041E: ${label(TAX_REGIME, organization.taxRegime)}` + (organization.additionalRegime === null ? "" : ` + ${label(TAX_REGIME, organization.additionalRegime)}`),
-    `\u041D\u0414\u0421: ${label(VAT_STATUS, organization.vatStatus)}` + (organization.vatRateDefault === null ? "" : `, \u0441\u0442\u0430\u0432\u043A\u0430 \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E ${organization.vatRateDefault} %`),
-    organization.legalAddress === null ? "" : `\u042E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0430\u0434\u0440\u0435\u0441: ${organization.legalAddress}`,
-    organization.phone === null ? "" : `\u0422\u0435\u043B\u0435\u0444\u043E\u043D: ${organization.phone}`,
+    `ИНН ${organization.inn}${organization.kpp === null ? "" : `, КПП ${organization.kpp}`}`,
+    organization.ogrn === null ? "" : `ОГРН ${organization.ogrn}`,
+    organization.ogrnip === null ? "" : `ОГРНИП ${organization.ogrnip}`,
+    `Режим НО: ${label(TAX_REGIME, organization.taxRegime)}` + (organization.additionalRegime === null ? "" : ` + ${label(TAX_REGIME, organization.additionalRegime)}`),
+    `НДС: ${label(VAT_STATUS, organization.vatStatus)}` + (organization.vatRateDefault === null ? "" : `, ставка по умолчанию ${organization.vatRateDefault} %`),
+    organization.legalAddress === null ? "" : `Юридический адрес: ${organization.legalAddress}`,
+    organization.phone === null ? "" : `Телефон: ${organization.phone}`,
     organization.email === null ? "" : `Email: ${organization.email}`
   ].filter((line) => line !== "");
-  const accounts = bankAccounts.length === 0 ? ["\u0411\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0445 \u0441\u0447\u0435\u0442\u043E\u0432 \u043D\u0435\u0442 \u2014 \u0441\u0447\u0451\u0442 \u043D\u0435\u043B\u044C\u0437\u044F \u0432\u044B\u0434\u0430\u0442\u044C, \u043F\u043E\u043A\u0430 \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u0441\u0447\u0451\u0442 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438."] : bankAccounts.map((account) => `- ${account.bankName}, \u0411\u0418\u041A ${account.bik}, \u0441\u0447\u0451\u0442 ${account.account}${account.isDefault ? " (\u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439)" : ""}`);
-  const signers = signatories.length === 0 ? ["\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u043E\u0432 \u043D\u0435\u0442."] : signatories.map((signatory) => `- ${signatory.fullName}${signatory.position === null ? "" : `, ${signatory.position}`}${signatory.isDefault ? " (\u043E\u0441\u043D\u043E\u0432\u043D\u043E\u0439)" : ""}`);
+  const accounts = bankAccounts.length === 0 ? ["Банковских счетов нет — счёт нельзя выдать, пока не добавлен счёт организации."] : bankAccounts.map((account) => `- ${account.bankName}, БИК ${account.bik}, счёт ${account.account}${account.isDefault ? " (основной)" : ""}`);
+  const signers = signatories.length === 0 ? ["Подписантов нет."] : signatories.map((signatory) => `- ${signatory.fullName}${signatory.position === null ? "" : `, ${signatory.position}`}${signatory.isDefault ? " (основной)" : ""}`);
   const markdown = [
     requisites.join("\n"),
     "",
-    "**\u0411\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0435 \u0441\u0447\u0435\u0442\u0430**",
+    "**Банковские счета**",
     accounts.join("\n"),
     "",
-    "**\u041F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u044B**",
+    "**Подписанты**",
     signers.join("\n")
   ].join("\n");
   return {
@@ -4096,15 +4098,15 @@ function registerOrganizationResources(server, ctx) {
         uri: `organization://${organization.id}`,
         name: organization.shortName,
         title: organization.shortName,
-        description: `\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F, \u0418\u041D\u041D ${organization.inn}`
+        description: `Организация, ИНН ${organization.inn}`
       }));
     }),
     complete: {
       id: completeIds(async () => toPage(await ctx.sdk.organizations.list({ limit: 5 })).items)
     }
   }), {
-    title: "\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F",
-    description: "\u041A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438: \u0440\u0435\u043A\u0432\u0438\u0437\u0438\u0442\u044B, \u0440\u0435\u0436\u0438\u043C \u041D\u041E \u0438 \u041D\u0414\u0421, \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0438\u0435 \u0441\u0447\u0435\u0442\u0430, \u043F\u043E\u0434\u043F\u0438\u0441\u0430\u043D\u0442\u044B. \u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435.",
+    title: "Организация",
+    description: "Карточка организации: реквизиты, режим НО и НДС, банковские счета, подписанты. Только чтение.",
     mimeType: "text/markdown"
   }, (uri, variables) => readResource(ctx, RESOURCE3, async () => {
     const card = await loadOrganizationCard(ctx, requireId(variables, TEMPLATE3));
@@ -4124,19 +4126,19 @@ function registerResources(server, ctx) {
 import { z as z10 } from "zod";
 var CREATE_TOOL2 = "invoices_payments_create";
 var LIST_TOOL2 = "invoices_payments_list";
-var DateOnly3 = z10.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "\u0434\u0430\u0442\u0430 \u0432 \u0444\u043E\u0440\u043C\u0430\u0442\u0435 DD.MM.YYYY");
-var MoneyString3 = z10.string().regex(/^\d+(\.\d{1,2})?$/, '\u0441\u0443\u043C\u043C\u0430 \u0441\u0442\u0440\u043E\u043A\u043E\u0439 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445 \u0441 \u043A\u043E\u043F\u0435\u0439\u043A\u0430\u043C\u0438, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 "50000.00"');
+var DateOnly3 = z10.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
+var MoneyString3 = z10.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "50000.00"');
 var CreateInput2 = z10.object({
-  amount: MoneyString3.describe("\u0421\u0443\u043C\u043C\u0430 \u043F\u043B\u0430\u0442\u0435\u0436\u0430 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445"),
-  paidAt: DateOnly3.describe("\u0414\u0430\u0442\u0430 \u043F\u043B\u0430\u0442\u0435\u0436\u0430, DD.MM.YYYY"),
-  documentId: z10.uuid().optional().describe("\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442, \u043A \u043A\u043E\u0442\u043E\u0440\u043E\u043C\u0443 \u043E\u0442\u043D\u043E\u0441\u0438\u0442\u0441\u044F \u043E\u043F\u043B\u0430\u0442\u0430"),
-  organizationId: z10.uuid().optional().describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F; \u043C\u043E\u0436\u043D\u043E \u043D\u0435 \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u043F\u0440\u0438 documentId"),
-  contractorId: z10.uuid().optional().describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442; \u043C\u043E\u0436\u043D\u043E \u043D\u0435 \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u043F\u0440\u0438 documentId"),
-  method: z10.enum(["manual", "bank"]).optional().describe("manual \u2014 \u0432\u0440\u0443\u0447\u043D\u0443\u044E (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E), bank \u2014 \u0431\u0430\u043D\u043A"),
-  bankTxId: z10.string().optional().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u043E\u0439 \u0442\u0440\u0430\u043D\u0437\u0430\u043A\u0446\u0438\u0438 (\u0434\u043B\u044F method = bank)"),
+  amount: MoneyString3.describe("Сумма платежа в рублях"),
+  paidAt: DateOnly3.describe("Дата платежа, DD.MM.YYYY"),
+  documentId: z10.uuid().optional().describe("Документ, к которому относится оплата"),
+  organizationId: z10.uuid().optional().describe("Организация; можно не указывать при documentId"),
+  contractorId: z10.uuid().optional().describe("Контрагент; можно не указывать при documentId"),
+  method: z10.enum(["manual", "bank"]).optional().describe("manual — вручную (по умолчанию), bank — банк"),
+  bankTxId: z10.string().optional().describe("Идентификатор банковской транзакции (для method = bank)"),
   comment: z10.string().optional(),
-  idempotencyKey: z10.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("\u041A\u043B\u044E\u0447 \u0438\u0434\u0435\u043C\u043F\u043E\u0442\u0435\u043D\u0442\u043D\u043E\u0441\u0442\u0438: \u043F\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0442\u043E\u0442 \u0436\u0435, \u0447\u0442\u043E\u0431\u044B \u043D\u0435 \u0437\u0430\u0434\u0432\u043E\u0438\u0442\u044C \u043E\u043F\u043B\u0430\u0442\u0443"),
-  confirm: z10.boolean().optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E true")
+  idempotencyKey: z10.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не задвоить оплату"),
+  confirm: z10.boolean().optional().describe("Обязательно true")
 });
 var CreateOutput2 = z10.object({
   id: z10.string(),
@@ -4156,11 +4158,11 @@ var CreateOutput2 = z10.object({
 });
 var ListInput2 = z10.object({
   organizationId: z10.uuid().optional(),
-  contractorId: z10.uuid().optional().describe("\u041F\u043B\u0430\u0442\u0435\u0436\u0438 \u044D\u0442\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430"),
-  documentId: z10.uuid().optional().describe("\u041F\u043B\u0430\u0442\u0435\u0436\u0438 \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443"),
+  contractorId: z10.uuid().optional().describe("Платежи этого контрагента"),
+  documentId: z10.uuid().optional().describe("Платежи по документу"),
   from: DateOnly3.optional(),
   to: DateOnly3.optional(),
-  limit: z10.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
+  limit: z10.number().int().optional().describe("1–100, по умолчанию 20"),
   cursor: z10.string().optional()
 });
 var ListItem = z10.object({
@@ -4179,8 +4181,8 @@ var ListOutput2 = z10.object({
 });
 function registerPaymentTools(server, ctx) {
   server.registerTool(CREATE_TOOL2, {
-    title: "\u041E\u043F\u043B\u0430\u0442\u0430: \u043E\u0442\u043C\u0435\u0442\u0438\u0442\u044C",
-    description: "\u041E\u0442\u043C\u0435\u0447\u0430\u0435\u0442 \u043F\u043E\u0441\u0442\u0443\u043F\u043B\u0435\u043D\u0438\u0435 \u043E\u043F\u043B\u0430\u0442\u044B (\u0432\u0440\u0443\u0447\u043D\u0443\u044E \u0438\u043B\u0438 \u0431\u0430\u043D\u043A\u043E\u0432\u0441\u043A\u0443\u044E). \u0421\u0443\u043C\u043C\u0430 \u2014 \u0441\u0442\u0440\u043E\u043A\u043E\u0439. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true: \u043F\u043B\u0430\u0442\u0435\u0436\u0438 \u0432\u043B\u0438\u044F\u044E\u0442 \u043D\u0430 \u0434\u043E\u043B\u0433 \u0438 \u043E\u0442\u0447\u0451\u0442\u044B. \u041F\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0442\u043E\u0442 \u0436\u0435 idempotencyKey, \u0447\u0442\u043E\u0431\u044B \u043D\u0435 \u0437\u0430\u0434\u0432\u043E\u0438\u0442\u044C \u043E\u043F\u043B\u0430\u0442\u0443.",
+    title: "Оплата: отметить",
+    description: "Отмечает поступление оплаты (вручную или банковскую). Сумма — строкой. Требует confirm: true: платежи влияют на долг и отчёты. При повторе передайте тот же idempotencyKey, чтобы не задвоить оплату.",
     inputSchema: CreateInput2,
     outputSchema: CreateOutput2,
     annotations: DESTRUCTIVE_ANNOTATIONS
@@ -4200,14 +4202,14 @@ function registerPaymentTools(server, ctx) {
       overpaid: payment.document.overpaid ?? null
     };
     const markdown = [
-      `\u041E\u043F\u043B\u0430\u0442\u0430 \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u0430: ${formatMoneyString(payment.amount)} \u043E\u0442 ${payment.paidAt ?? "\u2014"}`,
-      `\u0421\u043F\u043E\u0441\u043E\u0431: ${label(PAYMENT_METHOD, payment.method)}`,
+      `Оплата отмечена: ${formatMoneyString(payment.amount)} от ${payment.paidAt ?? "—"}`,
+      `Способ: ${label(PAYMENT_METHOD, payment.method)}`,
       ...document === null ? [] : [
         "",
         mdBullets([
-          `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442 \u2116 ${document.number ?? "\u0431/\u043D"}: ${label(DOCUMENT_STATUS, document.status)}`,
-          `\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(document.paid)}, \u043E\u0441\u0442\u0430\u0442\u043E\u043A ${formatMoneyString(document.remaining)}`,
-          ...document.overpaid === null || document.overpaid === "0.00" ? [] : [`\u041F\u0435\u0440\u0435\u043F\u043B\u0430\u0442\u0430: ${formatMoneyString(document.overpaid)}`]
+          `Документ № ${document.number ?? "б/н"}: ${label(DOCUMENT_STATUS, document.status)}`,
+          `Оплачено: ${formatMoneyString(document.paid)}, остаток ${formatMoneyString(document.remaining)}`,
+          ...document.overpaid === null || document.overpaid === "0.00" ? [] : [`Переплата: ${formatMoneyString(document.overpaid)}`]
         ])
       ]
     ].join("\n");
@@ -4222,8 +4224,8 @@ function registerPaymentTools(server, ctx) {
     });
   }));
   server.registerTool(LIST_TOOL2, {
-    title: "\u041E\u043F\u043B\u0430\u0442\u044B: \u0441\u043F\u0438\u0441\u043E\u043A",
-    description: "\u041F\u043E\u0441\u0442\u0443\u043F\u043B\u0435\u043D\u0438\u044F \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434 \u0438\u043B\u0438 \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443/\u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0443: \u0434\u0430\u0442\u0430, \u0441\u0443\u043C\u043C\u0430, \u0441\u043F\u043E\u0441\u043E\u0431, \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442. \u0414\u043B\u044F \xAB\u043A\u0430\u043A\u0438\u0435 \u043E\u043F\u043B\u0430\u0442\u044B \u0431\u044B\u043B\u0438 \u0432 \u043E\u043A\u0442\u044F\u0431\u0440\u0435\xBB \u0438 \u0441\u0432\u0435\u0440\u043A\u0438 \u0432\u044B\u043F\u0438\u0441\u043A\u0438.",
+    title: "Оплаты: список",
+    description: "Поступления за период или по документу/контрагенту: дата, сумма, способ, документ. Для «какие оплаты были в октябре» и сверки выписки.",
     inputSchema: ListInput2,
     outputSchema: ListOutput2,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
@@ -4258,17 +4260,17 @@ function registerPaymentTools(server, ctx) {
     }, 0n);
     const totalRubles = `${totalKopecks / 100n}.${(totalKopecks % 100n).toString().padStart(2, "0")}`;
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u041E\u043F\u043B\u0430\u0442 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434 \u043D\u0435\u0442." : `\u041E\u043F\u043B\u0430\u0442 \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${items.length}`,
-      headers: ["\u0414\u0430\u0442\u0430", "\u0421\u0443\u043C\u043C\u0430", "\u0421\u043F\u043E\u0441\u043E\u0431", "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442", "\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439"],
+      title: items.length === 0 ? "Оплат за период нет." : `Оплат на странице: ${items.length}`,
+      headers: ["Дата", "Сумма", "Способ", "Документ", "Комментарий"],
       rows: items.map((payment) => [
-        payment.paidAt ?? "\u2014",
+        payment.paidAt ?? "—",
         formatMoneyString(payment.amount),
         label(PAYMENT_METHOD, payment.method),
-        payment.documentNumber ?? "\u2014",
-        payment.comment ?? "\u2014"
+        payment.documentNumber ?? "—",
+        payment.comment ?? "—"
       ]),
       footer: [
-        `\u0418\u0442\u043E\u0433\u043E \u043F\u043E \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${formatMoneyString(totalRubles)}`,
+        `Итого по странице: ${formatMoneyString(totalRubles)}`,
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""]
       ]
     });
@@ -4280,17 +4282,17 @@ function registerPaymentTools(server, ctx) {
 import { z as z11 } from "zod";
 var LIST_TOOL3 = "invoices_products_list";
 var CREATE_TOOL3 = "invoices_products_create";
-var MoneyString4 = z11.string().regex(/^\d+(\.\d{1,2})?$/, '\u0441\u0443\u043C\u043C\u0430 \u0441\u0442\u0440\u043E\u043A\u043E\u0439 \u0432 \u0440\u0443\u0431\u043B\u044F\u0445 \u0441 \u043A\u043E\u043F\u0435\u0439\u043A\u0430\u043C\u0438, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 "16500.00"');
+var MoneyString4 = z11.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "16500.00"');
 var VatRate2 = z11.union([z11.literal(0), z11.literal(5), z11.literal(7), z11.literal(10), z11.literal(20), z11.literal(22)]).nullable();
 var CreateInput3 = z11.object({
-  name: z11.string().trim().min(1).describe("\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438"),
-  kind: z11.enum(["service", "product"]).describe("\u0423\u0441\u043B\u0443\u0433\u0430 \u0438\u043B\u0438 \u0442\u043E\u0432\u0430\u0440"),
-  unit: z11.string().trim().min(1).optional().describe("\u041A\u043E\u0434 \u0435\u0434\u0438\u043D\u0438\u0446\u044B \u0438\u0437 \u0441\u043F\u0440\u0430\u0432\u043E\u0447\u043D\u0438\u043A\u0430: \xAB\u0448\u0442\xBB, \xAB\u0447\xBB, \xAB\u043C\u0435\u0441\xBB \u2026 (\u0432 API \u2014 unitCode)"),
-  price: MoneyString4.optional().describe('\u0426\u0435\u043D\u0430 \u0437\u0430 \u0435\u0434\u0438\u043D\u0438\u0446\u0443 \u0441\u0442\u0440\u043E\u043A\u043E\u0439, "16500.00"; \u043D\u0435\u0442 \u0446\u0435\u043D\u044B \u2014 \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0439\u0442\u0435'),
-  vatRate: VatRate2.optional().describe("\u0421\u0442\u0430\u0432\u043A\u0430 \u041D\u0414\u0421: 0, 5, 7, 10, 20, 22 \u0438\u043B\u0438 null (\u0431\u0435\u0437 \u041D\u0414\u0421); \u043D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u0430 \u2014 \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0439\u0442\u0435"),
-  sku: z11.string().trim().min(1).optional().describe("\u0410\u0440\u0442\u0438\u043A\u0443\u043B"),
-  description: z11.string().trim().min(1).optional().describe("\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438"),
-  confirm: z11.boolean().optional().describe("\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E true: \u0441\u043E\u0437\u0434\u0430\u0451\u0442 \u0437\u0430\u043F\u0438\u0441\u044C")
+  name: z11.string().trim().min(1).describe("Наименование позиции"),
+  kind: z11.enum(["service", "product"]).describe("Услуга или товар"),
+  unit: z11.string().trim().min(1).optional().describe("Код единицы из справочника: «шт», «ч», «мес» … (в API — unitCode)"),
+  price: MoneyString4.optional().describe('Цена за единицу строкой, "16500.00"; нет цены — не передавайте'),
+  vatRate: VatRate2.optional().describe("Ставка НДС: 0, 5, 7, 10, 20, 22 или null (без НДС); неизвестна — не передавайте"),
+  sku: z11.string().trim().min(1).optional().describe("Артикул"),
+  description: z11.string().trim().min(1).optional().describe("Описание позиции"),
+  confirm: z11.boolean().optional().describe("Обязательно true: создаёт запись")
 });
 var CreateOutput3 = z11.object({
   id: z11.string(),
@@ -4313,11 +4315,11 @@ var ProductListItem = z11.object({
   isActive: z11.boolean()
 });
 var ListInput3 = z11.object({
-  query: z11.string().trim().min(1).optional().describe("\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E \u0438\u043B\u0438 \u0430\u0440\u0442\u0438\u043A\u0443\u043B\u0443"),
-  kind: z11.enum(["service", "product"]).optional().describe("\u0423\u0441\u043B\u0443\u0433\u0430 \u0438\u043B\u0438 \u0442\u043E\u0432\u0430\u0440"),
-  includeInactive: z11.boolean().optional().describe("\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0438 \u0430\u0440\u0445\u0438\u0432\u043D\u044B\u0435 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u0442\u043E\u043B\u044C\u043A\u043E \u0430\u043A\u0442\u0438\u0432\u043D\u044B\u0435)"),
-  limit: z11.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
-  cursor: z11.string().optional().describe("nextCursor \u0438\u0437 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0435\u0433\u043E \u043E\u0442\u0432\u0435\u0442\u0430")
+  query: z11.string().trim().min(1).optional().describe("Поиск по названию или артикулу"),
+  kind: z11.enum(["service", "product"]).optional().describe("Услуга или товар"),
+  includeInactive: z11.boolean().optional().describe("Показать и архивные позиции (по умолчанию только активные)"),
+  limit: z11.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z11.string().optional().describe("nextCursor из предыдущего ответа")
 });
 var ListOutput3 = z11.object({
   items: z11.array(ProductListItem),
@@ -4325,8 +4327,8 @@ var ListOutput3 = z11.object({
 });
 function registerProductTools(server, ctx) {
   server.registerTool(LIST_TOOL3, {
-    title: "\u041D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430: \u0441\u043F\u0438\u0441\u043E\u043A",
-    description: "\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u044B: \u0443\u0441\u043B\u0443\u0433\u0438 \u0438 \u0442\u043E\u0432\u0430\u0440\u044B \u0441 \u0446\u0435\u043D\u043E\u0439, \u0435\u0434\u0438\u043D\u0438\u0446\u0435\u0439 \u0438 \u0441\u0442\u0430\u0432\u043A\u043E\u0439 \u041D\u0414\u0421. \u041D\u0443\u0436\u0435\u043D, \u0447\u0442\u043E\u0431\u044B \u043F\u043E\u0434\u043E\u0431\u0440\u0430\u0442\u044C \u0446\u0435\u043D\u0443 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u0439 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0432\u043C\u0435\u0441\u0442\u043E \u0432\u044B\u0434\u0443\u043C\u0430\u043D\u043D\u043E\u0439 \u0438 \u043D\u0435 \u0441\u043E\u0437\u0434\u0430\u0432\u0430\u0442\u044C \u0434\u0443\u0431\u043B\u0438\u043A\u0430\u0442.",
+    title: "Номенклатура: список",
+    description: "Позиции номенклатуры: услуги и товары с ценой, единицей и ставкой НДС. Нужен, чтобы подобрать цену существующей позиции вместо выдуманной и не создавать дубликат.",
     inputSchema: ListInput3,
     outputSchema: ListOutput3,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4350,19 +4352,19 @@ function registerProductTools(server, ctx) {
       isActive: product.isActive
     }));
     const markdown = summaryTable({
-      title: items.length === 0 ? `\u041F\u043E\u0437\u0438\u0446\u0438\u0438 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B${args.query === void 0 ? "" : ` \u043F\u043E \u0437\u0430\u043F\u0440\u043E\u0441\u0443 \xAB${args.query}\xBB`}.` : `\u041F\u043E\u0437\u0438\u0446\u0438\u0439: ${items.length}${args.query === void 0 ? "" : ` (\u0437\u0430\u043F\u0440\u043E\u0441 \xAB${args.query}\xBB)`}`,
-      headers: ["\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435", "\u0412\u0438\u0434", "\u0415\u0434.", "\u0426\u0435\u043D\u0430", "\u041D\u0414\u0421", "\u0410\u043A\u0442\u0438\u0432\u043D\u0430"],
+      title: items.length === 0 ? `Позиции не найдены${args.query === void 0 ? "" : ` по запросу «${args.query}»`}.` : `Позиций: ${items.length}${args.query === void 0 ? "" : ` (запрос «${args.query}»)`}`,
+      headers: ["Название", "Вид", "Ед.", "Цена", "НДС", "Активна"],
       rows: items.map((product) => [
         product.name,
         label(PRODUCT_KIND, product.kind),
-        product.unit ?? "\u2014",
-        product.price === null ? "\u2014" : formatMoneyString(product.price),
-        product.vatRate === null ? "\u2014" : `${product.vatRate} %`,
-        product.isActive ? "\u0434\u0430" : "\u0432 \u0430\u0440\u0445\u0438\u0432\u0435"
+        product.unit ?? "—",
+        product.price === null ? "—" : formatMoneyString(product.price),
+        product.vatRate === null ? "—" : `${product.vatRate} %`,
+        product.isActive ? "да" : "в архиве"
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u0426\u0435\u043D\u0443 \u0438 \u041D\u0414\u0421 \u0432 \u0441\u0447\u0451\u0442\u0435 \u0431\u0435\u0440\u0438\u0442\u0435 \u0438\u0437 \u044D\u0442\u043E\u0439 \u043F\u043E\u0437\u0438\u0446\u0438\u0438, \u0435\u0441\u043B\u0438 \u043E\u043D\u0430 \u0435\u0441\u0442\u044C; \u0438\u043D\u0430\u0447\u0435 \u0441\u043F\u0440\u043E\u0441\u0438\u0442\u0435 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F."
+        "Цену и НДС в счёте берите из этой позиции, если она есть; иначе спросите пользователя."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
@@ -4370,8 +4372,8 @@ function registerProductTools(server, ctx) {
 }
 function registerProductWriteTools(server, ctx) {
   server.registerTool(CREATE_TOOL3, {
-    title: "\u041D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430: \u0441\u043E\u0437\u0434\u0430\u0442\u044C",
-    description: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u043F\u043E\u0437\u0438\u0446\u0438\u044E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u044B (\u0443\u0441\u043B\u0443\u0433\u0443 \u0438\u043B\u0438 \u0442\u043E\u0432\u0430\u0440). \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true. \u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u043F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435, \u043D\u0435\u0442 \u043B\u0438 \u0442\u0430\u043A\u043E\u0439 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0447\u0435\u0440\u0435\u0437 invoices_products_list \u2014 \u043F\u043E\u0432\u0442\u043E\u0440 \u0441\u043E\u0437\u0434\u0430\u0441\u0442 \u0434\u0443\u0431\u043B\u044C. \u0426\u0435\u043D\u0443 \u0438 \u0441\u0442\u0430\u0432\u043A\u0443 \u041D\u0414\u0421 \u043D\u0435 \u0432\u044B\u0434\u0443\u043C\u044B\u0432\u0430\u0439\u0442\u0435: \u0435\u0441\u043B\u0438 \u0438\u0445 \u043D\u0435\u0442, \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0439\u0442\u0435 \u043F\u043E\u043B\u0435.",
+    title: "Номенклатура: создать",
+    description: "Создаёт позицию номенклатуры (услугу или товар). Требует confirm: true. Сначала проверьте, нет ли такой позиции через invoices_products_list — повтор создаст дубль. Цену и ставку НДС не выдумывайте: если их нет, не передавайте поле.",
     inputSchema: CreateInput3,
     outputSchema: CreateOutput3,
     annotations: { ...WRITE_ANNOTATIONS, idempotentHint: false }
@@ -4393,17 +4395,17 @@ function registerProductWriteTools(server, ctx) {
       isActive: product.isActive
     };
     const markdown = [
-      `\u041F\u043E\u0437\u0438\u0446\u0438\u044F \u0441\u043E\u0437\u0434\u0430\u043D\u0430: **${product.name}** (${label(PRODUCT_KIND, product.kind)})`,
+      `Позиция создана: **${product.name}** (${label(PRODUCT_KIND, product.kind)})`,
       "",
       mdBullets([
-        `\u0415\u0434\u0438\u043D\u0438\u0446\u0430: ${product.unitCode ?? "\u2014"}`,
-        `\u0426\u0435\u043D\u0430: ${formatMoneyString(product.price)}`,
-        `\u041D\u0414\u0421: ${product.vatRate === null ? "\u2014" : `${product.vatRate} %`}`,
-        ...product.sku === null ? [] : [`\u0410\u0440\u0442\u0438\u043A\u0443\u043B: ${product.sku}`],
+        `Единица: ${product.unitCode ?? "—"}`,
+        `Цена: ${formatMoneyString(product.price)}`,
+        `НДС: ${product.vatRate === null ? "—" : `${product.vatRate} %`}`,
+        ...product.sku === null ? [] : [`Артикул: ${product.sku}`],
         `ID: ${product.id}`
       ]),
       "",
-      "\u041F\u043E\u0437\u0438\u0446\u0438\u044F \u0430\u043A\u0442\u0438\u0432\u043D\u0430 \u0438 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0430 \u0432 invoices_products_list; \u0435\u0451 productId \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0432 \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0447\u0435\u0440\u043D\u043E\u0432\u0438\u043A\u0430."
+      "Позиция активна и доступна в invoices_products_list; её productId можно подставить в позиции черновика."
     ].join("\n");
     return toolResult(markdown, view);
   }));
@@ -4415,13 +4417,13 @@ var SUMMARY_TOOL2 = "invoices_reports_summary";
 var UNPAID_TOOL = "invoices_reports_unpaid";
 var RECONCILIATION_TOOL = "invoices_reports_reconciliation";
 var REGISTRY_TOOL = "invoices_reports_registry";
-var DateOnly4 = z12.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "\u0434\u0430\u0442\u0430 \u0432 \u0444\u043E\u0440\u043C\u0430\u0442\u0435 DD.MM.YYYY");
+var DateOnly4 = z12.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
 var Period = z12.object({ from: nullableString, to: nullableString });
 var SummaryInput2 = z12.object({
-  organizationId: z12.uuid().optional().describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F; \u0431\u0435\u0437 \u043D\u0435\u0433\u043E \u2014 \u0432\u0441\u0435 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B\u0435 \u0442\u043E\u043A\u0435\u043D\u0443"),
-  from: DateOnly4.optional().describe("\u041D\u0430\u0447\u0430\u043B\u043E \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY"),
-  to: DateOnly4.optional().describe("\u041A\u043E\u043D\u0435\u0446 \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY"),
-  groupBy: z12.enum(["month", "contractor"]).optional().describe("\u0420\u0430\u0437\u0440\u0435\u0437: \u043F\u043E \u043C\u0435\u0441\u044F\u0446\u0430\u043C (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E) \u0438\u043B\u0438 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430\u043C")
+  organizationId: z12.uuid().optional().describe("Организация; без него — все доступные токену"),
+  from: DateOnly4.optional().describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly4.optional().describe("Конец периода, DD.MM.YYYY"),
+  groupBy: z12.enum(["month", "contractor"]).optional().describe("Разрез: по месяцам (по умолчанию) или по контрагентам")
 });
 var SummaryOutput2 = z12.object({
   period: Period,
@@ -4447,9 +4449,9 @@ var SummaryOutput2 = z12.object({
 });
 var UnpaidInput = z12.object({
   organizationId: z12.uuid().optional(),
-  contractorId: z12.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u044D\u0442\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430"),
-  overdueOnly: z12.boolean().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043D\u044B\u0435 \u043D\u0430 \u0441\u0435\u0433\u043E\u0434\u043D\u044F"),
-  limit: z12.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
+  contractorId: z12.uuid().optional().describe("Только документы этого контрагента"),
+  overdueOnly: z12.boolean().optional().describe("Только просроченные на сегодня"),
+  limit: z12.number().int().optional().describe("1–100, по умолчанию 20"),
   cursor: z12.string().optional()
 });
 var UnpaidItem = z12.object({
@@ -4472,10 +4474,10 @@ var UnpaidOutput = z12.object({
   count: z12.number()
 });
 var ReconciliationInput = z12.object({
-  organizationId: z12.uuid().describe("\u041E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044F, \u043F\u043E \u043A\u043E\u0442\u043E\u0440\u043E\u0439 \u0441\u0442\u0440\u043E\u0438\u0442\u0441\u044F \u0430\u043A\u0442 \u0441\u0432\u0435\u0440\u043A\u0438"),
-  contractorId: z12.uuid().describe("\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442 (ID \u0438\u0437 invoices_contractors_search)"),
-  from: DateOnly4.describe("\u041D\u0430\u0447\u0430\u043B\u043E \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY"),
-  to: DateOnly4.describe("\u041A\u043E\u043D\u0435\u0446 \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY")
+  organizationId: z12.uuid().describe("Организация, по которой строится акт сверки"),
+  contractorId: z12.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
+  from: DateOnly4.describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly4.describe("Конец периода, DD.MM.YYYY")
 });
 var ReconciliationRow = z12.object({
   date: nullableString,
@@ -4507,10 +4509,10 @@ var ReconciliationOutput = z12.object({
 });
 var RegistryInput = z12.object({
   organizationId: z12.uuid().optional(),
-  type: z12.enum(["invoice", "act", "invoice_facture", "upd", "contract"]).optional().describe("\u0422\u0438\u043F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430; \u0431\u0435\u0437 \u043D\u0435\u0433\u043E \u2014 \u0432\u0441\u0435"),
-  from: DateOnly4.describe("\u041D\u0430\u0447\u0430\u043B\u043E \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY"),
-  to: DateOnly4.describe("\u041A\u043E\u043D\u0435\u0446 \u043F\u0435\u0440\u0438\u043E\u0434\u0430, DD.MM.YYYY"),
-  limit: z12.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
+  type: z12.enum(["invoice", "act", "invoice_facture", "upd", "contract"]).optional().describe("Тип документа; без него — все"),
+  from: DateOnly4.describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly4.describe("Конец периода, DD.MM.YYYY"),
+  limit: z12.number().int().optional().describe("1–100, по умолчанию 20"),
   cursor: z12.string().optional()
 });
 var RegistryItem = z12.object({
@@ -4539,8 +4541,8 @@ var RegistryOutput = z12.object({
 });
 function registerReportTools(server, ctx) {
   server.registerTool(SUMMARY_TOOL2, {
-    title: "\u041E\u0442\u0447\u0451\u0442: \u0441\u0432\u043E\u0434\u043A\u0430 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434",
-    description: "\u0418\u0442\u043E\u0433\u0438 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434: \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u043D\u0435 \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043E + \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432. groupBy: month \u2014 \u0440\u0430\u0437\u0431\u0438\u0432\u043A\u0430 \u043F\u043E \u043C\u0435\u0441\u044F\u0446\u0430\u043C, contractor \u2014 \u043F\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u0430\u043C. \u041E\u0442\u0432\u0435\u0442 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \xAB\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0432\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E \u0437\u0430 \u043A\u0432\u0430\u0440\u0442\u0430\u043B\xBB, \xAB\u043A\u0442\u043E \u0431\u043E\u043B\u044C\u0448\u0435 \u0432\u0441\u0435\u0445 \u0434\u043E\u043B\u0436\u0435\u043D\xBB.",
+    title: "Отчёт: сводка за период",
+    description: "Итоги за период: выставлено, оплачено, не оплачено, просрочено + количество документов. groupBy: month — разбивка по месяцам, contractor — по контрагентам. Ответ на вопросы «сколько выставлено за квартал», «кто больше всех должен».",
     inputSchema: SummaryInput2,
     outputSchema: SummaryOutput2,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4565,25 +4567,25 @@ function registerReportTools(server, ctx) {
     }));
     const blocks = [
       mdBullets([
-        `\u041F\u0435\u0440\u0438\u043E\u0434: ${report.period.from ?? "\u2014"} \u2014 ${report.period.to ?? "\u2014"}`,
-        `\u0412\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E: ${formatMoneyString(report.totals.issued)}`,
-        `\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(report.totals.paid)}`,
-        `\u041D\u0435 \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E: ${formatMoneyString(report.totals.unpaid)}`,
-        `\u041F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043E: ${formatMoneyString(report.totals.overdue)}`,
-        `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: \u0441\u0447\u0435\u0442\u043E\u0432 ${report.counts.invoices}, \u0430\u043A\u0442\u043E\u0432 ${report.counts.acts}, \u043D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0445 ${report.counts.unpaidInvoices}`
+        `Период: ${report.period.from ?? "—"} — ${report.period.to ?? "—"}`,
+        `Выставлено: ${formatMoneyString(report.totals.issued)}`,
+        `Оплачено: ${formatMoneyString(report.totals.paid)}`,
+        `Не оплачено: ${formatMoneyString(report.totals.unpaid)}`,
+        `Просрочено: ${formatMoneyString(report.totals.overdue)}`,
+        `Документов: счетов ${report.counts.invoices}, актов ${report.counts.acts}, неоплаченных ${report.counts.unpaidInvoices}`
       ])
     ];
     if (groupBy === "month" && byMonth !== void 0 && byMonth.length > 0) {
       blocks.push("", summaryTable({
         title: "",
-        headers: ["\u041C\u0435\u0441\u044F\u0446", "\u0412\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E", "\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E"],
+        headers: ["Месяц", "Выставлено", "Оплачено"],
         rows: byMonth.map((row) => [row.month, formatMoneyString(row.issued), formatMoneyString(row.paid)])
       }).replace(/^\n+/, "").replace(/^\n+/, ""));
     }
     if (groupBy === "contractor" && byContractor !== void 0 && byContractor.length > 0) {
       blocks.push("", summaryTable({
         title: "",
-        headers: ["\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u0412\u044B\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E", "\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E"],
+        headers: ["Контрагент", "Выставлено", "Оплачено"],
         rows: byContractor.map((row) => [
           row.shortName ?? row.contractorId,
           formatMoneyString(row.issued),
@@ -4606,8 +4608,8 @@ function registerReportTools(server, ctx) {
     });
   }));
   server.registerTool(UNPAID_TOOL, {
-    title: "\u041E\u0442\u0447\u0451\u0442: \u043D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B",
-    description: "\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0438 \u0447\u0430\u0441\u0442\u0438\u0447\u043D\u043E \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0435 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u043E\u0441\u0442\u0430\u0442\u043E\u043A \u0438 \u0434\u043D\u0438 \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0438, \u0441\u0442\u0430\u0440\u044B\u0435 \u0441\u0432\u0435\u0440\u0445\u0443. overdueOnly: true \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u0440\u043E\u0441\u0440\u043E\u0447\u0435\u043D\u043D\u044B\u0435. \u0414\u043B\u044F \xAB\u0447\u0442\u043E \u043D\u0430\u043C \u0434\u043E\u043B\u0436\u043D\u044B\xBB \u0438 \xAB\u0447\u0442\u043E \u0433\u043E\u0440\u0438\u0442\xBB.",
+    title: "Отчёт: неоплаченные документы",
+    description: "Неоплаченные и частично оплаченные документы: остаток и дни просрочки, старые сверху. overdueOnly: true — только просроченные. Для «что нам должны» и «что горит».",
     inputSchema: UnpaidInput,
     outputSchema: UnpaidOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4635,17 +4637,17 @@ function registerReportTools(server, ctx) {
       daysOverdue: item.daysOverdue
     }));
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0445 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u043D\u0435\u0442." : `\u041D\u0435\u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043D\u044B\u0445 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: ${report.count}, \u043E\u0441\u0442\u0430\u0442\u043E\u043A \u043F\u043E \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 \u043D\u0438\u0436\u0435`,
-      headers: ["\u2116", "\u0414\u0430\u0442\u0430", "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u041E\u0441\u0442\u0430\u0442\u043E\u043A", "\u041F\u0440\u043E\u0441\u0440\u043E\u0447\u043A\u0430"],
+      title: items.length === 0 ? "Неоплаченных документов нет." : `Неоплаченных документов: ${report.count}, остаток по странице ниже`,
+      headers: ["№", "Дата", "Контрагент", "Остаток", "Просрочка"],
       rows: items.map((item) => [
-        item.number ?? "\u0431/\u043D",
-        item.documentDate ?? "\u2014",
-        item.counterpartyShortName ?? "\u2014",
+        item.number ?? "б/н",
+        item.documentDate ?? "—",
+        item.counterpartyShortName ?? "—",
         formatMoneyString(item.remaining),
-        item.daysOverdue > 0 ? `${item.daysOverdue} \u0434\u043D.` : "\u2014"
+        item.daysOverdue > 0 ? `${item.daysOverdue} дн.` : "—"
       ]),
       footer: [
-        `\u0418\u0442\u043E\u0433\u043E \u043A \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044E: ${formatMoneyString(report.total)} (${report.count} \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432)`,
+        `Итого к получению: ${formatMoneyString(report.total)} (${report.count} документов)`,
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""]
       ]
     });
@@ -4657,8 +4659,8 @@ function registerReportTools(server, ctx) {
     });
   }));
   server.registerTool(RECONCILIATION_TOOL, {
-    title: "\u041E\u0442\u0447\u0451\u0442: \u0430\u043A\u0442 \u0441\u0432\u0435\u0440\u043A\u0438 \u0441 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u043C",
-    description: "\u0410\u043A\u0442 \u0441\u0432\u0435\u0440\u043A\u0438: \u043D\u0430\u0447\u0430\u043B\u044C\u043D\u043E\u0435 \u0441\u0430\u043B\u044C\u0434\u043E, \u043E\u0431\u043E\u0440\u043E\u0442\u044B (\u0434\u0435\u0431\u0435\u0442/\u043A\u0440\u0435\u0434\u0438\u0442), \u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0435 \u0441\u0430\u043B\u044C\u0434\u043E \u0438 \u043F\u043E\u0441\u0442\u0440\u043E\u0447\u043D\u0430\u044F \u0438\u0441\u0442\u043E\u0440\u0438\u044F \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0438 \u043E\u043F\u043B\u0430\u0442 \u0441 \u043D\u0430\u0440\u0430\u0441\u0442\u0430\u044E\u0449\u0438\u043C \u0438\u0442\u043E\u0433\u043E\u043C. \u0414\u043B\u044F \xAB\u0441\u0432\u0435\u0440\u044C\u0442\u0435\u0441\u044C \u0441 \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442\u043E\u043C\xBB.",
+    title: "Отчёт: акт сверки с контрагентом",
+    description: "Акт сверки: начальное сальдо, обороты (дебет/кредит), конечное сальдо и построчная история документов и оплат с нарастающим итогом. Для «сверьтесь с контрагентом».",
     inputSchema: ReconciliationInput,
     outputSchema: ReconciliationOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4680,22 +4682,22 @@ function registerReportTools(server, ctx) {
     const counterpartyShortName = typeof report.counterparty?.shortName === "string" ? report.counterparty.shortName : null;
     const blocks = [
       mdBullets([
-        `\u041F\u0435\u0440\u0438\u043E\u0434: ${report.period.from ?? "\u2014"} \u2014 ${report.period.to ?? "\u2014"}`,
-        `\u0421\u0430\u043B\u044C\u0434\u043E \u043D\u0430\u0447\u0430\u043B\u044C\u043D\u043E\u0435: ${formatMoneyString(report.money.openingBalance)}`,
-        `\u041E\u0431\u043E\u0440\u043E\u0442: \u0434\u0435\u0431\u0435\u0442 ${formatMoneyString(report.money.turnover.debit)}, \u043A\u0440\u0435\u0434\u0438\u0442 ${formatMoneyString(report.money.turnover.credit)}`,
-        `\u0421\u0430\u043B\u044C\u0434\u043E \u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0435: ${formatMoneyString(report.money.closingBalance)}`,
-        `\u0421\u0447\u0435\u0442\u043E\u0432: ${report.summary.invoices} \u043D\u0430 ${formatMoneyString(report.summary.invoicesTotal)}, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E ${formatMoneyString(report.summary.paidTotal)}`,
-        report.summary.unclosedByActs === void 0 || report.summary.unclosedByActs === null ? "" : `\u041D\u0435 \u0437\u0430\u043A\u0440\u044B\u0442\u043E \u0430\u043A\u0442\u0430\u043C\u0438: ${formatMoneyString(report.summary.unclosedByActs)}`
+        `Период: ${report.period.from ?? "—"} — ${report.period.to ?? "—"}`,
+        `Сальдо начальное: ${formatMoneyString(report.money.openingBalance)}`,
+        `Оборот: дебет ${formatMoneyString(report.money.turnover.debit)}, кредит ${formatMoneyString(report.money.turnover.credit)}`,
+        `Сальдо конечное: ${formatMoneyString(report.money.closingBalance)}`,
+        `Счетов: ${report.summary.invoices} на ${formatMoneyString(report.summary.invoicesTotal)}, оплачено ${formatMoneyString(report.summary.paidTotal)}`,
+        report.summary.unclosedByActs === void 0 || report.summary.unclosedByActs === null ? "" : `Не закрыто актами: ${formatMoneyString(report.summary.unclosedByActs)}`
       ].filter((line) => line !== ""))
     ];
     if (rows.length > 0) {
       blocks.push("", summaryTable({
         title: "",
-        headers: ["\u0414\u0430\u0442\u0430", "\u0422\u0438\u043F", "\u2116", "\u0414\u0435\u0431\u0435\u0442", "\u041A\u0440\u0435\u0434\u0438\u0442", "\u0421\u0430\u043B\u044C\u0434\u043E"],
+        headers: ["Дата", "Тип", "№", "Дебет", "Кредит", "Сальдо"],
         rows: rows.map((row) => [
-          row.date ?? "\u2014",
+          row.date ?? "—",
           label(DOCUMENT_TYPE, row.type),
-          row.number ?? "\u0431/\u043D",
+          row.number ?? "б/н",
           formatMoneyString(row.debit),
           formatMoneyString(row.credit),
           formatMoneyString(row.balance)
@@ -4727,8 +4729,8 @@ function registerReportTools(server, ctx) {
     });
   }));
   server.registerTool(REGISTRY_TOOL, {
-    title: "\u041E\u0442\u0447\u0451\u0442: \u0440\u0435\u0435\u0441\u0442\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432",
-    description: "\u0420\u0435\u0435\u0441\u0442\u0440 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434: \u043D\u043E\u043C\u0435\u0440, \u0434\u0430\u0442\u0430, \u043A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442, \u0441\u0443\u043C\u043C\u0430, \u041D\u0414\u0421, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E, \u0441\u0442\u0430\u0442\u0443\u0441, \u043F\u043B\u044E\u0441 \u0438\u0442\u043E\u0433\u0438 \u043F\u043E \u0440\u0435\u0435\u0441\u0442\u0440\u0443. \u0414\u043B\u044F \u0432\u044B\u0433\u0440\u0443\u0437\u043A\u0438 \xAB\u0432\u0441\u0435 \u0441\u0447\u0435\u0442\u0430 \u0437\u0430 \u043E\u043A\u0442\u044F\u0431\u0440\u044C\xBB.",
+    title: "Отчёт: реестр документов",
+    description: "Реестр документов за период: номер, дата, контрагент, сумма, НДС, оплачено, статус, плюс итоги по реестру. Для выгрузки «все счета за октябрь».",
     inputSchema: RegistryInput,
     outputSchema: RegistryOutput,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4755,19 +4757,19 @@ function registerReportTools(server, ctx) {
       paid: item.paid ?? null
     }));
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u0412 \u0440\u0435\u0435\u0441\u0442\u0440\u0435 \u043D\u0435\u0442 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0437\u0430 \u043F\u0435\u0440\u0438\u043E\u0434." : `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0432 \u0440\u0435\u0435\u0441\u0442\u0440\u0435: ${report.totals.documents}`,
-      headers: ["\u2116", "\u0414\u0430\u0442\u0430", "\u041A\u043E\u043D\u0442\u0440\u0430\u0433\u0435\u043D\u0442", "\u0421\u0443\u043C\u043C\u0430", "\u041D\u0414\u0421", "\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E", "\u0421\u0442\u0430\u0442\u0443\u0441"],
+      title: items.length === 0 ? "В реестре нет документов за период." : `Документов в реестре: ${report.totals.documents}`,
+      headers: ["№", "Дата", "Контрагент", "Сумма", "НДС", "Оплачено", "Статус"],
       rows: items.map((item) => [
-        item.number ?? "\u0431/\u043D",
-        item.documentDate ?? "\u2014",
-        item.contractorShortName ?? "\u2014",
+        item.number ?? "б/н",
+        item.documentDate ?? "—",
+        item.contractorShortName ?? "—",
         formatMoneyString(item.total),
         formatMoneyString(item.vat),
         formatMoneyString(item.paid),
         label(DOCUMENT_STATUS, item.status)
       ]),
       footer: [
-        `\u0418\u0442\u043E\u0433\u043E: ${formatMoneyString(report.totals.total)}, \u041D\u0414\u0421 ${formatMoneyString(report.totals.vat)}, \u043E\u043F\u043B\u0430\u0447\u0435\u043D\u043E ${formatMoneyString(report.totals.paid)}` + (report.totals.cancelled > 0 ? `, \u0430\u043D\u043D\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u043E ${report.totals.cancelled}` : ""),
+        `Итого: ${formatMoneyString(report.totals.total)}, НДС ${formatMoneyString(report.totals.vat)}, оплачено ${formatMoneyString(report.totals.paid)}` + (report.totals.cancelled > 0 ? `, аннулировано ${report.totals.cancelled}` : ""),
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""]
       ]
     });
@@ -4802,9 +4804,9 @@ var ShareListItem = z13.object({
   expiresAt: nullableString
 });
 var ListInput4 = z13.object({
-  organizationId: z13.uuid().optional().describe("\u0422\u043E\u043B\u044C\u043A\u043E \u0441\u0441\u044B\u043B\u043A\u0438 \u044D\u0442\u043E\u0439 \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u0438"),
+  organizationId: z13.uuid().optional().describe("Только ссылки этой организации"),
   status: z13.enum(["active", "expired", "exhausted", "revoked"]).optional(),
-  limit: z13.number().int().optional().describe("1\u2013100, \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E 20"),
+  limit: z13.number().int().optional().describe("1–100, по умолчанию 20"),
   cursor: z13.string().optional()
 });
 var ListOutput4 = z13.object({
@@ -4812,8 +4814,8 @@ var ListOutput4 = z13.object({
   nextCursor: z13.string().nullable()
 });
 var GetInput5 = z13.object({
-  shareId: z13.uuid().describe("\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u0441\u0441\u044B\u043B\u043A\u0438 (UUID \u0438\u0437 invoices_shares_list)"),
-  include: z13.array(z13.enum(["views", "replies"])).optional().describe("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B \u0438/\u0438\u043B\u0438 \u043E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430")
+  shareId: z13.uuid().describe("Идентификатор ссылки (UUID из invoices_shares_list)"),
+  include: z13.array(z13.enum(["views", "replies"])).optional().describe("Добавить просмотры и/или ответы клиента")
 });
 var ShareDocumentItem = z13.object({
   id: z13.string(),
@@ -4849,8 +4851,8 @@ var GetOutput5 = z13.object({
 });
 function registerShareTools(server, ctx) {
   server.registerTool(LIST_TOOL4, {
-    title: "\u0421\u0441\u044B\u043B\u043A\u0438: \u0441\u043F\u0438\u0441\u043E\u043A",
-    description: "\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u044B\u0435 \u0441\u0441\u044B\u043B\u043A\u0438 \u043D\u0430 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B: \u0441\u0442\u0430\u0442\u0443\u0441, \u043B\u0438\u043C\u0438\u0442 \u0438 \u0447\u0438\u0441\u043B\u043E \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432, \u043E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430, \u0441\u0440\u043E\u043A. URL \u0432 \u0441\u043F\u0438\u0441\u043A\u0435 \u043D\u0435 \u043E\u0442\u0434\u0430\u0451\u0442\u0441\u044F (API \u0435\u0433\u043E \u043D\u0435 \u0445\u0440\u0430\u043D\u0438\u0442) \u2014 \u0441\u0441\u044B\u043B\u043A\u0443 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u0441\u0441\u044B\u043B\u043A\u0438.",
+    title: "Ссылки: список",
+    description: "Публичные ссылки на документы: статус, лимит и число просмотров, ответы клиента, срок. URL в списке не отдаётся (API его не хранит) — ссылку возвращает создание ссылки.",
     inputSchema: ListInput4,
     outputSchema: ListOutput4,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4874,25 +4876,25 @@ function registerShareTools(server, ctx) {
       expiresAt: share.expiresAt ?? null
     }));
     const markdown = summaryTable({
-      title: items.length === 0 ? "\u0421\u0441\u044B\u043B\u043E\u043A \u043D\u0435\u0442." : `\u0421\u0441\u044B\u043B\u043E\u043A \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435: ${items.length}`,
-      headers: ["\u0421\u0442\u0430\u0442\u0443\u0441", "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432", "\u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B", "\u041E\u0442\u0432\u0435\u0442\u044B", "\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0434\u043E"],
+      title: items.length === 0 ? "Ссылок нет." : `Ссылок на странице: ${items.length}`,
+      headers: ["Статус", "Документов", "Просмотры", "Ответы", "Действует до"],
       rows: items.map((share) => [
         label(SHARE_STATUS, share.status),
         String(share.documentsCount),
-        `${share.viewCount} \u0438\u0437 ${share.maxViews}`,
-        share.allowReply ? String(share.replyCount) : "\u043F\u0440\u0438\u0451\u043C \u0432\u044B\u043A\u043B\u044E\u0447\u0435\u043D",
+        `${share.viewCount} из ${share.maxViews}`,
+        share.allowReply ? String(share.replyCount) : "приём выключен",
         formatIsoDate(share.expiresAt)
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0441\u0442\u0438 \u2014 invoices_shares_get; \u043D\u043E\u0432\u0430\u044F \u0441\u0441\u044B\u043B\u043A\u0430 \u0441\u043E\u0437\u0434\u0430\u0451\u0442\u0441\u044F \u0447\u0435\u0440\u0435\u0437 invoices_shares_create (\u0441 \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435\u043C)."
+        "Подробности — invoices_shares_get; новая ссылка создаётся через invoices_shares_create (с подтверждением)."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
   server.registerTool(GET_TOOL5, {
-    title: "\u0421\u0441\u044B\u043B\u043A\u0430: \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430",
-    description: '\u041F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F \u0441\u0441\u044B\u043B\u043A\u0430: \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B, \u043B\u0438\u043C\u0438\u0442 \u0438 \u0447\u0438\u0441\u043B\u043E \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432, \u0441\u0440\u043E\u043A \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F. include: ["views"] \u2014 \u043A\u0442\u043E \u0438 \u043A\u043E\u0433\u0434\u0430 \u043E\u0442\u043A\u0440\u044B\u0432\u0430\u043B, ["replies"] \u2014 \u043E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430.',
+    title: "Ссылка: карточка",
+    description: 'Публичная ссылка: документы, лимит и число просмотров, срок действия. include: ["views"] — кто и когда открывал, ["replies"] — ответы клиента.',
     inputSchema: GetInput5,
     outputSchema: GetOutput5,
     annotations: READ_ONLY_ANNOTATIONS
@@ -4920,21 +4922,21 @@ function registerShareTools(server, ctx) {
     })) : void 0;
     const blocks = [
       mdBullets([
-        `\u0421\u0442\u0430\u0442\u0443\u0441: ${label(SHARE_STATUS, share.status)}`,
-        `\u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B: ${share.viewCount} \u0438\u0437 ${share.maxViews}`,
-        `\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0434\u043E: ${formatIsoDate(share.expiresAt)}`,
-        `\u041E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430: ${share.allowReply ? share.replyCount : "\u043F\u0440\u0438\u0451\u043C \u0432\u044B\u043A\u043B\u044E\u0447\u0435\u043D"}`,
-        share.message === null || share.message === "" ? "" : `\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043A\u043B\u0438\u0435\u043D\u0442\u0443: ${share.message}`
+        `Статус: ${label(SHARE_STATUS, share.status)}`,
+        `Просмотры: ${share.viewCount} из ${share.maxViews}`,
+        `Действует до: ${formatIsoDate(share.expiresAt)}`,
+        `Ответы клиента: ${share.allowReply ? share.replyCount : "приём выключен"}`,
+        share.message === null || share.message === "" ? "" : `Сообщение клиенту: ${share.message}`
       ].filter((line) => line !== "")),
       "",
-      "**\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B**",
-      documents.length === 0 ? "\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432 \u0432 \u0441\u0441\u044B\u043B\u043A\u0435 \u043D\u0435\u0442." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} \u2116 ${document.number ?? "\u0431/\u043D"} \u043E\u0442 ${document.documentDate ?? "\u2014"}: ${formatMoneyString(document.grandTotal)}${document.status === null ? "" : `, ${label(DOCUMENT_STATUS, document.status)}`}`))
+      "**Документы**",
+      documents.length === 0 ? "Документов в ссылке нет." : mdBullets(documents.map((document) => `${label(DOCUMENT_TYPE, document.type)} № ${document.number ?? "б/н"} от ${document.documentDate ?? "—"}: ${formatMoneyString(document.grandTotal)}${document.status === null ? "" : `, ${label(DOCUMENT_STATUS, document.status)}`}`))
     ];
     if (views !== void 0) {
-      blocks.push("", "**\u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u044B**", views.length === 0 ? "\u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432 \u043D\u0435 \u0431\u044B\u043B\u043E." : mdBullets(views.map((view) => `${formatIsoDate(view.viewedAt)}${view.ip === null ? "" : `, ${view.ip}`}`)));
+      blocks.push("", "**Просмотры**", views.length === 0 ? "Просмотров не было." : mdBullets(views.map((view) => `${formatIsoDate(view.viewedAt)}${view.ip === null ? "" : `, ${view.ip}`}`)));
     }
     if (replies !== void 0) {
-      blocks.push("", "**\u041E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430**", replies.length === 0 ? "\u041E\u0442\u0432\u0435\u0442\u043E\u0432 \u043D\u0435\u0442." : mdBullets(replies.map((reply) => `${formatIsoDate(reply.createdAt)}, ${reply.authorName ?? "\u043A\u043B\u0438\u0435\u043D\u0442"}: ${reply.message ?? "\u2014"}`)));
+      blocks.push("", "**Ответы клиента**", replies.length === 0 ? "Ответов нет." : mdBullets(replies.map((reply) => `${formatIsoDate(reply.createdAt)}, ${reply.authorName ?? "клиент"}: ${reply.message ?? "—"}`)));
     }
     return toolResult(blocks.join("\n"), {
       id: share.id,
@@ -4953,15 +4955,15 @@ function registerShareTools(server, ctx) {
 }
 var CREATE_SHARE_TOOL = "invoices_shares_create";
 var CreateInput4 = z13.object({
-  documentIds: z13.array(z13.uuid()).min(1).describe("\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043E\u0442\u043A\u0440\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u043F\u043E \u0441\u0441\u044B\u043B\u043A\u0435"),
-  message: z13.string().optional().describe("\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043A\u043B\u0438\u0435\u043D\u0442\u0443"),
-  maxViews: z13.number().int().min(1).optional().describe("\u0421\u043A\u043E\u043B\u044C\u043A\u043E \u0440\u0430\u0437 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443"),
-  expiresAt: z13.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("\u0421\u0440\u043E\u043A \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F, DD.MM.YYYY"),
-  pin: z13.string().optional().describe("PIN-\u043A\u043E\u0434 \u0434\u043B\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u0430"),
-  allowReply: z13.boolean().optional().describe("\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u043E\u0442\u0432\u0435\u0442 \u043A\u043B\u0438\u0435\u043D\u0442\u0430"),
+  documentIds: z13.array(z13.uuid()).min(1).describe("Документы, которые открываются по ссылке"),
+  message: z13.string().optional().describe("Сообщение клиенту"),
+  maxViews: z13.number().int().min(1).optional().describe("Сколько раз можно открыть ссылку"),
+  expiresAt: z13.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Срок действия, DD.MM.YYYY"),
+  pin: z13.string().optional().describe("PIN-код для доступа"),
+  allowReply: z13.boolean().optional().describe("Разрешить ответ клиента"),
   withSeal: z13.boolean().optional(),
   withSignature: z13.boolean().optional(),
-  idempotencyKey: z13.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("\u041A\u043B\u044E\u0447 \u0438\u0434\u0435\u043C\u043F\u043E\u0442\u0435\u043D\u0442\u043D\u043E\u0441\u0442\u0438: \u043F\u0440\u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0442\u043E\u0442 \u0436\u0435"),
+  idempotencyKey: z13.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же"),
   confirm: z13.boolean().optional()
 });
 var CreateOutput4 = z13.object({
@@ -4975,8 +4977,8 @@ var CreateOutput4 = z13.object({
 });
 function registerShareWriteTools(server, ctx) {
   server.registerTool(CREATE_SHARE_TOOL, {
-    title: "\u0421\u0441\u044B\u043B\u043A\u0430: \u0441\u043E\u0437\u0434\u0430\u0442\u044C",
-    description: "\u041F\u0443\u0431\u043B\u0438\u043A\u0443\u0435\u0442 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u043E \u043A\u043E\u0440\u043E\u0442\u043A\u043E\u0439 \u0441\u0441\u044B\u043B\u043A\u0435: \u043A\u043B\u0438\u0435\u043D\u0442 \u043E\u0442\u043A\u0440\u043E\u0435\u0442 \u0435\u0451 \u0431\u0435\u0437 \u0432\u0445\u043E\u0434\u0430. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 confirm: true \u2014 \u0441\u0441\u044B\u043B\u043A\u0430 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u043E\u0439 \u0441\u043D\u0430\u0440\u0443\u0436\u0438. URL \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F \u0442\u043E\u043B\u044C\u043A\u043E \u0437\u0434\u0435\u0441\u044C; \u043F\u043E\u0437\u0436\u0435 \u0435\u0433\u043E \u043F\u043E\u043A\u0430\u0436\u0435\u0442 \u0440\u0430\u0437\u0432\u0435 \u0447\u0442\u043E \u043A\u0430\u0431\u0438\u043D\u0435\u0442.",
+    title: "Ссылка: создать",
+    description: "Публикует документы по короткой ссылке: клиент откроет её без входа. Требует confirm: true — ссылка становится доступной снаружи. URL возвращается только здесь; позже его покажет разве что кабинет.",
     inputSchema: CreateInput4,
     outputSchema: CreateOutput4,
     annotations: DESTRUCTIVE_ANNOTATIONS
@@ -4989,16 +4991,16 @@ function registerShareWriteTools(server, ctx) {
       number: document.number ?? null
     }));
     const markdown = [
-      `\u0421\u0441\u044B\u043B\u043A\u0430 \u0441\u043E\u0437\u0434\u0430\u043D\u0430: ${share.url}`,
+      `Ссылка создана: ${share.url}`,
       "",
       mdBullets([
-        `\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432: ${documents.length} (${documents.map((document) => document.number ?? "\u0431/\u043D").join(", ")})`,
-        `\u041F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432: ${share.maxViews}`,
-        `\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u0435\u0442 \u0434\u043E: ${formatIsoDate(share.expiresAt)}`,
-        `\u041E\u0442\u0432\u0435\u0442\u044B \u043A\u043B\u0438\u0435\u043D\u0442\u0430: ${share.allowReply ? "\u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u044B" : "\u0432\u044B\u043A\u043B\u044E\u0447\u0435\u043D\u044B"}`
+        `Документов: ${documents.length} (${documents.map((document) => document.number ?? "б/н").join(", ")})`,
+        `Просмотров: ${share.maxViews}`,
+        `Действует до: ${formatIsoDate(share.expiresAt)}`,
+        `Ответы клиента: ${share.allowReply ? "разрешены" : "выключены"}`
       ]),
       "",
-      "\u0421\u0441\u044B\u043B\u043A\u0430 \u043F\u0443\u0431\u043B\u0438\u0447\u043D\u0430\u044F \u2014 \u043F\u0435\u0440\u0435\u0434\u0430\u0439\u0442\u0435 \u0435\u0451 \u043A\u043B\u0438\u0435\u043D\u0442\u0443. \u041E\u0442\u043E\u0437\u0432\u0430\u0442\u044C \u043C\u043E\u0436\u043D\u043E \u0432 \u043A\u0430\u0431\u0438\u043D\u0435\u0442\u0435 (invoices_shares_get \u043F\u043E\u043A\u0430\u0436\u0435\u0442 \u0441\u0442\u0430\u0442\u0443\u0441)."
+      "Ссылка публичная — передайте её клиенту. Отозвать можно в кабинете (invoices_shares_get покажет статус)."
     ].join("\n");
     return toolResult(markdown, {
       id: share.id,
@@ -5071,13 +5073,13 @@ async function serveHttp(ctx, logger, config) {
     try {
       pathname = new URL(req.url ?? "/", "http://localhost").pathname;
     } catch {
-      respondJson(res, 400, { error: "bad_request", message: "\u041D\u0435\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0439 URL \u0437\u0430\u043F\u0440\u043E\u0441\u0430." });
+      respondJson(res, 400, { error: "bad_request", message: "Некорректный URL запроса." });
       return;
     }
     if (pathname !== MCP_PATH) {
       respondJson(res, 404, {
         error: "not_found",
-        message: `MCP \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D \u043F\u043E ${MCP_PATH} (Streamable HTTP, POST).`
+        message: `MCP доступен по ${MCP_PATH} (Streamable HTTP, POST).`
       });
       return;
     }
@@ -5161,14 +5163,14 @@ function readConfig() {
     return loadConfig(process.env);
   } catch (error) {
     if (error instanceof ConfigError) {
-      const list = error.problems.map((problem) => `  \u2022 ${problem}`).join("\n");
-      fail(`${SERVER_NAME}: \u043A\u043E\u043D\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044F \u043D\u0435 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D\u0430
+      const list = error.problems.map((problem) => `  • ${problem}`).join("\n");
+      fail(`${SERVER_NAME}: конфигурация не загружена
 ${list}
 
-\u0427\u0442\u043E \u0443\u043A\u0430\u0437\u0430\u0442\u044C:
-  INVOICES_API_URL   \u2014 \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 API, \u043D\u0430\u043F\u0440\u0438\u043C\u0435\u0440 https://accounting.example.ru
-  INVOICES_API_TOKEN \u2014 \u0441\u0435\u0440\u0432\u0438\u0441\u043D\u044B\u0439 \u0442\u043E\u043A\u0435\u043D ivs_<kid>_<secret> \u0438\u0437 \u0430\u0434\u043C\u0438\u043D\u043A\u0438 (\u0440\u0435\u0436\u0438\u043C readonly)
-\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0441\u0442\u0438: doc/mcp/03-config-auth.md`);
+Что указать:
+  INVOICES_API_URL   — базовый адрес API, например https://accounting.example.ru
+  INVOICES_API_TOKEN — сервисный токен ivs_<kid>_<secret> из админки (режим readonly)
+Подробности: doc/mcp/03-config-auth.md`);
     }
     throw error;
   }
@@ -5236,20 +5238,20 @@ function runInfoFlags(argv) {
   }
   if (argv.includes("--help") || argv.includes("-h")) {
     process.stdout.write([
-      `${SERVER_NAME} ${SERVER_VERSION} \u2014 MCP-\u0441\u0435\u0440\u0432\u0435\u0440 \u0441\u0435\u0440\u0432\u0438\u0441\u0430 \u0441\u0447\u0435\u0442\u043E\u0432 \u0438 \u0430\u043A\u0442\u043E\u0432`,
+      `${SERVER_NAME} ${SERVER_VERSION} — MCP-сервер сервиса счетов и актов`,
       "",
-      "\u041F\u0435\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0435 \u043E\u043A\u0440\u0443\u0436\u0435\u043D\u0438\u044F:",
-      "  INVOICES_API_URL        \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 API \u0431\u0435\u0437 /api/v1 (\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)",
-      "  INVOICES_API_TOKEN      \u0441\u0435\u0440\u0432\u0438\u0441\u043D\u044B\u0439 \u0442\u043E\u043A\u0435\u043D ivs_<kid>_<secret> \u0438\u0437 \u0430\u0434\u043C\u0438\u043D\u043A\u0438 (\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)",
-      "  INVOICES_ALLOW_HTTP_HOSTS  \u0445\u043E\u0441\u0442\u044B \u0447\u0435\u0440\u0435\u0437 \u0437\u0430\u043F\u044F\u0442\u0443\u044E, \u0433\u0434\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D http:// (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u0442\u043E\u043B\u044C\u043A\u043E localhost)",
-      "  INVOICES_MCP_TRANSPORT  stdio (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E) \u0438\u043B\u0438 http",
-      "  INVOICES_MCP_PORT       \u043F\u043E\u0440\u0442 HTTP-\u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442\u0430, \u0442\u043E\u043B\u044C\u043A\u043E 127.0.0.1 (7331)",
-      "  INVOICES_TIMEOUT_MS     \u0442\u0430\u0439\u043C\u0430\u0443\u0442 \u0437\u0430\u043F\u0440\u043E\u0441\u0430 \u043A API (10000)",
+      "Переменные окружения:",
+      "  INVOICES_API_URL        базовый адрес API без /api/v1 (обязательно)",
+      "  INVOICES_API_TOKEN      сервисный токен ivs_<kid>_<secret> из админки (обязательно)",
+      "  INVOICES_ALLOW_HTTP_HOSTS  хосты через запятую, где разрешён http:// (по умолчанию только localhost)",
+      "  INVOICES_MCP_TRANSPORT  stdio (по умолчанию) или http",
+      "  INVOICES_MCP_PORT       порт HTTP-транспорта, только 127.0.0.1 (7331)",
+      "  INVOICES_TIMEOUT_MS     таймаут запроса к API (10000)",
       "  INVOICES_LOG_LEVEL      debug | info | warn | error (info)",
       "",
-      "\u0424\u043B\u0430\u0433\u0438:",
-      "  -v, --version           \u0432\u0435\u0440\u0441\u0438\u044F \u0441\u0435\u0440\u0432\u0435\u0440\u0430",
-      "  -h, --help              \u044D\u0442\u0430 \u0441\u043F\u0440\u0430\u0432\u043A\u0430",
+      "Флаги:",
+      "  -v, --version           версия сервера",
+      "  -h, --help              эта справка",
       ""
     ].join("\n"));
     process.exit(0);
@@ -5262,8 +5264,8 @@ function main() {
   if (config.transport === "http") {
     void startHttp(config, logger).catch((error) => {
       const message = error instanceof Error ? error.message : String(error);
-      fail(`${SERVER_NAME}: HTTP-\u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442 \u043D\u0435 \u0437\u0430\u043F\u0443\u0449\u0435\u043D \u2014 ${message}
-\u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435, \u0447\u0442\u043E \u043F\u043E\u0440\u0442 ${config.port} \u0441\u0432\u043E\u0431\u043E\u0434\u0435\u043D (INVOICES_MCP_PORT), \u0438 \u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u0437\u0430\u043F\u0443\u0441\u043A.`);
+      fail(`${SERVER_NAME}: HTTP-транспорт не запущен — ${message}
+Проверьте, что порт ${config.port} свободен (INVOICES_MCP_PORT), и повторите запуск.`);
     });
     return;
   }
