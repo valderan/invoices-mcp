@@ -1461,7 +1461,7 @@ function createSdk(options) {
 
 // apps/mcp/dist/version.js
 var SERVER_NAME = "invoices-mcp";
-var SERVER_VERSION = true ? "0.1.0" : "0.0.0";
+var SERVER_VERSION = true ? "0.1.1" : "0.0.0";
 
 // apps/mcp/dist/api/client.js
 function createApiClient(config, options = {}) {
@@ -1624,10 +1624,21 @@ var EnvSchema = z.object({
   INVOICES_API_TOKEN: z.string().trim().regex(TOKEN_PATTERN, "\u043E\u0436\u0438\u0434\u0430\u0435\u0442\u0441\u044F \u0441\u0435\u0440\u0432\u0438\u0441\u043D\u044B\u0439 \u0442\u043E\u043A\u0435\u043D \u0432\u0438\u0434\u0430 ivs_<kid>_<secret> (\u0430\u0434\u043C\u0438\u043D\u043A\u0430 \u2192 \u0422\u043E\u043A\u0435\u043D\u044B)"),
   INVOICES_TIMEOUT_MS: z.coerce.number().int().min(500).max(3e5).default(1e4),
   INVOICES_LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
+  /**
+   * Хосты, для которых разрешён `http://` помимо localhost.
+   *
+   * Нужно для локального запуска в Docker: из контейнера API доступен как
+   * `http://host.docker.internal:3011` или `http://api:3000`, а TLS там нет.
+   * По умолчанию пусто — поведение M1 не меняется.
+   */
+  INVOICES_ALLOW_HTTP_HOSTS: z.string().default(""),
   INVOICES_MCP_TRANSPORT: z.enum(["stdio", "http"]).default("stdio"),
   INVOICES_MCP_PORT: z.coerce.number().int().min(1).max(65535).default(7331)
 });
-function normalizeApiUrl(raw) {
+function parseAllowedHttpHosts(raw) {
+  return raw.split(",").map((host) => host.trim().toLowerCase()).filter((host) => host !== "");
+}
+function normalizeApiUrl(raw, allowedHosts = []) {
   let url;
   try {
     url = new URL(raw.trim());
@@ -1641,9 +1652,10 @@ function normalizeApiUrl(raw) {
       `INVOICES_API_URL: \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u044E\u0442\u0441\u044F \u0442\u043E\u043B\u044C\u043A\u043E http \u0438 https, \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u043E \xAB${url.protocol}\xBB`
     ]);
   }
-  if (url.protocol === "http:" && !LOCAL_HOSTNAMES.has(url.hostname)) {
+  const allowedHttp = LOCAL_HOSTNAMES.has(url.hostname) || allowedHosts.includes(url.hostname.toLowerCase());
+  if (url.protocol === "http:" && !allowedHttp) {
     throw new ConfigError([
-      `INVOICES_API_URL: http \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u043E\u0439 \u0440\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0438 (localhost, 127.0.0.1), \u0434\u043B\u044F \xAB${url.hostname}\xBB \u043D\u0443\u0436\u0435\u043D https`
+      `INVOICES_API_URL: http \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F localhost/127.0.0.1 \u0438 \u0434\u043B\u044F \u0445\u043E\u0441\u0442\u043E\u0432 \u0438\u0437 INVOICES_ALLOW_HTTP_HOSTS \u2014 \u0434\u043B\u044F \xAB${url.hostname}\xBB \u043D\u0443\u0436\u0435\u043D https`
     ]);
   }
   const path = url.pathname.replace(/\/+$/, "");
@@ -1669,7 +1681,7 @@ function loadConfig(env) {
   }
   let apiUrl;
   try {
-    apiUrl = normalizeApiUrl(parsed.data.INVOICES_API_URL);
+    apiUrl = normalizeApiUrl(parsed.data.INVOICES_API_URL, parseAllowedHttpHosts(parsed.data.INVOICES_ALLOW_HTTP_HOSTS));
   } catch (error) {
     if (error instanceof ConfigError)
       throw error;
@@ -5229,6 +5241,7 @@ function runInfoFlags(argv) {
       "\u041F\u0435\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0435 \u043E\u043A\u0440\u0443\u0436\u0435\u043D\u0438\u044F:",
       "  INVOICES_API_URL        \u0431\u0430\u0437\u043E\u0432\u044B\u0439 \u0430\u0434\u0440\u0435\u0441 API \u0431\u0435\u0437 /api/v1 (\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)",
       "  INVOICES_API_TOKEN      \u0441\u0435\u0440\u0432\u0438\u0441\u043D\u044B\u0439 \u0442\u043E\u043A\u0435\u043D ivs_<kid>_<secret> \u0438\u0437 \u0430\u0434\u043C\u0438\u043D\u043A\u0438 (\u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E)",
+      "  INVOICES_ALLOW_HTTP_HOSTS  \u0445\u043E\u0441\u0442\u044B \u0447\u0435\u0440\u0435\u0437 \u0437\u0430\u043F\u044F\u0442\u0443\u044E, \u0433\u0434\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0451\u043D http:// (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u0442\u043E\u043B\u044C\u043A\u043E localhost)",
       "  INVOICES_MCP_TRANSPORT  stdio (\u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E) \u0438\u043B\u0438 http",
       "  INVOICES_MCP_PORT       \u043F\u043E\u0440\u0442 HTTP-\u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442\u0430, \u0442\u043E\u043B\u044C\u043A\u043E 127.0.0.1 (7331)",
       "  INVOICES_TIMEOUT_MS     \u0442\u0430\u0439\u043C\u0430\u0443\u0442 \u0437\u0430\u043F\u0440\u043E\u0441\u0430 \u043A API (10000)",

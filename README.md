@@ -4,7 +4,7 @@ MCP-сервер сервиса выставления счетов и акто�
 номенклатура, отчёты, публичные ссылки — для любого MCP-клиента (Claude Desktop, Claude Code,
 Cursor, VS Code, собственный агент).
 
-**Версия:** `0.1.0` · **Node.js:** 20+ · **Транспорт:** stdio (по умолчанию) или Streamable HTTP.
+**Версия:** `0.1.1` · **Node.js:** 20+ · **Транспорт:** stdio (по умолчанию) или Streamable HTTP.
 Пакет ставится прямо из этого репозитория, без сборки на вашей машине и без публикации в npm.
 
 ## Что умеет
@@ -27,13 +27,13 @@ Cursor, VS Code, собственный агент).
 ### Через `npx` из git (рекомендуется)
 
 ```bash
-npx -y github:valderan/invoices-mcp#v0.1.0
+npx -y github:valderan/invoices-mcp#v0.1.1
 ```
 
 Первый запуск занимает больше времени: npm скачивает пакет и четыре его зависимости
 (`@modelcontextprotocol/*`, `zod`). Дальше они берутся из кеша (`~/.npm/_npx`).
 
-> Указывайте **тег** (`#v0.1.0`), а не `#main`: npm кеширует по коммиту, и без тега легко
+> Указывайте **тег** (`#v0.1.1`), а не `#main`: npm кеширует по коммиту, и без тега легко
 > остаться на старой копии.
 
 ### Локально
@@ -48,22 +48,23 @@ INVOICES_API_URL=https://crm.example.ru INVOICES_API_TOKEN=ivs_… node dist/ind
 Проверить версию и справку можно без настройки:
 
 ```bash
-npx -y github:valderan/invoices-mcp#v0.1.0 --version   # invoices-mcp 0.1.0
-npx -y github:valderan/invoices-mcp#v0.1.0 --help
+npx -y github:valderan/invoices-mcp#v0.1.1 --version   # invoices-mcp 0.1.1
+npx -y github:valderan/invoices-mcp#v0.1.1 --help
 ```
 
 ## Настройка
 
 Только переменные окружения — файлов конфигурации нет.
 
-| Переменная               | Обязательно | По умолчанию | Что это                                                                                                                   |
-| ------------------------ | ----------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `INVOICES_API_URL`       | да          | —            | Базовый адрес API без `/api/v1`, например `https://crm.example.ru`. `http://` допустим только для `localhost`/`127.0.0.1` |
-| `INVOICES_API_TOKEN`     | да          | —            | Сервисный токен `ivs_<kid>_<secret>` из админки, раздел «Токены»                                                          |
-| `INVOICES_MCP_TRANSPORT` | нет         | `stdio`      | `stdio` или `http`                                                                                                        |
-| `INVOICES_MCP_PORT`      | нет         | `7331`       | Порт HTTP-транспорта (слушает только `127.0.0.1`)                                                                         |
-| `INVOICES_TIMEOUT_MS`    | нет         | `10000`      | Таймаут запроса к API                                                                                                     |
-| `INVOICES_LOG_LEVEL`     | нет         | `info`       | `debug`, `info`, `warn`, `error`                                                                                          |
+| Переменная                  | Обязательно | По умолчанию | Что это                                                                                                                                                               |
+| --------------------------- | ----------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `INVOICES_API_URL`          | да          | —            | Базовый адрес API без `/api/v1`, например `https://crm.example.ru`. `http://` допустим только для `localhost`/`127.0.0.1` и для хостов из `INVOICES_ALLOW_HTTP_HOSTS` |
+| `INVOICES_ALLOW_HTTP_HOSTS` | нет         | —            | Хосты через запятую, где разрешён `http://` помимо localhost: нужно, когда сервер запускается в контейнере (`host.docker.internal`)                                   |
+| `INVOICES_API_TOKEN`        | да          | —            | Сервисный токен `ivs_<kid>_<secret>` из админки, раздел «Токены»                                                                                                      |
+| `INVOICES_MCP_TRANSPORT`    | нет         | `stdio`      | `stdio` или `http`                                                                                                                                                    |
+| `INVOICES_MCP_PORT`         | нет         | `7331`       | Порт HTTP-транспорта (слушает только `127.0.0.1`)                                                                                                                     |
+| `INVOICES_TIMEOUT_MS`       | нет         | `10000`      | Таймаут запроса к API                                                                                                                                                 |
+| `INVOICES_LOG_LEVEL`        | нет         | `info`       | `debug`, `info`, `warn`, `error`                                                                                                                                      |
 
 ## Подключение в агентах
 
@@ -78,7 +79,7 @@ npx -y github:valderan/invoices-mcp#v0.1.0 --help
   "mcpServers": {
     "invoices": {
       "command": "npx",
-      "args": ["-y", "github:valderan/invoices-mcp#v0.1.0"],
+      "args": ["-y", "github:valderan/invoices-mcp#v0.1.1"],
       "env": {
         "INVOICES_API_URL": "https://crm.example.ru",
         "INVOICES_API_TOKEN": "ivs_AbCdEf12_…"
@@ -98,7 +99,7 @@ npx -y github:valderan/invoices-mcp#v0.1.0 --help
 claude mcp add invoices \
   --env INVOICES_API_URL=https://crm.example.ru \
   --env INVOICES_API_TOKEN=ivs_AbCdEf12_… \
-  -- npx -y github:valderan/invoices-mcp#v0.1.0
+  -- npx -y github:valderan/invoices-mcp#v0.1.1
 ```
 
 ### VS Code
@@ -110,7 +111,7 @@ claude mcp add invoices \
   "servers": {
     "invoices": {
       "command": "npx",
-      "args": ["-y", "github:valderan/invoices-mcp#v0.1.0"],
+      "args": ["-y", "github:valderan/invoices-mcp#v0.1.1"],
       "env": {
         "INVOICES_API_URL": "https://crm.example.ru",
         "INVOICES_API_TOKEN": "ivs_AbCdEf12_…"
@@ -127,7 +128,7 @@ claude mcp add invoices \
 ```bash
 INVOICES_MCP_TRANSPORT=http INVOICES_MCP_PORT=7331 \
 INVOICES_API_URL=https://crm.example.ru INVOICES_API_TOKEN=ivs_… \
-npx -y github:valderan/invoices-mcp#v0.1.0
+npx -y github:valderan/invoices-mcp#v0.1.1
 ```
 
 Клиент подключается к `http://127.0.0.1:7331/mcp`. Сервер слушает **только loopback** и проверяет
@@ -162,7 +163,7 @@ npx -y github:valderan/invoices-mcp#v0.1.0
 ## Версии
 
 Версионирование — [SemVer](https://semver.org/lang/ru/), каждая версия помечена тегом `vX.Y.Z`,
-история — в [CHANGELOG.md](CHANGELOG.md). Устанавливайте с тегом: `github:valderan/invoices-mcp#v0.1.0`.
+история — в [CHANGELOG.md](CHANGELOG.md). Устанавливайте с тегом: `github:valderan/invoices-mcp#v0.1.1`.
 
 Совместимость: новые инструменты и необязательные поля — minor; исправления поведения — patch;
 удаление или переименование инструмента, обязательного аргумента или поля ответа — major.
