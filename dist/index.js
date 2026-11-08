@@ -1461,7 +1461,7 @@ function createSdk(options) {
 
 // apps/mcp/dist/version.js
 var SERVER_NAME = "invoices-mcp";
-var SERVER_VERSION = true ? "0.1.2" : "0.0.0";
+var SERVER_VERSION = true ? "0.1.3" : "0.0.0";
 
 // apps/mcp/dist/api/client.js
 function createApiClient(config, options = {}) {
@@ -2269,18 +2269,19 @@ function registerContractTools(server, ctx) {
     }));
     const markdown = summaryTable({
       title: items.length === 0 ? "Договоры не найдены. Проверьте период и контрагента." : `Договоров на странице: ${items.length}`,
-      headers: ["№", "Дата", "Контрагент", "Предмет", "Сумма", "Статус"],
+      headers: ["№", "Дата", "Контрагент", "Предмет", "Сумма", "Статус", "ID"],
       rows: items.map((contract) => [
         contract.number ?? "б/н",
         contract.contractDate ?? "—",
         contract.contractorShortName ?? "—",
         contract.subject ?? "—",
         formatMoneyString(contract.amount),
-        label(CONTRACT_STATUS, contract.status)
+        label(CONTRACT_STATUS, contract.status),
+        contract.id
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "Карточку договора с файлами и документами отдаёт invoices_contracts_get."
+        "ID из последнего столбца передайте в invoices_contracts_get — он отдаст файлы и документы."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
@@ -2687,17 +2688,18 @@ function registerContractorTools(server, ctx) {
     const found = args.inn ?? args.query;
     const markdown = summaryTable({
       title: items.length === 0 ? `Контрагенты не найдены${found === void 0 ? "" : ` по запросу «${found}»`}. Если его действительно нет — предложите создать нового (это изменит данные, нужно подтверждение).` : `Контрагентов: ${items.length}${found === void 0 ? "" : ` (запрос «${found}»)`}`,
-      headers: ["Контрагент", "ИНН", "Вид", "Видимость", "Статус"],
+      headers: ["Контрагент", "ИНН", "Вид", "Видимость", "Статус", "ID"],
       rows: items.map((contractor) => [
         contractor.shortName,
         contractor.inn,
         label(COUNTERPARTY_KIND, contractor.kind),
         label(VISIBILITY, contractor.visibility),
-        label(ORG_STATUS, contractor.status)
+        label(ORG_STATUS, contractor.status),
+        contractor.id
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "Карточку и сводку по контрагенту отдают invoices_contractors_get и invoices_contractors_summary."
+        "ID из последнего столбца передайте в invoices_contractors_get и invoices_contractors_summary."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
@@ -3240,19 +3242,20 @@ function registerDocumentTools(server, ctx) {
     const pageTotals = sumPage(items);
     const markdown = summaryTable({
       title: items.length === 0 ? "Документы не найдены. Проверьте период, тип и контрагента." : `Документов на странице: ${items.length}`,
-      headers: ["№", "Дата", "Контрагент", "Сумма", "Оплачено", "Статус"],
+      headers: ["№", "Дата", "Контрагент", "Сумма", "Оплачено", "Статус", "ID"],
       rows: items.map((document) => [
         document.number ?? "б/н",
         document.documentDate ?? "—",
         document.counterpartyShortName ?? "—",
         formatMoneyString(document.total),
         formatMoneyString(document.paid),
-        label(DOCUMENT_STATUS, document.status)
+        label(DOCUMENT_STATUS, document.status),
+        document.id
       ]),
       footer: [
         `Итого по странице: ${formatMoneyString(pageTotals.total)}, оплачено ${formatMoneyString(pageTotals.paid)}, остаток ${formatMoneyString(pageTotals.remaining)}`,
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
-        "Полные данные документа (позиции, суммы, НДС) отдаёт invoices_documents_get."
+        "ID из последнего столбца передайте в invoices_documents_get — он отдаст позиции, суммы и НДС, оплаты и PDF-ссылку."
       ]
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor, pageTotals });
@@ -4228,7 +4231,12 @@ function registerPaymentTools(server, ctx) {
     description: "Поступления за период или по документу/контрагенту: дата, сумма, способ, документ. Для «какие оплаты были в октябре» и сверки выписки.",
     inputSchema: ListInput2,
     outputSchema: ListOutput2,
-    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false
+    }
   }, (args) => execute(ctx, LIST_TOOL2, async () => {
     const limit = resolveLimit(args.limit);
     const response = await ctx.sdk.payments.list({
@@ -4579,7 +4587,11 @@ function registerReportTools(server, ctx) {
       blocks.push("", summaryTable({
         title: "",
         headers: ["Месяц", "Выставлено", "Оплачено"],
-        rows: byMonth.map((row) => [row.month, formatMoneyString(row.issued), formatMoneyString(row.paid)])
+        rows: byMonth.map((row) => [
+          row.month,
+          formatMoneyString(row.issued),
+          formatMoneyString(row.paid)
+        ])
       }).replace(/^\n+/, "").replace(/^\n+/, ""));
     }
     if (groupBy === "contractor" && byContractor !== void 0 && byContractor.length > 0) {
@@ -4638,13 +4650,14 @@ function registerReportTools(server, ctx) {
     }));
     const markdown = summaryTable({
       title: items.length === 0 ? "Неоплаченных документов нет." : `Неоплаченных документов: ${report.count}, остаток по странице ниже`,
-      headers: ["№", "Дата", "Контрагент", "Остаток", "Просрочка"],
+      headers: ["№", "Дата", "Контрагент", "Остаток", "Просрочка", "ID"],
       rows: items.map((item) => [
         item.number ?? "б/н",
         item.documentDate ?? "—",
         item.counterpartyShortName ?? "—",
         formatMoneyString(item.remaining),
-        item.daysOverdue > 0 ? `${item.daysOverdue} дн.` : "—"
+        item.daysOverdue > 0 ? `${item.daysOverdue} дн.` : "—",
+        item.id
       ]),
       footer: [
         `Итого к получению: ${formatMoneyString(report.total)} (${report.count} документов)`,
@@ -4758,7 +4771,7 @@ function registerReportTools(server, ctx) {
     }));
     const markdown = summaryTable({
       title: items.length === 0 ? "В реестре нет документов за период." : `Документов в реестре: ${report.totals.documents}`,
-      headers: ["№", "Дата", "Контрагент", "Сумма", "НДС", "Оплачено", "Статус"],
+      headers: ["№", "Дата", "Контрагент", "Сумма", "НДС", "Оплачено", "Статус", "ID"],
       rows: items.map((item) => [
         item.number ?? "б/н",
         item.documentDate ?? "—",
@@ -4766,7 +4779,8 @@ function registerReportTools(server, ctx) {
         formatMoneyString(item.total),
         formatMoneyString(item.vat),
         formatMoneyString(item.paid),
-        label(DOCUMENT_STATUS, item.status)
+        label(DOCUMENT_STATUS, item.status),
+        item.id
       ]),
       footer: [
         `Итого: ${formatMoneyString(report.totals.total)}, НДС ${formatMoneyString(report.totals.vat)}, оплачено ${formatMoneyString(report.totals.paid)}` + (report.totals.cancelled > 0 ? `, аннулировано ${report.totals.cancelled}` : ""),
@@ -4877,13 +4891,14 @@ function registerShareTools(server, ctx) {
     }));
     const markdown = summaryTable({
       title: items.length === 0 ? "Ссылок нет." : `Ссылок на странице: ${items.length}`,
-      headers: ["Статус", "Документов", "Просмотры", "Ответы", "Действует до"],
+      headers: ["Статус", "Документов", "Просмотры", "Ответы", "Действует до", "ID"],
       rows: items.map((share) => [
         label(SHARE_STATUS, share.status),
         String(share.documentsCount),
         `${share.viewCount} из ${share.maxViews}`,
         share.allowReply ? String(share.replyCount) : "приём выключен",
-        formatIsoDate(share.expiresAt)
+        formatIsoDate(share.expiresAt),
+        share.id
       ]),
       footer: [
         ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
