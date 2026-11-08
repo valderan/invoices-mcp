@@ -1,0 +1,37 @@
+{
+  "name": "invoices-mcp",
+  "version": "0.1.0",
+  "description": "MCP-сервер сервиса счетов и актов: контрагенты, счета, акты, оплаты, договоры, отчёты, ссылки",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "invoices",
+    "accounting",
+    "billing"
+  ],
+  "homepage": "https://github.com/valderan/invoices-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valderan/invoices-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/valderan/invoices-mcp/issues"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "bin": {
+    "invoices-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "2.1.2",
+    "@modelcontextprotocol/server": "2.4.0",
+    "zod": "4.6.7"
+  }
+}
