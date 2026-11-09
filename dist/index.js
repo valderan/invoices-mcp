@@ -1461,7 +1461,7 @@ function createSdk(options) {
 
 // apps/mcp/dist/version.js
 var SERVER_NAME = "invoices-mcp";
-var SERVER_VERSION = true ? "0.1.3" : "0.0.0";
+var SERVER_VERSION = true ? "0.2.0" : "0.0.0";
 
 // apps/mcp/dist/api/client.js
 function createApiClient(config, options = {}) {
@@ -1511,9 +1511,27 @@ function describeApiError(error, context) {
     if (status === 403 && code === "IP_NOT_ALLOWED") {
       return "IP этого клиента не в списке разрешённых у токена. Попросите админа добавить IP или очистить allowlist токена.";
     }
+    if (status === 403 && code === "NOTE_PERSONAL_REQUIRES_USER") {
+      return "Личные заметки доступны только их владельцу в кабинете: MCP работает с общими (visibility: shared). Не подставляйте другой токен — создайте общую заметку.";
+    }
+    if (status === 403 && code === "NOTES_REQUIRE_USER") {
+      return "Этот клиент не может менять заметки: API разрешает мутации только пользователю или его сервисному токену (A31). Проверьте тип токена.";
+    }
     if (status === 403) {
       const scope = code === "SCOPE_FORBIDDEN" ? detail : void 0;
       return `У токена нет нужного права${scope ? ` (${scope})` : ""}. Попросите админа выдать токен с этим правом или выполните операцию в кабинете.`;
+    }
+    if (status === 404 && code === "NOTE_NOT_FOUND") {
+      return "Заметка не найдена: проверьте ID в invoices_notes_list или invoices_notes_calendar.";
+    }
+    if (status === 422 && code === "NOTE_LINK_LIMIT") {
+      return "У заметки уже 10 привязок — отвяжите лишние в кабинете и повторите.";
+    }
+    if (status === 422 && code === "NOTE_CALENDAR_RANGE") {
+      return "Диапазон календаря больше 366 дней — сузьте период.";
+    }
+    if (status === 422 && code === "NOTE_LINK_TARGET_NOT_FOUND") {
+      return "Цель привязки не найдена в кабинете: документ, контрагент или договор из другой организации. Проверьте ID поиском.";
     }
     if (status === 404 && code === "UNIT_NOT_FOUND") {
       return "Единица измерения не найдена. Возьмите код из существующих позиций (invoices_products_list) — например, «шт»; справочник единиц — в кабинете.";
@@ -1718,6 +1736,8 @@ var INSTRUCTIONS = [
   "контрагента требуют confirm: true и явного согласия пользователя.",
   "Токен только для чтения не позволяет изменять данные. Не запрашивай админские",
   "операции. Подробные сценарии — ресурс skill://invoices или инструмент invoices_help.",
+  "Заметки доступны только общие (shared): создание и правка — после подтверждения,",
+  "личные заметки остаются в кабинете. Дедлайн заметки — событие календаря.",
   "Сервер передаёт данные кабинета в модель клиента (включая локальные модели).",
   "Не используйте его для данных, которые нельзя обрабатывать выбранной моделью;",
   "рекомендуется токен только для чтения."
@@ -1917,6 +1937,27 @@ var DOCUMENT_STATUS = {
   paid: "оплачен",
   cancelled: "аннулирован",
   signed: "подписан"
+};
+var NOTE_STATUS = {
+  open: "открыта",
+  closed: "закрыта"
+};
+var NOTE_COLOR = {
+  none: "без важности",
+  gray: "серая",
+  blue: "синяя",
+  green: "зелёная",
+  yellow: "жёлтая",
+  orange: "оранжевая",
+  red: "красная"
+};
+var NOTE_ENTITY = {
+  document: "счёт",
+  document_item: "позиция счёта",
+  counterparty: "контрагент",
+  organization: "организация",
+  contract: "договор",
+  payment: "оплата"
 };
 var CONTRACT_STATUS = {
   active: "действует",
@@ -3031,9 +3072,361 @@ function registerContractorResources(server, ctx) {
 import { ProtocolError as ProtocolError3, ProtocolErrorCode as ProtocolErrorCode2, ResourceTemplate as ResourceTemplate3 } from "@modelcontextprotocol/server";
 
 // apps/mcp/dist/tools/documents.js
+import { z as z9 } from "zod";
+
+// apps/mcp/dist/tools/notes.js
 import { z as z8 } from "zod";
+var LIST_TOOL = "invoices_notes_list";
+var CALENDAR_TOOL = "invoices_notes_calendar";
+var GET_TOOL3 = "invoices_notes_get";
+var CREATE_TOOL2 = "invoices_notes_create";
+var UPDATE_TOOL2 = "invoices_notes_update";
+var CLOSE_TOOL = "invoices_notes_close";
+var REOPEN_TOOL = "invoices_notes_reopen";
+var DELETE_TOOL = "invoices_notes_delete";
+var DateOnly2 = z8.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
+var Moment = z8.union([DateOnly2, z8.iso.datetime({ offset: true })]).describe("DD.MM.YYYY или ISO-8601 с зоной");
+var NoteColor = z8.enum(["none", "gray", "blue", "green", "yellow", "orange", "red"]);
+var NoteEntity = z8.enum([
+  "document",
+  "document_item",
+  "counterparty",
+  "organization",
+  "contract",
+  "payment"
+]);
+var NoteLinkInput = z8.object({
+  entityType: NoteEntity.describe("Тип сущности кабинета"),
+  entityId: z8.uuid().describe("ID сущности: документ, позиция, контрагент, организация, договор, оплата")
+});
+var NoteSummary = z8.object({
+  id: z8.string(),
+  title: z8.string(),
+  status: z8.string(),
+  color: z8.string(),
+  visibility: z8.string(),
+  dueAt: z8.string().nullable(),
+  remindAt: z8.string().nullable(),
+  overdue: z8.boolean(),
+  bodyPreview: z8.string(),
+  links: z8.array(z8.object({ entityType: z8.string(), entityId: z8.string() }))
+});
+var ListInput = z8.object({
+  status: z8.enum(["open", "closed"]).optional().describe("По умолчанию — все"),
+  color: NoteColor.optional().describe("Важность (цвет-закладка)"),
+  from: DateOnly2.optional().describe("Дедлайн с даты"),
+  to: DateOnly2.optional().describe("Дедлайн по дату включительно"),
+  query: z8.string().trim().min(1).optional().describe("Поиск по заголовку и markdown-тексту"),
+  entityType: NoteEntity.optional().describe("Только заметки, привязанные к сущностям этого типа"),
+  entityId: z8.uuid().optional().describe("Вместе с entityType"),
+  limit: z8.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z8.string().optional().describe("nextCursor из предыдущего ответа")
+});
+var ListOutput = z8.object({
+  items: z8.array(NoteSummary),
+  nextCursor: z8.string().nullable()
+});
+var CalendarInput = z8.object({
+  from: DateOnly2.describe("Начало периода"),
+  to: DateOnly2.describe("Конец периода включительно; диапазон не больше 366 дней")
+});
+var CalendarOutput = z8.object({
+  from: z8.string(),
+  to: z8.string(),
+  items: z8.array(NoteSummary)
+});
+var GetInput3 = z8.object({
+  noteId: z8.uuid().describe("Идентификатор заметки (UUID из списка или календаря)")
+});
+var GetOutput3 = NoteSummary.extend({
+  body: z8.string(),
+  closedAt: z8.string().nullable(),
+  createdAt: z8.string(),
+  updatedAt: z8.string(),
+  title: z8.string()
+});
+var CreateInput2 = z8.object({
+  title: z8.string().trim().min(1).describe("Заголовок, до 200 символов"),
+  body: z8.string().trim().min(1).describe("Текст в Markdown (до 20 000 символов)"),
+  color: NoteColor.optional().describe("Важность: none, gray, blue, green, yellow, orange, red"),
+  dueAt: Moment.optional().describe("Дедлайн — событие календаря"),
+  remindAt: Moment.optional().describe("Напоминание (в MVP только отображается)"),
+  links: z8.array(NoteLinkInput).max(10).optional().describe("Привязки к сущностям кабинета, до 10"),
+  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не создать дубль"),
+  confirm: z8.boolean().optional().describe("Обязательно true")
+});
+var CreateOutput2 = z8.object({
+  id: z8.string(),
+  title: z8.string(),
+  status: z8.string(),
+  visibility: z8.string(),
+  links: z8.array(z8.object({ entityType: z8.string(), entityId: z8.string() })),
+  idempotencyKey: z8.string(),
+  warnings: z8.array(z8.string())
+});
+var UpdateInput2 = z8.object({
+  noteId: z8.uuid().describe("Идентификатор заметки"),
+  title: z8.string().trim().min(1).optional(),
+  body: z8.string().trim().min(1).optional(),
+  color: NoteColor.optional(),
+  dueAt: Moment.nullable().optional().describe("Дата дедлайна; null — очистить"),
+  remindAt: Moment.nullable().optional().describe("Дата напоминания; null — очистить"),
+  confirm: z8.boolean().optional().describe("Обязательно true")
+});
+var UpdateOutput2 = z8.object({
+  id: z8.string(),
+  title: z8.string(),
+  status: z8.string(),
+  changedFields: z8.array(z8.string())
+});
+var StatusInput = z8.object({
+  noteId: z8.uuid().describe("Идентификатор заметки"),
+  confirm: z8.boolean().optional().describe("Обязательно true")
+});
+var StatusOutput = z8.object({ id: z8.string(), status: z8.string() });
+var DeleteInput = z8.object({
+  noteId: z8.uuid().describe("Идентификатор заметки"),
+  confirm: z8.boolean().optional().describe("Обязательно true — удаление необратимо")
+});
+var DeleteOutput = z8.object({ id: z8.string(), deleted: z8.boolean() });
+function noteRow(note) {
+  const due = note.dueAt === null ? "—" : formatIsoDate(note.dueAt) + (note.overdue ? " (просрочено)" : "");
+  return [note.title, due, label(NOTE_COLOR, note.color), label(NOTE_STATUS, note.status), note.id];
+}
+function linkText(link) {
+  return `${label(NOTE_ENTITY, link.entityType)} ${link.entityId}`;
+}
+function toSummary(note) {
+  return {
+    id: note.id,
+    title: note.title,
+    status: note.status,
+    color: note.color,
+    visibility: note.visibility,
+    dueAt: note.dueAt ?? null,
+    remindAt: note.remindAt ?? null,
+    overdue: note.overdue,
+    bodyPreview: note.bodyPreview,
+    links: note.links.map((link) => ({ entityType: link.entityType, entityId: link.entityId }))
+  };
+}
+function registerNoteTools(server, ctx) {
+  server.registerTool(LIST_TOOL, {
+    title: "Заметки: список",
+    description: "Список и поиск заметок рабочей области: статус, важность (цвет), дедлайн, текст, привязки к документам и контрагентам. Возвращает страницу items + nextCursor, в каждой строке есть ID для invoices_notes_get. Личные заметки других людей не видны.",
+    inputSchema: ListInput,
+    outputSchema: ListOutput,
+    annotations: READ_ONLY_ANNOTATIONS
+  }, (args) => execute(ctx, LIST_TOOL, async () => {
+    if (args.entityType === void 0 !== (args.entityId === void 0)) {
+      throw new Error("entityType и entityId передаются только вместе");
+    }
+    const limit = resolveLimit(args.limit);
+    const response = await ctx.sdk.notes.list({
+      limit,
+      ...args.status === void 0 ? {} : { status: args.status },
+      ...args.color === void 0 ? {} : { color: args.color },
+      ...args.from === void 0 ? {} : { from: args.from },
+      ...args.to === void 0 ? {} : { to: args.to },
+      ...args.query === void 0 ? {} : { q: args.query },
+      ...args.entityType === void 0 ? {} : { linkedType: args.entityType },
+      ...args.entityId === void 0 ? {} : { linkedId: args.entityId },
+      ...args.cursor === void 0 ? {} : { cursor: args.cursor }
+    });
+    const page = toPage(response);
+    const items = page.items.map(toSummary);
+    const markdown = summaryTable({
+      title: items.length === 0 ? "Заметок нет. Проверьте фильтры — или создайте через invoices_notes_create (с подтверждением)." : `Заметок на странице: ${items.length}`,
+      headers: ["Заголовок", "Дедлайн", "Важность", "Статус", "ID"],
+      rows: items.map(noteRow),
+      footer: [
+        ...nextPageHint(page) === void 0 ? [] : [nextPageHint(page) ?? ""],
+        "ID из последнего столбца передайте в invoices_notes_get — он отдаст полный текст и привязки. Календарь на период — invoices_notes_calendar."
+      ]
+    });
+    return toolResult(markdown, { items, nextCursor: page.nextCursor });
+  }));
+  server.registerTool(CALENDAR_TOOL, {
+    title: "Заметки: календарь",
+    description: "События периода по дедлайнам (у заметок без дедлайна — по напоминанию): повестка по дням, просрочка помечена. Диапазон не больше 366 дней. Использовать на вопросы «что у меня на неделе», «какие дедлайны сегодня».",
+    inputSchema: CalendarInput,
+    outputSchema: CalendarOutput,
+    annotations: READ_ONLY_ANNOTATIONS
+  }, (args) => execute(ctx, CALENDAR_TOOL, async () => {
+    const response = await ctx.sdk.notes.getNotesCalendar({ from: args.from, to: args.to });
+    const items = response.items.map(toSummary);
+    const byDay = /* @__PURE__ */ new Map();
+    for (const note of items) {
+      const moment = note.dueAt ?? note.remindAt;
+      const day = moment === null ? "без даты" : formatIsoDate(moment);
+      byDay.set(day, [...byDay.get(day) ?? [], note]);
+    }
+    const blocks = [
+      `**Календарь ${formatIsoDate(response.from)} — ${formatIsoDate(response.to)}**: событий ${items.length}`
+    ];
+    for (const [day, dayNotes] of byDay) {
+      blocks.push("", `**${day}**`, mdBullets(dayNotes.map((note) => `${note.title}${note.overdue ? " — просрочено" : ""} (${label(NOTE_COLOR, note.color)}, ${note.id})`)));
+    }
+    if (items.length === 0) {
+      blocks.push("", "В этом периоде дедлайнов и напоминаний нет.");
+    }
+    return toolResult(blocks.join("\n"), {
+      from: response.from,
+      to: response.to,
+      items
+    });
+  }));
+  server.registerTool(GET_TOOL3, {
+    title: "Заметка: карточка",
+    description: "Полная заметка: markdown-текст, дедлайн, напоминание, важность, привязки. Нужен ID из invoices_notes_list или invoices_notes_calendar.",
+    inputSchema: GetInput3,
+    outputSchema: GetOutput3,
+    annotations: READ_ONLY_ANNOTATIONS
+  }, (args) => execute(ctx, GET_TOOL3, async () => {
+    const note = await ctx.sdk.notes.get(args.noteId);
+    const blocks = [
+      `**${note.title}** · ${label(NOTE_STATUS, note.status)}`,
+      "",
+      mdBullets([
+        `Важность: ${label(NOTE_COLOR, note.color)}`,
+        `Видимость: ${label(VISIBILITY, note.visibility)}`,
+        note.dueAt === null ? "Дедлайн не задан" : `Дедлайн: ${formatIsoDate(note.dueAt)}`,
+        note.remindAt === null ? "" : `Напоминание: ${formatIsoDate(note.remindAt)}`,
+        note.overdue ? "Просрочено" : "",
+        `Создана: ${formatIsoDate(note.createdAt)}`,
+        note.closedAt === null ? "" : `Закрыта: ${formatIsoDate(note.closedAt)}`
+      ].filter((line) => line !== "")),
+      "",
+      "**Текст**",
+      note.body
+    ];
+    blocks.push("", "**Привязки**", note.links.length === 0 ? "Связей нет." : mdBullets(note.links.map((link) => linkText(link))));
+    return toolResult(blocks.join("\n"), {
+      ...toSummary(note),
+      body: note.body,
+      closedAt: note.closedAt ?? null,
+      createdAt: note.createdAt,
+      updatedAt: note.updatedAt,
+      title: note.title
+    });
+  }));
+  server.registerTool(CREATE_TOOL2, {
+    title: "Заметка: создать",
+    description: "Создаёт общую заметку (visibility: shared) с необязательным дедлайном, напоминанием и привязками к документам и контрагентам. Личные заметки через MCP недоступны. Текст — Markdown. Требует confirm: true и явной просьбы пользователя.",
+    inputSchema: CreateInput2,
+    outputSchema: CreateOutput2,
+    annotations: { ...WRITE_ANNOTATIONS, idempotentHint: false }
+  }, (args) => mutation(ctx, CREATE_TOOL2, args.confirm, async () => {
+    const { confirm: _confirm, links, idempotencyKey, ...rest } = args;
+    const key = idempotencyKeyOf(idempotencyKey);
+    const created = await ctx.sdk.notes.create({ ...rest, visibility: "shared" }, { idempotencyKey: key });
+    const warnings = [];
+    let linked = created.links.map((link) => ({
+      entityType: link.entityType,
+      entityId: link.entityId
+    }));
+    if (links !== void 0 && links.length > 0) {
+      try {
+        const withLinks = await ctx.sdk.notes.addNoteLinks(created.id, { links });
+        linked = withLinks.links.map((link) => ({
+          entityType: link.entityType,
+          entityId: link.entityId
+        }));
+      } catch (error) {
+        warnings.push(`Заметка создана, но привязки не добавились: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+    const markdown = [
+      `Заметка создана: **${created.title}**`,
+      `ID: ${created.id}`,
+      "",
+      mdBullets([
+        `Статус: ${label(NOTE_STATUS, created.status)}`,
+        `Важность: ${label(NOTE_COLOR, created.color)}`,
+        created.dueAt === null ? "Без дедлайна" : `Дедлайн: ${formatIsoDate(created.dueAt)}`,
+        linked.length === 0 ? "" : `Привязки: ${linked.map(linkText).join(", ")}`
+      ].filter((line) => line !== "")),
+      ...warnings.length === 0 ? [] : ["", "**Обратите внимание**", mdBullets(warnings)]
+    ].join("\n");
+    return toolResult(markdown, {
+      id: created.id,
+      title: created.title,
+      status: created.status,
+      visibility: created.visibility,
+      links: linked,
+      idempotencyKey: key,
+      warnings
+    });
+  }));
+  server.registerTool(UPDATE_TOOL2, {
+    title: "Заметка: изменить",
+    description: "Меняет заголовок, текст, важность, дедлайн или напоминание общей заметки. `null` в dueAt/remindAt очищает поле. Требует confirm: true.",
+    inputSchema: UpdateInput2,
+    outputSchema: UpdateOutput2,
+    annotations: WRITE_ANNOTATIONS
+  }, (args) => mutation(ctx, UPDATE_TOOL2, args.confirm, async () => {
+    const { confirm: _confirm, noteId, ...patch } = args;
+    const updated = await ctx.sdk.notes.update(noteId, patch);
+    const changedFields = Object.keys(patch).filter((key) => patch[key] !== void 0);
+    return toolResult([
+      `Заметка обновлена: **${updated.title}**`,
+      `Изменены поля: ${changedFields.length === 0 ? "—" : changedFields.join(", ")}`
+    ].join("\n"), { id: updated.id, title: updated.title, status: updated.status, changedFields });
+  }));
+  server.registerTool(CLOSE_TOOL, {
+    title: "Заметка: закрыть",
+    description: "Закрывает заметку (задача выполнена). Данные сохраняются, заметка остаётся в календаре закрытой. Требует confirm: true.",
+    inputSchema: StatusInput,
+    outputSchema: StatusOutput,
+    annotations: WRITE_ANNOTATIONS
+  }, (args) => mutation(ctx, CLOSE_TOOL, args.confirm, async () => {
+    const closed = await ctx.sdk.notes.close(args.noteId);
+    return toolResult(`Заметка «${closed.title}» закрыта.`, {
+      id: closed.id,
+      status: closed.status
+    });
+  }));
+  server.registerTool(REOPEN_TOOL, {
+    title: "Заметка: переоткрыть",
+    description: "Возвращает закрытую заметку в работу. Требует confirm: true.",
+    inputSchema: StatusInput,
+    outputSchema: StatusOutput,
+    annotations: WRITE_ANNOTATIONS
+  }, (args) => mutation(ctx, REOPEN_TOOL, args.confirm, async () => {
+    const reopened = await ctx.sdk.notes.reopen(args.noteId);
+    return toolResult(`Заметка «${reopened.title}» снова открыта.`, {
+      id: reopened.id,
+      status: reopened.status
+    });
+  }));
+  server.registerTool(DELETE_TOOL, {
+    title: "Заметка: удалить",
+    description: "Удаляет заметку физически, восстановить нельзя. Для «сделано» используйте invoices_notes_close. Требует confirm: true.",
+    inputSchema: DeleteInput,
+    outputSchema: DeleteOutput,
+    annotations: DESTRUCTIVE_ANNOTATIONS
+  }, (args) => mutation(ctx, DELETE_TOOL, args.confirm, async () => {
+    await ctx.sdk.notes.delete(args.noteId);
+    return toolResult(`Заметка ${args.noteId} удалена.`, {
+      id: args.noteId,
+      deleted: true
+    });
+  }));
+}
+async function loadDocumentNotes(ctx, documentId) {
+  const response = await ctx.sdk.notes.listDocument(documentId);
+  const items = response.items.map(toSummary);
+  const markdown = items.length === 0 ? "Заметок нет." : summaryTable({
+    title: "",
+    headers: ["Заголовок", "Дедлайн", "Важность", "Статус", "ID"],
+    rows: items.map(noteRow)
+  }).replace(/^\n+/, "");
+  return { markdown, items };
+}
+
+// apps/mcp/dist/tools/documents.js
 var SEARCH_TOOL3 = "invoices_documents_search";
-var GET_TOOL3 = "invoices_documents_get";
+var GET_TOOL4 = "invoices_documents_get";
 var PAYMENTS_TOOL = "invoices_documents_payment_status";
 var PDF_TOOL = "invoices_documents_pdf_link";
 var DOCUMENT_STATUSES = [
@@ -3048,11 +3441,11 @@ var DOCUMENT_STATUSES = [
   "signed"
 ];
 var DOCUMENT_TYPES = ["invoice", "act", "invoice_facture", "upd", "contract"];
-var DateOnly2 = z8.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
-var DocumentListItem = z8.object({
-  id: z8.string(),
-  type: z8.string(),
-  status: z8.string(),
+var DateOnly3 = z9.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
+var DocumentListItem = z9.object({
+  id: z9.string(),
+  type: z9.string(),
+  status: z9.string(),
   number: nullableString,
   documentDate: nullableString,
   counterpartyId: nullableString,
@@ -3061,119 +3454,132 @@ var DocumentListItem = z8.object({
   total: nullableString,
   paid: nullableString,
   remaining: nullableString,
-  currentRevision: z8.number()
+  currentRevision: z9.number()
 });
-var SearchInput3 = z8.object({
-  type: z8.enum(DOCUMENT_TYPES).optional().describe("Тип: счёт, акт, счёт-фактура, УПД, договор"),
-  status: z8.array(z8.enum(DOCUMENT_STATUSES)).optional().describe('Фильтр по статусам (любой из); без фильтра — все, включая черновики (status:"draft")'),
-  organizationId: z8.uuid().optional().describe("Только документы этой организации"),
-  contractorId: z8.uuid().optional().describe("Только документы этого контрагента (ID из invoices_contractors_search)"),
-  contractId: z8.uuid().optional().describe("Только документы этого договора"),
-  number: z8.string().trim().min(1).optional().describe('Номер документа. У черновиков номера нет — ищите их по contractorId, status:["draft"] или query'),
-  query: z8.string().trim().min(1).optional().describe("Поиск по номеру, контрагенту, назначению"),
-  from: DateOnly2.optional().describe("Документы с даты (DD.MM.YYYY)"),
-  to: DateOnly2.optional().describe("Документы по дату (DD.MM.YYYY)"),
-  overdueOnly: z8.boolean().optional().describe("Только просроченные"),
-  sort: z8.enum(["createdAt_desc", "documentDate_desc", "documentDate_asc"]).optional().describe("Сортировка; по умолчанию — createdAt_desc"),
-  limit: z8.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z8.string().optional().describe("nextCursor из предыдущего ответа")
+var SearchInput3 = z9.object({
+  type: z9.enum(DOCUMENT_TYPES).optional().describe("Тип: счёт, акт, счёт-фактура, УПД, договор"),
+  status: z9.array(z9.enum(DOCUMENT_STATUSES)).optional().describe('Фильтр по статусам (любой из); без фильтра — все, включая черновики (status:"draft")'),
+  organizationId: z9.uuid().optional().describe("Только документы этой организации"),
+  contractorId: z9.uuid().optional().describe("Только документы этого контрагента (ID из invoices_contractors_search)"),
+  contractId: z9.uuid().optional().describe("Только документы этого договора"),
+  number: z9.string().trim().min(1).optional().describe('Номер документа. У черновиков номера нет — ищите их по contractorId, status:["draft"] или query'),
+  query: z9.string().trim().min(1).optional().describe("Поиск по номеру, контрагенту, назначению"),
+  from: DateOnly3.optional().describe("Документы с даты (DD.MM.YYYY)"),
+  to: DateOnly3.optional().describe("Документы по дату (DD.MM.YYYY)"),
+  overdueOnly: z9.boolean().optional().describe("Только просроченные"),
+  sort: z9.enum(["createdAt_desc", "documentDate_desc", "documentDate_asc"]).optional().describe("Сортировка; по умолчанию — createdAt_desc"),
+  limit: z9.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z9.string().optional().describe("nextCursor из предыдущего ответа")
 });
-var SearchOutput3 = z8.object({
-  items: z8.array(DocumentListItem),
-  nextCursor: z8.string().nullable(),
-  pageTotals: z8.object({
-    total: z8.string(),
-    paid: z8.string(),
-    remaining: z8.string()
+var SearchOutput3 = z9.object({
+  items: z9.array(DocumentListItem),
+  nextCursor: z9.string().nullable(),
+  pageTotals: z9.object({
+    total: z9.string(),
+    paid: z9.string(),
+    remaining: z9.string()
   })
 });
-var ItemView = z8.object({
-  lineNo: z8.number(),
-  name: z8.string(),
+var ItemView = z9.object({
+  lineNo: z9.number(),
+  name: z9.string(),
   unit: nullableString,
   qty: nullableString,
   price: nullableString,
-  vatRate: z8.number().nullable(),
+  vatRate: z9.number().nullable(),
   lineTotal: nullableString,
   vatAmount: nullableString,
   discount: nullableRecord.optional(),
   note: nullableString
 });
-var GetInput3 = z8.object({
-  documentId: z8.uuid().describe("Идентификатор документа (UUID)"),
-  revision: z8.number().int().min(0).optional().describe("Версия выданного документа; по умолчанию — текущая")
+var GetInput4 = z9.object({
+  documentId: z9.uuid().describe("Идентификатор документа (UUID)"),
+  revision: z9.number().int().min(0).optional().describe("Версия выданного документа; по умолчанию — текущая"),
+  include: z9.array(z9.enum(["notes"])).optional().describe('["notes"] — добавить заметки документа (скоупы documents:read и notes:read)')
 });
-var GetOutput3 = z8.object({
-  id: z8.string(),
-  type: z8.string(),
+var GetOutput4 = z9.object({
+  id: z9.string(),
+  type: z9.string(),
   docKind: nullableString,
-  status: z8.string(),
+  status: z9.string(),
   number: nullableString,
   documentDate: nullableString,
-  currentRevision: z8.number(),
-  organizationId: z8.string(),
-  counterparty: z8.object({
-    id: z8.string(),
-    shortName: z8.string(),
+  currentRevision: z9.number(),
+  organizationId: z9.string(),
+  counterparty: z9.object({
+    id: z9.string(),
+    shortName: z9.string(),
     inn: nullableString,
     kpp: nullableString
   }),
-  contract: z8.object({ id: z8.string() }).nullable(),
-  totals: z8.object({
+  contract: z9.object({ id: z9.string() }).nullable(),
+  totals: z9.object({
     subtotal: nullableString,
     discountTotal: nullableString,
     vatTotal: nullableString,
     grandTotal: nullableString,
-    itemsCount: z8.number(),
+    itemsCount: z9.number(),
     vatMode: nullableString
   }),
-  payments: z8.object({
+  payments: z9.object({
     total: nullableString,
     paid: nullableString,
     remaining: nullableString,
     overpaid: nullableString
   }),
-  dates: z8.object({
+  dates: z9.object({
     issuedAt: nullableString,
     cancelledAt: nullableString,
     cancelReason: nullableString,
     receivedAt: nullableString,
     createdAt: nullableString
   }),
-  items: z8.array(ItemView),
-  warnings: z8.array(z8.object({ code: z8.string(), message: z8.string() })),
-  viewRevision: z8.number(),
-  changeReason: nullableString
+  items: z9.array(ItemView),
+  warnings: z9.array(z9.object({ code: z9.string(), message: z9.string() })),
+  viewRevision: z9.number(),
+  changeReason: nullableString,
+  notes: z9.array(z9.object({
+    id: z9.string(),
+    title: z9.string(),
+    status: z9.string(),
+    color: z9.string(),
+    visibility: z9.string(),
+    dueAt: nullableString,
+    remindAt: nullableString,
+    overdue: z9.boolean(),
+    bodyPreview: z9.string(),
+    links: z9.array(z9.object({ entityType: z9.string(), entityId: z9.string() }))
+  })).optional()
 });
-var PaymentsInput = z8.object({
-  documentId: z8.uuid().describe("Идентификатор документа (UUID)")
+var PaymentsInput = z9.object({
+  documentId: z9.uuid().describe("Идентификатор документа (UUID)")
 });
-var PaymentItem = z8.object({
-  id: z8.string(),
+var PaymentItem = z9.object({
+  id: z9.string(),
   amount: nullableString,
   paidAt: nullableString,
   method: nullableString,
   comment: nullableString
 });
-var PaymentsOutput = z8.object({
-  documentId: z8.string(),
-  status: z8.string(),
+var PaymentsOutput = z9.object({
+  documentId: z9.string(),
+  status: z9.string(),
   total: nullableString,
   paid: nullableString,
   remaining: nullableString,
   overpaid: nullableString,
-  payments: z8.array(PaymentItem)
+  payments: z9.array(PaymentItem)
 });
-var PdfInput = z8.object({
-  documentId: z8.uuid().describe("Идентификатор документа (UUID)"),
-  revision: z8.number().int().min(0).optional().describe("Версия документа"),
-  seal: z8.boolean().optional().describe("С печатью организации (по умолчанию как в документе)"),
-  sign: z8.boolean().optional().describe("С подписью (по умолчанию как в документе)"),
-  watermark: z8.enum(["draft", "paid", "sample", "corrected"]).optional().describe("Водяной знак: черновик, оплачен, образец, исправленный")
+var PdfInput = z9.object({
+  documentId: z9.uuid().describe("Идентификатор документа (UUID)"),
+  revision: z9.number().int().min(0).optional().describe("Версия документа"),
+  seal: z9.boolean().optional().describe("С печатью организации (по умолчанию как в документе)"),
+  sign: z9.boolean().optional().describe("С подписью (по умолчанию как в документе)"),
+  watermark: z9.enum(["draft", "paid", "sample", "corrected"]).optional().describe("Водяной знак: черновик, оплачен, образец, исправленный")
 });
-var PdfOutput = z8.object({
-  url: z8.string(),
-  expiresAt: z8.string()
+var PdfOutput = z9.object({
+  url: z9.string(),
+  expiresAt: z9.string()
 });
 function sumPage(items) {
   const sum = (pick) => {
@@ -3260,14 +3666,16 @@ function registerDocumentTools(server, ctx) {
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor, pageTotals });
   }));
-  server.registerTool(GET_TOOL3, {
+  server.registerTool(GET_TOOL4, {
     title: "Документ: карточка",
     description: "Полная карточка документа: статус, суммы и НДС, позиции, оплаты, предупреждения. Параметр revision отдаёт сохранённую версию выданного документа. Выданный документ неизменяем — правки только новой версией через кабинет.",
-    inputSchema: GetInput3,
-    outputSchema: GetOutput3,
+    inputSchema: GetInput4,
+    outputSchema: GetOutput4,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, GET_TOOL3, async () => {
-    const card = await loadDocumentCard(ctx, args.documentId, args.revision);
+  }, (args) => execute(ctx, GET_TOOL4, async () => {
+    const card = await loadDocumentCard(ctx, args.documentId, args.revision, {
+      notes: args.include?.includes("notes") === true
+    });
     return toolResult(card.markdown, card.data);
   }));
   server.registerTool(PAYMENTS_TOOL, {
@@ -3324,7 +3732,7 @@ function registerDocumentTools(server, ctx) {
     return toolResult(link.markdown, link.data);
   }));
 }
-async function loadDocumentCard(ctx, documentId, revision) {
+async function loadDocumentCard(ctx, documentId, revision, options = {}) {
   const current = await ctx.sdk.documents.get(documentId);
   const version = revision === void 0 ? void 0 : await ctx.sdk.documents.getDocumentVersion(documentId, String(revision));
   const itemsSource = version?.items ?? current.items;
@@ -3382,6 +3790,10 @@ async function loadDocumentCard(ctx, documentId, revision) {
   if (current.warnings.length > 0) {
     blocks.push("", "**Предупреждения**", mdBullets(current.warnings.map((warning) => warning.message)));
   }
+  const notes = options.notes === true ? await loadDocumentNotes(ctx, current.id) : void 0;
+  if (notes !== void 0) {
+    blocks.push("", "**Заметки**", notes.markdown);
+  }
   blocks.push("", "PDF: ссылку отдаёт invoices_documents_pdf_link (живёт ограниченное время).");
   return {
     markdown: blocks.join("\n"),
@@ -3424,7 +3836,8 @@ async function loadDocumentCard(ctx, documentId, revision) {
         message: warning.message
       })),
       viewRevision: version?.revision ?? 0,
-      changeReason: version === void 0 ? null : version.changeReason
+      changeReason: version === void 0 ? null : version.changeReason,
+      ...notes === void 0 ? {} : { notes: notes.items }
     }
   };
 }
@@ -3450,149 +3863,149 @@ var CANCEL_TOOL = "invoices_documents_cancel";
 var DELETE_DRAFT_TOOL = "invoices_documents_delete_draft";
 var CREATE_ACT_TOOL = "invoices_documents_create_act";
 var IMPORT_TOOL = "invoices_documents_import";
-var MoneyString2 = z8.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "124000.00"');
-var QtyString = z8.string().regex(/^\d+(\.\d{1,3})?$/, "количество строкой, до трёх знаков после точки");
-var VatRate = z8.union([
-  z8.literal(0),
-  z8.literal(5),
-  z8.literal(7),
-  z8.literal(10),
-  z8.literal(20),
-  z8.literal(22)
+var MoneyString2 = z9.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "124000.00"');
+var QtyString = z9.string().regex(/^\d+(\.\d{1,3})?$/, "количество строкой, до трёх знаков после точки");
+var VatRate = z9.union([
+  z9.literal(0),
+  z9.literal(5),
+  z9.literal(7),
+  z9.literal(10),
+  z9.literal(20),
+  z9.literal(22)
 ]);
-var ItemInput = z8.object({
-  productId: z8.uuid().optional().describe("ID позиции номенклатуры, если цена берётся из справочника"),
-  name: z8.string().trim().min(1).describe("Наименование в документе"),
-  unit: z8.string().trim().min(1).describe("Единица: шт, усл, мес, ч …"),
+var ItemInput = z9.object({
+  productId: z9.uuid().optional().describe("ID позиции номенклатуры, если цена берётся из справочника"),
+  name: z9.string().trim().min(1).describe("Наименование в документе"),
+  unit: z9.string().trim().min(1).describe("Единица: шт, усл, мес, ч …"),
   qty: QtyString,
   price: MoneyString2.describe("Цена за единицу в рублях"),
-  discount: z8.object({ kind: z8.enum(["percent", "amount"]), value: z8.string() }).optional().describe("Скидка: percent — проценты, amount — сумма в рублях"),
+  discount: z9.object({ kind: z9.enum(["percent", "amount"]), value: z9.string() }).optional().describe("Скидка: percent — проценты, amount — сумма в рублях"),
   vatRate: VatRate.optional().describe("Ставка НДС: 0, 5, 7, 10, 20 или 22"),
-  note: z8.string().optional()
+  note: z9.string().optional()
 });
-var TotalsOutput = z8.object({
+var TotalsOutput = z9.object({
   subtotal: nullableString,
   discountTotal: nullableString,
   vatTotal: nullableString,
   grandTotal: nullableString
 });
-var CreateDraftInput = z8.object({
-  type: z8.enum(["invoice", "act", "invoice_facture"]).describe("Тип черновика"),
-  organizationId: z8.uuid().describe("Организация, от которой выставляется документ"),
-  contractorId: z8.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
-  documentDate: DateOnly2.describe("Дата документа, DD.MM.YYYY"),
-  contractId: z8.uuid().optional().describe("Договор, к которому относится документ"),
-  basis: z8.string().optional().describe("Основание"),
-  period: z8.object({ from: DateOnly2, to: DateOnly2, label: z8.string().optional() }).optional().describe("Период оказания услуг (для акта)"),
-  note: z8.string().optional(),
-  items: z8.array(ItemInput).min(1).describe("Позиции документа; цена и количество строками"),
-  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не создать дубль"),
-  confirm: z8.boolean().optional().describe("Обязательно true")
+var CreateDraftInput = z9.object({
+  type: z9.enum(["invoice", "act", "invoice_facture"]).describe("Тип черновика"),
+  organizationId: z9.uuid().describe("Организация, от которой выставляется документ"),
+  contractorId: z9.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
+  documentDate: DateOnly3.describe("Дата документа, DD.MM.YYYY"),
+  contractId: z9.uuid().optional().describe("Договор, к которому относится документ"),
+  basis: z9.string().optional().describe("Основание"),
+  period: z9.object({ from: DateOnly3, to: DateOnly3, label: z9.string().optional() }).optional().describe("Период оказания услуг (для акта)"),
+  note: z9.string().optional(),
+  items: z9.array(ItemInput).min(1).describe("Позиции документа; цена и количество строками"),
+  idempotencyKey: z9.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не создать дубль"),
+  confirm: z9.boolean().optional().describe("Обязательно true")
 });
-var CreateDraftOutput = z8.object({
-  id: z8.string(),
-  status: z8.string(),
+var CreateDraftOutput = z9.object({
+  id: z9.string(),
+  status: z9.string(),
   totals: TotalsOutput,
-  warnings: z8.array(z8.object({ code: z8.string(), message: z8.string() })),
-  idempotencyKey: z8.string()
+  warnings: z9.array(z9.object({ code: z9.string(), message: z9.string() })),
+  idempotencyKey: z9.string()
 });
-var UpdateItemsInput = z8.object({
-  documentId: z8.uuid(),
-  items: z8.array(ItemInput).min(1).describe("Полная замена позиций: список заменит текущий целиком"),
-  confirm: z8.boolean().optional()
+var UpdateItemsInput = z9.object({
+  documentId: z9.uuid(),
+  items: z9.array(ItemInput).min(1).describe("Полная замена позиций: список заменит текущий целиком"),
+  confirm: z9.boolean().optional()
 });
-var UpdateItemsOutput = z8.object({
-  id: z8.string(),
-  status: z8.string(),
+var UpdateItemsOutput = z9.object({
+  id: z9.string(),
+  status: z9.string(),
   totals: TotalsOutput
 });
-var IssueInput = z8.object({
-  documentId: z8.uuid(),
-  number: z8.string().optional().describe("Свой номер; без него — из сервиса нумерации"),
-  documentDate: DateOnly2.optional().describe("Дата документа; без неё — текущая"),
-  withSeal: z8.boolean().optional().describe("Печать организации (если загружена)"),
-  withSignature: z8.boolean().optional().describe("Подпись (если загружена)"),
-  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional(),
-  confirm: z8.boolean().optional()
+var IssueInput = z9.object({
+  documentId: z9.uuid(),
+  number: z9.string().optional().describe("Свой номер; без него — из сервиса нумерации"),
+  documentDate: DateOnly3.optional().describe("Дата документа; без неё — текущая"),
+  withSeal: z9.boolean().optional().describe("Печать организации (если загружена)"),
+  withSignature: z9.boolean().optional().describe("Подпись (если загружена)"),
+  idempotencyKey: z9.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional(),
+  confirm: z9.boolean().optional()
 });
-var IssueOutput = z8.object({
-  id: z8.string(),
+var IssueOutput = z9.object({
+  id: z9.string(),
   number: nullableString,
-  status: z8.string(),
+  status: z9.string(),
   issuedAt: nullableString,
-  currentRevision: z8.number(),
+  currentRevision: z9.number(),
   grandTotal: nullableString
 });
-var CancelInput = z8.object({
-  documentId: z8.uuid(),
-  reason: z8.string().trim().min(3).describe("Причина аннулирования — обязательна и попадает в документ"),
-  confirm: z8.boolean().optional()
+var CancelInput = z9.object({
+  documentId: z9.uuid(),
+  reason: z9.string().trim().min(3).describe("Причина аннулирования — обязательна и попадает в документ"),
+  confirm: z9.boolean().optional()
 });
-var CancelOutput = z8.object({
-  id: z8.string(),
-  status: z8.string(),
+var CancelOutput = z9.object({
+  id: z9.string(),
+  status: z9.string(),
   cancelledAt: nullableString,
   cancelReason: nullableString
 });
-var DeleteDraftInput = z8.object({
-  documentId: z8.uuid(),
-  confirm: z8.boolean().optional()
+var DeleteDraftInput = z9.object({
+  documentId: z9.uuid(),
+  confirm: z9.boolean().optional()
 });
-var DeleteDraftOutput = z8.object({
-  id: z8.string(),
-  deleted: z8.literal(true)
+var DeleteDraftOutput = z9.object({
+  id: z9.string(),
+  deleted: z9.literal(true)
 });
-var CreateActInput = z8.object({
-  invoiceId: z8.uuid().describe("Счёт, по которому закрывается акт"),
-  mode: z8.enum(["full", "partial"]).describe("full — весь счёт, partial — по позициям"),
-  allocations: z8.array(z8.object({ itemId: z8.uuid(), qty: QtyString })).optional().describe("Обязательно для mode = partial: какие позиции и сколько закрыть"),
-  documentDate: DateOnly2.optional(),
-  confirm: z8.boolean().optional()
+var CreateActInput = z9.object({
+  invoiceId: z9.uuid().describe("Счёт, по которому закрывается акт"),
+  mode: z9.enum(["full", "partial"]).describe("full — весь счёт, partial — по позициям"),
+  allocations: z9.array(z9.object({ itemId: z9.uuid(), qty: QtyString })).optional().describe("Обязательно для mode = partial: какие позиции и сколько закрыть"),
+  documentDate: DateOnly3.optional(),
+  confirm: z9.boolean().optional()
 });
-var CreateActOutput = z8.object({
-  id: z8.string(),
+var CreateActOutput = z9.object({
+  id: z9.string(),
   number: nullableString,
-  status: z8.string(),
+  status: z9.string(),
   parentDocumentId: nullableString,
   totals: TotalsOutput
 });
-var ImportInput = z8.object({
-  type: z8.enum(["invoice", "act"]).describe("Тип создаваемого черновика"),
-  organizationId: z8.uuid(),
-  contractorId: z8.uuid().optional().describe("Контрагент; можно не указывать, если он есть в файле"),
-  documentDate: DateOnly2,
-  text: z8.string().min(1).optional().describe("Позиции текстом: TSV/CSV. Либо text, либо items — не оба"),
-  items: z8.array(z8.record(z8.string(), z8.unknown())).optional().describe("Готовые позиции массивом объектов (поля как в items обычного создания)"),
-  settings: z8.object({
-    delimiter: z8.enum(["auto", ",", ";", "|", "	"]).optional().describe('Разделитель; для табуляции — "\\t"'),
-    hasHeader: z8.boolean().optional(),
-    decimalSeparator: z8.enum(["auto", ".", ","]).optional(),
-    sumMismatchPolicy: z8.enum(["trust_sum", "recalc_by_price"]).optional(),
-    defaults: z8.object({
-      unit: z8.string().optional(),
-      qty: z8.string().optional(),
+var ImportInput = z9.object({
+  type: z9.enum(["invoice", "act"]).describe("Тип создаваемого черновика"),
+  organizationId: z9.uuid(),
+  contractorId: z9.uuid().optional().describe("Контрагент; можно не указывать, если он есть в файле"),
+  documentDate: DateOnly3,
+  text: z9.string().min(1).optional().describe("Позиции текстом: TSV/CSV. Либо text, либо items — не оба"),
+  items: z9.array(z9.record(z9.string(), z9.unknown())).optional().describe("Готовые позиции массивом объектов (поля как в items обычного создания)"),
+  settings: z9.object({
+    delimiter: z9.enum(["auto", ",", ";", "|", "	"]).optional().describe('Разделитель; для табуляции — "\\t"'),
+    hasHeader: z9.boolean().optional(),
+    decimalSeparator: z9.enum(["auto", ".", ","]).optional(),
+    sumMismatchPolicy: z9.enum(["trust_sum", "recalc_by_price"]).optional(),
+    defaults: z9.object({
+      unit: z9.string().optional(),
+      qty: z9.string().optional(),
       vatRate: VatRate.optional(),
-      discountKind: z8.enum(["none", "percent", "amount"]).optional()
+      discountKind: z9.enum(["none", "percent", "amount"]).optional()
     }).optional()
   }).optional(),
-  fileName: z8.string().optional(),
-  idempotencyKey: z8.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional(),
-  confirm: z8.boolean().optional()
+  fileName: z9.string().optional(),
+  idempotencyKey: z9.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional(),
+  confirm: z9.boolean().optional()
 });
-var ImportOutput = z8.object({
-  id: z8.string(),
-  status: z8.string(),
-  totals: z8.record(z8.string(), z8.unknown()),
-  importReport: z8.object({
-    rowsTotal: z8.number(),
-    imported: z8.number(),
-    failed: z8.number(),
-    skipped: z8.number(),
-    errors: z8.array(z8.object({
-      row: z8.number().nullable(),
+var ImportOutput = z9.object({
+  id: z9.string(),
+  status: z9.string(),
+  totals: z9.record(z9.string(), z9.unknown()),
+  importReport: z9.object({
+    rowsTotal: z9.number(),
+    imported: z9.number(),
+    failed: z9.number(),
+    skipped: z9.number(),
+    errors: z9.array(z9.object({
+      row: z9.number().nullable(),
       column: nullableString,
-      code: z8.string(),
-      message: z8.string()
+      code: z9.string(),
+      message: z9.string()
     }))
   })
 });
@@ -3906,52 +4319,52 @@ function wrongType(actual, id, expected) {
 import { ResourceTemplate as ResourceTemplate4 } from "@modelcontextprotocol/server";
 
 // apps/mcp/dist/tools/organizations.js
-import { z as z9 } from "zod";
-var LIST_TOOL = "invoices_organizations_list";
-var GET_TOOL4 = "invoices_organizations_get";
-var nullableString3 = z9.string().nullable();
-var OrganizationListItem = z9.object({
-  id: z9.string(),
-  shortName: z9.string(),
-  kind: z9.enum(["sole_proprietor", "llc", "other"]),
-  inn: z9.string(),
+import { z as z10 } from "zod";
+var LIST_TOOL2 = "invoices_organizations_list";
+var GET_TOOL5 = "invoices_organizations_get";
+var nullableString3 = z10.string().nullable();
+var OrganizationListItem = z10.object({
+  id: z10.string(),
+  shortName: z10.string(),
+  kind: z10.enum(["sole_proprietor", "llc", "other"]),
+  inn: z10.string(),
   kpp: nullableString3,
   taxRegime: nullableString3,
   additionalRegime: nullableString3,
   vatStatus: nullableString3,
-  status: z9.enum(["active", "archived"])
+  status: z10.enum(["active", "archived"])
 });
-var ListInput = z9.object({
-  status: z9.enum(["active", "archived"]).optional().describe("Только активные или только архивные организации"),
-  q: z9.string().trim().min(1).optional().describe("Поиск по названию или ИНН"),
-  limit: z9.number().int().optional().describe("Сколько вернуть: 1–100, по умолчанию 20; больше 100 — ошибка с подсказкой про cursor"),
-  cursor: z9.string().optional().describe("nextCursor из предыдущего ответа")
+var ListInput2 = z10.object({
+  status: z10.enum(["active", "archived"]).optional().describe("Только активные или только архивные организации"),
+  q: z10.string().trim().min(1).optional().describe("Поиск по названию или ИНН"),
+  limit: z10.number().int().optional().describe("Сколько вернуть: 1–100, по умолчанию 20; больше 100 — ошибка с подсказкой про cursor"),
+  cursor: z10.string().optional().describe("nextCursor из предыдущего ответа")
 });
-var ListOutput = z9.object({
-  items: z9.array(OrganizationListItem),
-  nextCursor: z9.string().nullable()
+var ListOutput2 = z10.object({
+  items: z10.array(OrganizationListItem),
+  nextCursor: z10.string().nullable()
 });
-var GetInput4 = z9.object({
-  organizationId: z9.uuid().describe("Идентификатор организации (UUID)")
+var GetInput5 = z10.object({
+  organizationId: z10.uuid().describe("Идентификатор организации (UUID)")
 });
-var SignatoryItem = z9.object({
-  fullName: z9.string(),
+var SignatoryItem = z10.object({
+  fullName: z10.string(),
   position: nullableString3,
   basis: nullableString3,
-  isDefault: z9.boolean()
+  isDefault: z10.boolean()
 });
-var BankAccountItem = z9.object({
-  bankName: z9.string(),
-  bik: z9.string(),
-  account: z9.string(),
-  isDefault: z9.boolean()
+var BankAccountItem = z10.object({
+  bankName: z10.string(),
+  bik: z10.string(),
+  account: z10.string(),
+  isDefault: z10.boolean()
 });
-var GetOutput4 = z9.object({
-  id: z9.string(),
-  shortName: z9.string(),
-  fullName: z9.string(),
-  kind: z9.string(),
-  inn: z9.string(),
+var GetOutput5 = z10.object({
+  id: z10.string(),
+  shortName: z10.string(),
+  fullName: z10.string(),
+  kind: z10.string(),
+  inn: z10.string(),
   kpp: nullableString3,
   ogrn: nullableString3,
   ogrnip: nullableString3,
@@ -3964,19 +4377,19 @@ var GetOutput4 = z9.object({
   usnObject: nullableString3,
   vatStatus: nullableString3,
   vatScheme: nullableString3,
-  vatRateDefault: z9.number().nullable(),
+  vatRateDefault: z10.number().nullable(),
   vatModeDefault: nullableString3,
-  bankAccounts: z9.array(BankAccountItem),
-  signatories: z9.array(SignatoryItem)
+  bankAccounts: z10.array(BankAccountItem),
+  signatories: z10.array(SignatoryItem)
 });
 function registerOrganizationTools(server, ctx) {
-  server.registerTool(LIST_TOOL, {
+  server.registerTool(LIST_TOOL2, {
     title: "Организации: список",
     description: "Список организаций кабинета (кратко: название, ИНН, режим НО, НДС, статус). Нужен в самом начале, чтобы понять, от какой организации выставлять документы. Возвращает страницу items + nextCursor.",
-    inputSchema: ListInput,
-    outputSchema: ListOutput,
+    inputSchema: ListInput2,
+    outputSchema: ListOutput2,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, LIST_TOOL, async () => {
+  }, (args) => execute(ctx, LIST_TOOL2, async () => {
     const limit = resolveLimit(args.limit);
     const response = await ctx.sdk.organizations.list({
       limit,
@@ -4013,13 +4426,13 @@ function registerOrganizationTools(server, ctx) {
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
-  server.registerTool(GET_TOOL4, {
+  server.registerTool(GET_TOOL5, {
     title: "Организация: карточка",
     description: "Реквизиты организации: ИНН/КПП/ОГРН, адреса, режим НО и НДС, банковские счета, подписанты по умолчанию. Нужна перед выставлением счёта и для проверки реквизитов в PDF.",
-    inputSchema: GetInput4,
-    outputSchema: GetOutput4,
+    inputSchema: GetInput5,
+    outputSchema: GetOutput5,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, GET_TOOL4, async () => {
+  }, (args) => execute(ctx, GET_TOOL5, async () => {
     const card = await loadOrganizationCard(ctx, args.organizationId);
     return toolResult(card.markdown, card.data);
   }));
@@ -4126,50 +4539,50 @@ function registerResources(server, ctx) {
 }
 
 // apps/mcp/dist/tools/payments.js
-import { z as z10 } from "zod";
-var CREATE_TOOL2 = "invoices_payments_create";
-var LIST_TOOL2 = "invoices_payments_list";
-var DateOnly3 = z10.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
-var MoneyString3 = z10.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "50000.00"');
-var CreateInput2 = z10.object({
+import { z as z11 } from "zod";
+var CREATE_TOOL3 = "invoices_payments_create";
+var LIST_TOOL3 = "invoices_payments_list";
+var DateOnly4 = z11.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
+var MoneyString3 = z11.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "50000.00"');
+var CreateInput3 = z11.object({
   amount: MoneyString3.describe("Сумма платежа в рублях"),
-  paidAt: DateOnly3.describe("Дата платежа, DD.MM.YYYY"),
-  documentId: z10.uuid().optional().describe("Документ, к которому относится оплата"),
-  organizationId: z10.uuid().optional().describe("Организация; можно не указывать при documentId"),
-  contractorId: z10.uuid().optional().describe("Контрагент; можно не указывать при documentId"),
-  method: z10.enum(["manual", "bank"]).optional().describe("manual — вручную (по умолчанию), bank — банк"),
-  bankTxId: z10.string().optional().describe("Идентификатор банковской транзакции (для method = bank)"),
-  comment: z10.string().optional(),
-  idempotencyKey: z10.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не задвоить оплату"),
-  confirm: z10.boolean().optional().describe("Обязательно true")
+  paidAt: DateOnly4.describe("Дата платежа, DD.MM.YYYY"),
+  documentId: z11.uuid().optional().describe("Документ, к которому относится оплата"),
+  organizationId: z11.uuid().optional().describe("Организация; можно не указывать при documentId"),
+  contractorId: z11.uuid().optional().describe("Контрагент; можно не указывать при documentId"),
+  method: z11.enum(["manual", "bank"]).optional().describe("manual — вручную (по умолчанию), bank — банк"),
+  bankTxId: z11.string().optional().describe("Идентификатор банковской транзакции (для method = bank)"),
+  comment: z11.string().optional(),
+  idempotencyKey: z11.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же, чтобы не задвоить оплату"),
+  confirm: z11.boolean().optional().describe("Обязательно true")
 });
-var CreateOutput2 = z10.object({
-  id: z10.string(),
+var CreateOutput3 = z11.object({
+  id: z11.string(),
   documentId: nullableString,
   amount: nullableString,
   paidAt: nullableString,
   method: nullableString,
-  document: z10.object({
-    id: z10.string(),
+  document: z11.object({
+    id: z11.string(),
     number: nullableString,
-    status: z10.string(),
+    status: z11.string(),
     paid: nullableString,
     remaining: nullableString,
     overpaid: nullableString
   }).nullable(),
-  idempotencyKey: z10.string()
+  idempotencyKey: z11.string()
 });
-var ListInput2 = z10.object({
-  organizationId: z10.uuid().optional(),
-  contractorId: z10.uuid().optional().describe("Платежи этого контрагента"),
-  documentId: z10.uuid().optional().describe("Платежи по документу"),
-  from: DateOnly3.optional(),
-  to: DateOnly3.optional(),
-  limit: z10.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z10.string().optional()
+var ListInput3 = z11.object({
+  organizationId: z11.uuid().optional(),
+  contractorId: z11.uuid().optional().describe("Платежи этого контрагента"),
+  documentId: z11.uuid().optional().describe("Платежи по документу"),
+  from: DateOnly4.optional(),
+  to: DateOnly4.optional(),
+  limit: z11.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z11.string().optional()
 });
-var ListItem = z10.object({
-  id: z10.string(),
+var ListItem = z11.object({
+  id: z11.string(),
   amount: nullableString,
   paidAt: nullableString,
   method: nullableString,
@@ -4178,18 +4591,18 @@ var ListItem = z10.object({
   documentNumber: nullableString,
   contractorShortName: nullableString
 });
-var ListOutput2 = z10.object({
-  items: z10.array(ListItem),
-  nextCursor: z10.string().nullable()
+var ListOutput3 = z11.object({
+  items: z11.array(ListItem),
+  nextCursor: z11.string().nullable()
 });
 function registerPaymentTools(server, ctx) {
-  server.registerTool(CREATE_TOOL2, {
+  server.registerTool(CREATE_TOOL3, {
     title: "Оплата: отметить",
     description: "Отмечает поступление оплаты (вручную или банковскую). Сумма — строкой. Требует confirm: true: платежи влияют на долг и отчёты. При повторе передайте тот же idempotencyKey, чтобы не задвоить оплату.",
-    inputSchema: CreateInput2,
-    outputSchema: CreateOutput2,
+    inputSchema: CreateInput3,
+    outputSchema: CreateOutput3,
     annotations: DESTRUCTIVE_ANNOTATIONS
-  }, (args) => mutation(ctx, CREATE_TOOL2, args.confirm, async () => {
+  }, (args) => mutation(ctx, CREATE_TOOL3, args.confirm, async () => {
     const { confirm: _confirm, contractorId, idempotencyKey, ...rest } = args;
     const key = idempotencyKeyOf(idempotencyKey);
     const payment = await ctx.sdk.payments.create({
@@ -4226,18 +4639,18 @@ function registerPaymentTools(server, ctx) {
       idempotencyKey: key
     });
   }));
-  server.registerTool(LIST_TOOL2, {
+  server.registerTool(LIST_TOOL3, {
     title: "Оплаты: список",
     description: "Поступления за период или по документу/контрагенту: дата, сумма, способ, документ. Для «какие оплаты были в октябре» и сверки выписки.",
-    inputSchema: ListInput2,
-    outputSchema: ListOutput2,
+    inputSchema: ListInput3,
+    outputSchema: ListOutput3,
     annotations: {
       readOnlyHint: true,
       destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false
     }
-  }, (args) => execute(ctx, LIST_TOOL2, async () => {
+  }, (args) => execute(ctx, LIST_TOOL3, async () => {
     const limit = resolveLimit(args.limit);
     const response = await ctx.sdk.payments.list({
       limit,
@@ -4287,60 +4700,60 @@ function registerPaymentTools(server, ctx) {
 }
 
 // apps/mcp/dist/tools/products.js
-import { z as z11 } from "zod";
-var LIST_TOOL3 = "invoices_products_list";
-var CREATE_TOOL3 = "invoices_products_create";
-var MoneyString4 = z11.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "16500.00"');
-var VatRate2 = z11.union([z11.literal(0), z11.literal(5), z11.literal(7), z11.literal(10), z11.literal(20), z11.literal(22)]).nullable();
-var CreateInput3 = z11.object({
-  name: z11.string().trim().min(1).describe("Наименование позиции"),
-  kind: z11.enum(["service", "product"]).describe("Услуга или товар"),
-  unit: z11.string().trim().min(1).optional().describe("Код единицы из справочника: «шт», «ч», «мес» … (в API — unitCode)"),
+import { z as z12 } from "zod";
+var LIST_TOOL4 = "invoices_products_list";
+var CREATE_TOOL4 = "invoices_products_create";
+var MoneyString4 = z12.string().regex(/^\d+(\.\d{1,2})?$/, 'сумма строкой в рублях с копейками, например "16500.00"');
+var VatRate2 = z12.union([z12.literal(0), z12.literal(5), z12.literal(7), z12.literal(10), z12.literal(20), z12.literal(22)]).nullable();
+var CreateInput4 = z12.object({
+  name: z12.string().trim().min(1).describe("Наименование позиции"),
+  kind: z12.enum(["service", "product"]).describe("Услуга или товар"),
+  unit: z12.string().trim().min(1).optional().describe("Код единицы из справочника: «шт», «ч», «мес» … (в API — unitCode)"),
   price: MoneyString4.optional().describe('Цена за единицу строкой, "16500.00"; нет цены — не передавайте'),
   vatRate: VatRate2.optional().describe("Ставка НДС: 0, 5, 7, 10, 20, 22 или null (без НДС); неизвестна — не передавайте"),
-  sku: z11.string().trim().min(1).optional().describe("Артикул"),
-  description: z11.string().trim().min(1).optional().describe("Описание позиции"),
-  confirm: z11.boolean().optional().describe("Обязательно true: создаёт запись")
+  sku: z12.string().trim().min(1).optional().describe("Артикул"),
+  description: z12.string().trim().min(1).optional().describe("Описание позиции"),
+  confirm: z12.boolean().optional().describe("Обязательно true: создаёт запись")
 });
-var CreateOutput3 = z11.object({
-  id: z11.string(),
-  kind: z11.string(),
-  name: z11.string(),
-  unit: z11.string().nullable(),
-  price: z11.string().nullable(),
-  vatRate: z11.number().nullable(),
-  sku: z11.string().nullable(),
-  description: z11.string().nullable(),
-  isActive: z11.boolean()
+var CreateOutput4 = z12.object({
+  id: z12.string(),
+  kind: z12.string(),
+  name: z12.string(),
+  unit: z12.string().nullable(),
+  price: z12.string().nullable(),
+  vatRate: z12.number().nullable(),
+  sku: z12.string().nullable(),
+  description: z12.string().nullable(),
+  isActive: z12.boolean()
 });
-var ProductListItem = z11.object({
-  id: z11.string(),
-  name: z11.string(),
-  kind: z11.string(),
-  unit: z11.string().nullable(),
-  price: z11.string().nullable(),
-  vatRate: z11.number().nullable(),
-  isActive: z11.boolean()
+var ProductListItem = z12.object({
+  id: z12.string(),
+  name: z12.string(),
+  kind: z12.string(),
+  unit: z12.string().nullable(),
+  price: z12.string().nullable(),
+  vatRate: z12.number().nullable(),
+  isActive: z12.boolean()
 });
-var ListInput3 = z11.object({
-  query: z11.string().trim().min(1).optional().describe("Поиск по названию или артикулу"),
-  kind: z11.enum(["service", "product"]).optional().describe("Услуга или товар"),
-  includeInactive: z11.boolean().optional().describe("Показать и архивные позиции (по умолчанию только активные)"),
-  limit: z11.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z11.string().optional().describe("nextCursor из предыдущего ответа")
+var ListInput4 = z12.object({
+  query: z12.string().trim().min(1).optional().describe("Поиск по названию или артикулу"),
+  kind: z12.enum(["service", "product"]).optional().describe("Услуга или товар"),
+  includeInactive: z12.boolean().optional().describe("Показать и архивные позиции (по умолчанию только активные)"),
+  limit: z12.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z12.string().optional().describe("nextCursor из предыдущего ответа")
 });
-var ListOutput3 = z11.object({
-  items: z11.array(ProductListItem),
-  nextCursor: z11.string().nullable()
+var ListOutput4 = z12.object({
+  items: z12.array(ProductListItem),
+  nextCursor: z12.string().nullable()
 });
 function registerProductTools(server, ctx) {
-  server.registerTool(LIST_TOOL3, {
+  server.registerTool(LIST_TOOL4, {
     title: "Номенклатура: список",
     description: "Позиции номенклатуры: услуги и товары с ценой, единицей и ставкой НДС. Нужен, чтобы подобрать цену существующей позиции вместо выдуманной и не создавать дубликат.",
-    inputSchema: ListInput3,
-    outputSchema: ListOutput3,
+    inputSchema: ListInput4,
+    outputSchema: ListOutput4,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, LIST_TOOL3, async () => {
+  }, (args) => execute(ctx, LIST_TOOL4, async () => {
     const limit = resolveLimit(args.limit);
     const response = await ctx.sdk.products.list({
       limit,
@@ -4379,13 +4792,13 @@ function registerProductTools(server, ctx) {
   }));
 }
 function registerProductWriteTools(server, ctx) {
-  server.registerTool(CREATE_TOOL3, {
+  server.registerTool(CREATE_TOOL4, {
     title: "Номенклатура: создать",
     description: "Создаёт позицию номенклатуры (услугу или товар). Требует confirm: true. Сначала проверьте, нет ли такой позиции через invoices_products_list — повтор создаст дубль. Цену и ставку НДС не выдумывайте: если их нет, не передавайте поле.",
-    inputSchema: CreateInput3,
-    outputSchema: CreateOutput3,
+    inputSchema: CreateInput4,
+    outputSchema: CreateOutput4,
     annotations: { ...WRITE_ANNOTATIONS, idempotentHint: false }
-  }, (args) => mutation(ctx, CREATE_TOOL3, args.confirm, async () => {
+  }, (args) => mutation(ctx, CREATE_TOOL4, args.confirm, async () => {
     const { confirm: _confirm, unit, ...rest } = args;
     const product = await ctx.sdk.products.create({
       ...rest,
@@ -4420,52 +4833,52 @@ function registerProductWriteTools(server, ctx) {
 }
 
 // apps/mcp/dist/tools/reports.js
-import { z as z12 } from "zod";
+import { z as z13 } from "zod";
 var SUMMARY_TOOL2 = "invoices_reports_summary";
 var UNPAID_TOOL = "invoices_reports_unpaid";
 var RECONCILIATION_TOOL = "invoices_reports_reconciliation";
 var REGISTRY_TOOL = "invoices_reports_registry";
-var DateOnly4 = z12.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
-var Period = z12.object({ from: nullableString, to: nullableString });
-var SummaryInput2 = z12.object({
-  organizationId: z12.uuid().optional().describe("Организация; без него — все доступные токену"),
-  from: DateOnly4.optional().describe("Начало периода, DD.MM.YYYY"),
-  to: DateOnly4.optional().describe("Конец периода, DD.MM.YYYY"),
-  groupBy: z12.enum(["month", "contractor"]).optional().describe("Разрез: по месяцам (по умолчанию) или по контрагентам")
+var DateOnly5 = z13.string().regex(/^\d{2}\.\d{2}\.\d{4}$/, "дата в формате DD.MM.YYYY");
+var Period = z13.object({ from: nullableString, to: nullableString });
+var SummaryInput2 = z13.object({
+  organizationId: z13.uuid().optional().describe("Организация; без него — все доступные токену"),
+  from: DateOnly5.optional().describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly5.optional().describe("Конец периода, DD.MM.YYYY"),
+  groupBy: z13.enum(["month", "contractor"]).optional().describe("Разрез: по месяцам (по умолчанию) или по контрагентам")
 });
-var SummaryOutput2 = z12.object({
+var SummaryOutput2 = z13.object({
   period: Period,
-  groupBy: z12.enum(["month", "contractor"]),
-  totals: z12.object({
+  groupBy: z13.enum(["month", "contractor"]),
+  totals: z13.object({
     issued: nullableString,
     paid: nullableString,
     unpaid: nullableString,
     overdue: nullableString
   }),
-  counts: z12.object({
-    invoices: z12.number(),
-    acts: z12.number(),
-    unpaidInvoices: z12.number()
+  counts: z13.object({
+    invoices: z13.number(),
+    acts: z13.number(),
+    unpaidInvoices: z13.number()
   }),
-  byMonth: z12.array(z12.object({ month: z12.string(), issued: nullableString, paid: nullableString })).optional(),
-  byContractor: z12.array(z12.object({
-    contractorId: z12.string(),
+  byMonth: z13.array(z13.object({ month: z13.string(), issued: nullableString, paid: nullableString })).optional(),
+  byContractor: z13.array(z13.object({
+    contractorId: z13.string(),
     shortName: nullableString,
     issued: nullableString,
     paid: nullableString
   })).optional()
 });
-var UnpaidInput = z12.object({
-  organizationId: z12.uuid().optional(),
-  contractorId: z12.uuid().optional().describe("Только документы этого контрагента"),
-  overdueOnly: z12.boolean().optional().describe("Только просроченные на сегодня"),
-  limit: z12.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z12.string().optional()
+var UnpaidInput = z13.object({
+  organizationId: z13.uuid().optional(),
+  contractorId: z13.uuid().optional().describe("Только документы этого контрагента"),
+  overdueOnly: z13.boolean().optional().describe("Только просроченные на сегодня"),
+  limit: z13.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z13.string().optional()
 });
-var UnpaidItem = z12.object({
-  id: z12.string(),
-  type: z12.string(),
-  status: z12.string(),
+var UnpaidItem = z13.object({
+  id: z13.string(),
+  type: z13.string(),
+  status: z13.string(),
   number: nullableString,
   documentDate: nullableString,
   counterpartyId: nullableString,
@@ -4473,60 +4886,60 @@ var UnpaidItem = z12.object({
   total: nullableString,
   paid: nullableString,
   remaining: nullableString,
-  daysOverdue: z12.number()
+  daysOverdue: z13.number()
 });
-var UnpaidOutput = z12.object({
-  items: z12.array(UnpaidItem),
-  nextCursor: z12.string().nullable(),
+var UnpaidOutput = z13.object({
+  items: z13.array(UnpaidItem),
+  nextCursor: z13.string().nullable(),
   total: nullableString,
-  count: z12.number()
+  count: z13.number()
 });
-var ReconciliationInput = z12.object({
-  organizationId: z12.uuid().describe("Организация, по которой строится акт сверки"),
-  contractorId: z12.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
-  from: DateOnly4.describe("Начало периода, DD.MM.YYYY"),
-  to: DateOnly4.describe("Конец периода, DD.MM.YYYY")
+var ReconciliationInput = z13.object({
+  organizationId: z13.uuid().describe("Организация, по которой строится акт сверки"),
+  contractorId: z13.uuid().describe("Контрагент (ID из invoices_contractors_search)"),
+  from: DateOnly5.describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly5.describe("Конец периода, DD.MM.YYYY")
 });
-var ReconciliationRow = z12.object({
+var ReconciliationRow = z13.object({
   date: nullableString,
-  type: z12.string(),
+  type: z13.string(),
   number: nullableString,
   debit: nullableString,
   credit: nullableString,
   balance: nullableString
 });
-var ReconciliationOutput = z12.object({
+var ReconciliationOutput = z13.object({
   generatedAt: nullableString,
   period: Period,
   counterpartyShortName: nullableString,
-  money: z12.object({
+  money: z13.object({
     openingBalance: nullableString,
-    turnover: z12.object({ debit: nullableString, credit: nullableString }),
+    turnover: z13.object({ debit: nullableString, credit: nullableString }),
     closingBalance: nullableString,
-    rows: z12.array(ReconciliationRow)
+    rows: z13.array(ReconciliationRow)
   }),
-  summary: z12.object({
-    invoices: z12.number(),
-    acts: z12.number(),
-    receivedActs: z12.number(),
+  summary: z13.object({
+    invoices: z13.number(),
+    acts: z13.number(),
+    receivedActs: z13.number(),
     invoicesTotal: nullableString,
     paidTotal: nullableString,
     actsTotal: nullableString,
     unclosedByActs: nullableString
   })
 });
-var RegistryInput = z12.object({
-  organizationId: z12.uuid().optional(),
-  type: z12.enum(["invoice", "act", "invoice_facture", "upd", "contract"]).optional().describe("Тип документа; без него — все"),
-  from: DateOnly4.describe("Начало периода, DD.MM.YYYY"),
-  to: DateOnly4.describe("Конец периода, DD.MM.YYYY"),
-  limit: z12.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z12.string().optional()
+var RegistryInput = z13.object({
+  organizationId: z13.uuid().optional(),
+  type: z13.enum(["invoice", "act", "invoice_facture", "upd", "contract"]).optional().describe("Тип документа; без него — все"),
+  from: DateOnly5.describe("Начало периода, DD.MM.YYYY"),
+  to: DateOnly5.describe("Конец периода, DD.MM.YYYY"),
+  limit: z13.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z13.string().optional()
 });
-var RegistryItem = z12.object({
-  id: z12.string(),
-  type: z12.string(),
-  status: z12.string(),
+var RegistryItem = z13.object({
+  id: z13.string(),
+  type: z13.string(),
+  status: z13.string(),
   number: nullableString,
   documentDate: nullableString,
   contractorShortName: nullableString,
@@ -4534,14 +4947,14 @@ var RegistryItem = z12.object({
   vat: nullableString,
   paid: nullableString
 });
-var RegistryOutput = z12.object({
+var RegistryOutput = z13.object({
   period: Period,
-  items: z12.array(RegistryItem),
-  nextCursor: z12.string().nullable(),
-  totals: z12.object({
-    documents: z12.number(),
-    acts: z12.number(),
-    cancelled: z12.number(),
+  items: z13.array(RegistryItem),
+  nextCursor: z13.string().nullable(),
+  totals: z13.object({
+    documents: z13.number(),
+    acts: z13.number(),
+    cancelled: z13.number(),
     total: nullableString,
     vat: nullableString,
     paid: nullableString
@@ -4804,73 +5217,73 @@ function registerReportTools(server, ctx) {
 }
 
 // apps/mcp/dist/tools/shares.js
-import { z as z13 } from "zod";
-var LIST_TOOL4 = "invoices_shares_list";
-var GET_TOOL5 = "invoices_shares_get";
-var ShareListItem = z13.object({
-  id: z13.string(),
-  status: z13.string(),
-  documentsCount: z13.number(),
-  maxViews: z13.number(),
-  viewCount: z13.number(),
-  replyCount: z13.number(),
-  allowReply: z13.boolean(),
+import { z as z14 } from "zod";
+var LIST_TOOL5 = "invoices_shares_list";
+var GET_TOOL6 = "invoices_shares_get";
+var ShareListItem = z14.object({
+  id: z14.string(),
+  status: z14.string(),
+  documentsCount: z14.number(),
+  maxViews: z14.number(),
+  viewCount: z14.number(),
+  replyCount: z14.number(),
+  allowReply: z14.boolean(),
   expiresAt: nullableString
 });
-var ListInput4 = z13.object({
-  organizationId: z13.uuid().optional().describe("Только ссылки этой организации"),
-  status: z13.enum(["active", "expired", "exhausted", "revoked"]).optional(),
-  limit: z13.number().int().optional().describe("1–100, по умолчанию 20"),
-  cursor: z13.string().optional()
+var ListInput5 = z14.object({
+  organizationId: z14.uuid().optional().describe("Только ссылки этой организации"),
+  status: z14.enum(["active", "expired", "exhausted", "revoked"]).optional(),
+  limit: z14.number().int().optional().describe("1–100, по умолчанию 20"),
+  cursor: z14.string().optional()
 });
-var ListOutput4 = z13.object({
-  items: z13.array(ShareListItem),
-  nextCursor: z13.string().nullable()
+var ListOutput5 = z14.object({
+  items: z14.array(ShareListItem),
+  nextCursor: z14.string().nullable()
 });
-var GetInput5 = z13.object({
-  shareId: z13.uuid().describe("Идентификатор ссылки (UUID из invoices_shares_list)"),
-  include: z13.array(z13.enum(["views", "replies"])).optional().describe("Добавить просмотры и/или ответы клиента")
+var GetInput6 = z14.object({
+  shareId: z14.uuid().describe("Идентификатор ссылки (UUID из invoices_shares_list)"),
+  include: z14.array(z14.enum(["views", "replies"])).optional().describe("Добавить просмотры и/или ответы клиента")
 });
-var ShareDocumentItem = z13.object({
-  id: z13.string(),
-  type: z13.string(),
+var ShareDocumentItem = z14.object({
+  id: z14.string(),
+  type: z14.string(),
   number: nullableString,
   documentDate: nullableString,
   grandTotal: nullableString,
   status: nullableString
 });
-var ViewItem = z13.object({
+var ViewItem = z14.object({
   viewedAt: nullableString,
   ip: nullableString,
   userAgent: nullableString
 });
-var ReplyItem = z13.object({
+var ReplyItem = z14.object({
   authorName: nullableString,
   authorEmail: nullableString,
   message: nullableString,
   createdAt: nullableString
 });
-var GetOutput5 = z13.object({
-  id: z13.string(),
-  status: z13.string(),
+var GetOutput6 = z14.object({
+  id: z14.string(),
+  status: z14.string(),
   message: nullableString,
-  allowReply: z13.boolean(),
-  maxViews: z13.number(),
-  viewCount: z13.number(),
-  replyCount: z13.number(),
+  allowReply: z14.boolean(),
+  maxViews: z14.number(),
+  viewCount: z14.number(),
+  replyCount: z14.number(),
   expiresAt: nullableString,
-  documents: z13.array(ShareDocumentItem),
-  views: z13.array(ViewItem).optional(),
-  replies: z13.array(ReplyItem).optional()
+  documents: z14.array(ShareDocumentItem),
+  views: z14.array(ViewItem).optional(),
+  replies: z14.array(ReplyItem).optional()
 });
 function registerShareTools(server, ctx) {
-  server.registerTool(LIST_TOOL4, {
+  server.registerTool(LIST_TOOL5, {
     title: "Ссылки: список",
     description: "Публичные ссылки на документы: статус, лимит и число просмотров, ответы клиента, срок. URL в списке не отдаётся (API его не хранит) — ссылку возвращает создание ссылки.",
-    inputSchema: ListInput4,
-    outputSchema: ListOutput4,
+    inputSchema: ListInput5,
+    outputSchema: ListOutput5,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, LIST_TOOL4, async () => {
+  }, (args) => execute(ctx, LIST_TOOL5, async () => {
     const limit = resolveLimit(args.limit);
     const response = await ctx.sdk.shares.list({
       limit,
@@ -4907,13 +5320,13 @@ function registerShareTools(server, ctx) {
     });
     return toolResult(markdown, { items, nextCursor: page.nextCursor });
   }));
-  server.registerTool(GET_TOOL5, {
+  server.registerTool(GET_TOOL6, {
     title: "Ссылка: карточка",
     description: 'Публичная ссылка: документы, лимит и число просмотров, срок действия. include: ["views"] — кто и когда открывал, ["replies"] — ответы клиента.',
-    inputSchema: GetInput5,
-    outputSchema: GetOutput5,
+    inputSchema: GetInput6,
+    outputSchema: GetOutput6,
     annotations: READ_ONLY_ANNOTATIONS
-  }, (args) => execute(ctx, GET_TOOL5, async () => {
+  }, (args) => execute(ctx, GET_TOOL6, async () => {
     const include = new Set(args.include ?? []);
     const share = await ctx.sdk.shares.get(args.shareId);
     const documents = share.documents.map((document) => ({
@@ -4969,33 +5382,33 @@ function registerShareTools(server, ctx) {
   }));
 }
 var CREATE_SHARE_TOOL = "invoices_shares_create";
-var CreateInput4 = z13.object({
-  documentIds: z13.array(z13.uuid()).min(1).describe("Документы, которые открываются по ссылке"),
-  message: z13.string().optional().describe("Сообщение клиенту"),
-  maxViews: z13.number().int().min(1).optional().describe("Сколько раз можно открыть ссылку"),
-  expiresAt: z13.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Срок действия, DD.MM.YYYY"),
-  pin: z13.string().optional().describe("PIN-код для доступа"),
-  allowReply: z13.boolean().optional().describe("Разрешить ответ клиента"),
-  withSeal: z13.boolean().optional(),
-  withSignature: z13.boolean().optional(),
-  idempotencyKey: z13.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же"),
-  confirm: z13.boolean().optional()
+var CreateInput5 = z14.object({
+  documentIds: z14.array(z14.uuid()).min(1).describe("Документы, которые открываются по ссылке"),
+  message: z14.string().optional().describe("Сообщение клиенту"),
+  maxViews: z14.number().int().min(1).optional().describe("Сколько раз можно открыть ссылку"),
+  expiresAt: z14.string().regex(/^\d{2}\.\d{2}\.\d{4}$/).optional().describe("Срок действия, DD.MM.YYYY"),
+  pin: z14.string().optional().describe("PIN-код для доступа"),
+  allowReply: z14.boolean().optional().describe("Разрешить ответ клиента"),
+  withSeal: z14.boolean().optional(),
+  withSignature: z14.boolean().optional(),
+  idempotencyKey: z14.string().regex(/^[A-Za-z0-9_-]{8,128}$/).optional().describe("Ключ идемпотентности: при повторе передайте тот же"),
+  confirm: z14.boolean().optional()
 });
-var CreateOutput4 = z13.object({
-  id: z13.string(),
-  url: z13.string(),
-  status: z13.string(),
-  maxViews: z13.number(),
+var CreateOutput5 = z14.object({
+  id: z14.string(),
+  url: z14.string(),
+  status: z14.string(),
+  maxViews: z14.number(),
   expiresAt: nullableString,
-  documents: z13.array(z13.object({ id: z13.string(), number: nullableString })),
-  idempotencyKey: z13.string()
+  documents: z14.array(z14.object({ id: z14.string(), number: nullableString })),
+  idempotencyKey: z14.string()
 });
 function registerShareWriteTools(server, ctx) {
   server.registerTool(CREATE_SHARE_TOOL, {
     title: "Ссылка: создать",
     description: "Публикует документы по короткой ссылке: клиент откроет её без входа. Требует confirm: true — ссылка становится доступной снаружи. URL возвращается только здесь; позже его покажет разве что кабинет.",
-    inputSchema: CreateInput4,
-    outputSchema: CreateOutput4,
+    inputSchema: CreateInput5,
+    outputSchema: CreateOutput5,
     annotations: DESTRUCTIVE_ANNOTATIONS
   }, (args) => mutation(ctx, CREATE_SHARE_TOOL, args.confirm, async () => {
     const { confirm: _confirm, idempotencyKey, ...body } = args;
@@ -5031,6 +5444,7 @@ function registerShareWriteTools(server, ctx) {
 
 // apps/mcp/dist/tools/index.js
 function registerTools(server, ctx) {
+  registerNoteTools(server, ctx);
   registerOrganizationTools(server, ctx);
   registerContractorTools(server, ctx);
   registerContractorWriteTools(server, ctx);
